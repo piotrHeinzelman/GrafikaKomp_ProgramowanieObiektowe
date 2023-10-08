@@ -1,23 +1,23 @@
 package pl.heinzelman.javaDraw;
 
+import pl.heinzelman.javaDraw.actions.LoadFileAction;
+import pl.heinzelman.javaDraw.tools.FileTool;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.InputStream;
+import java.io.FileInputStream;
+import java.util.List;
 
 public class JavaDraw{
 	
 	public static void main(String[] args) {
 
-		if ( args.length > 0  )  {
-			try{
-				File file = new File( args[0] );
-				if (file.exists() && file.isFile() && file.canRead() ){
-					System.out.println( "read file: " + args[0] );
-				}
-			} catch( NullPointerException e ){}
 
+		if ( args.length > 0  )  {
+			List<String> lines = FileTool.getListOfString(args[0]);
+			for ( String s : lines ){
+				System.out.println( s );
+			}
 		}
 
 		JFrame.setDefaultLookAndFeelDecorated(true);
@@ -26,14 +26,14 @@ public class JavaDraw{
 		frame.setSize(300, 400); // Change width and height as needed
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JMenu menuFile = new JMenu("File");
-		JMenu menuFileOpen = new JMenu("Open" );
-		    //  menuFileOpen.
 
-		menuFile.add( menuFileOpen );
+		LoadFileAction loadFileAction = new LoadFileAction();
+
 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.add( menuFile );
+		menuBar.add( new JMenuItem( loadFileAction ));
+
+		frame.add( new JButton( loadFileAction ));
 
 		frame.setJMenuBar( menuBar );
 

@@ -1,0 +1,6 @@
+Zostal Pan zapisany na projekt "Program do rysowania funkcji na podstawie danych z pliku tekstowego".
+
+
+Program ma wczytywac plik tekstowy (z dwiema kolumnami), a nastepnie robic wykres funkcji. Zakres osi ma zostac dobrany na podstawie analizy danych. Uzytkownik ma miec mozliwosc zmiany tego zakresu.
+
+Nie zaszkodzi tez mozliwosc zmiany typu osi z liniowej na logarytmiczna. Mozna takze dodac mozliwosc zmiany koloru i grubosci linii wykresu.
