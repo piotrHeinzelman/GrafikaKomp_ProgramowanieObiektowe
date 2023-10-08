@@ -1,10 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.InputStream;
 
 public class Project{
 	
 	public static void main(String[] args) {
+
+		if ( args.length > 0  )  {
+			try{
+				File file = new File( args[0] );
+				if (file.exists() && file.isFile() && file.canRead() ){
+					System.out.println( "read file: " + args[0] );
+				}
+			} catch( NullPointerException e ){}
+
+		}
 
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame frame = new JFrame();
