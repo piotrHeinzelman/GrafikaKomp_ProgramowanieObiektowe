@@ -1,10 +1,12 @@
+package pl.heinzelman.javaDraw;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.InputStream;
 
-public class Project{
+public class JavaDraw{
 	
 	public static void main(String[] args) {
 
@@ -35,8 +37,8 @@ public class Project{
 
 		frame.setJMenuBar( menuBar );
 
-		MyComponent component = new MyComponent();
-		frame.add(component);
+		//MyComponent component = new MyComponent();
+	//	frame.add(component);
 		frame.setVisible(true);
 		}
 	}
