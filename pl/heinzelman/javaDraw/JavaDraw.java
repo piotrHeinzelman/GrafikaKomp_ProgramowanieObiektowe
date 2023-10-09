@@ -5,7 +5,6 @@ import pl.heinzelman.javaDraw.tools.FileTool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
 import java.util.List;
 
 public class JavaDraw{
@@ -20,7 +19,22 @@ public class JavaDraw{
 			}
 		}
 
+		//JFrame.setDefaultLookAndFeelDecorated(true);
+
+		try
+		{
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 		JFrame.setDefaultLookAndFeelDecorated(true);
+
+
+
+
+
 		JFrame frame = new JFrame();
 		frame.setLayout(new FlowLayout()); //setLayout(new GridLayout(3, 2));
 		frame.setSize(300, 400); // Change width and height as needed
@@ -32,6 +46,7 @@ public class JavaDraw{
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add( new JMenuItem( loadFileAction ));
+		//open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 
 		frame.add( new JButton( loadFileAction ));
 
@@ -40,5 +55,22 @@ public class JavaDraw{
 		//MyComponent component = new MyComponent();
 	//	frame.add(component);
 		frame.setVisible(true);
-		}
+
+
+		// OPEN
+		JFileChooser jFileChooser = new JFileChooser();
+		jFileChooser.showDialog( frame , "Open data file *.txt");
+
+		// SaveDialog
+		JFileChooser jFileChooser1 = new JFileChooser();
+		jFileChooser1.showDialog( frame , "SaveFile *.bmp" );
+
+		Canvas canvas = new Rys1();
+		canvas.setBackground( new Color( 0,0,255 ) );
+
+		frame.add(  canvas );
+
+
+
+	}
 	}
