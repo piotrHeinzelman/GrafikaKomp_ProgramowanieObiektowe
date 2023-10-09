@@ -14,7 +14,7 @@ public class LoadFileAction extends AbstractAction {
        // putValue(SELECTED_KEY, new Integer(KeyEvent.VK_L));
     }
 
-    public void actionPerformed(ActionEvent e ) {
+    public void actionPerformed( ActionEvent e ) {
         System.out.println("CALL Action loadFileAction" + e);
     }
 }
