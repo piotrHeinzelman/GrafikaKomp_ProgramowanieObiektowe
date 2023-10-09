@@ -1,4 +1,4 @@
-package pl.heinzelman.javaDraw.actions;
+package pl.heinzelman.javaDraw.trash;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

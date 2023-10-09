@@ -1,4 +1,4 @@
-package pl.heinzelman.javaDraw;
+package pl.heinzelman.javaDraw.trash;
 
 import java.awt.*;
 import java.awt.event.*;
