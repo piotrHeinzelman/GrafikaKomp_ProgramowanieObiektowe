@@ -1,19 +1,19 @@
 package pl.heinzelman.javaDraw.model;
 
 public class Pixel {
-    private Long x;
-    private Long y;
+    private int x;
+    private int y;
 
-    public Pixel(Long x, Long y) {
+    public Pixel(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Long getX() { return x; }
-    public Long getY() { return y; }
+    public int getX() { return x; }
+    public int getY() { return y; }
 
-    public void setX(Long x) { this.x = x; }
-    public void setY(Long y) { this.y = y; }
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
 
     @Override
     public String toString() {

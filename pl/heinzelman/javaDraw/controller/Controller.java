@@ -26,5 +26,8 @@ public class Controller {
         model.clearPixels();
     }
     public void createPixelFromPoints(){ model.createPixelFromPoints(); }
+    public void setScreenRange( Long minX, Long maxX, Long minY, Long maxY ){
+        model.setScreenRange(  minX,  maxX,  minY,  maxY );
+    }
 
 }
