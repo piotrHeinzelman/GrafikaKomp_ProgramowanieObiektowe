@@ -1,23 +1,21 @@
 package pl.heinzelman.javaDraw;
 
-import pl.heinzelman.javaDraw.tools.FileTool;
-import pl.heinzelman.javaDraw.trash.MyJFrame;
-
-import java.util.List;
+import pl.heinzelman.javaDraw.controller.Controller;
+import pl.heinzelman.javaDraw.model.Model;
 
 public class JavaDraw{
 	
 	public static void main(String[] args) {
+		Model model = new Model();
+		Controller controller = new Controller( model );
+
+		if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else  controller.loadPointsFromFile( "G:\\JavaDraw\\dataWykres.txt" );
 
 
-		if ( args.length > 0  )  {
-			List<String> lines = FileTool.getListOfString(args[0]);
-			for ( String s : lines ){
-				System.out.println( s );
-			}
-		}
+		controller.clearPixels();
+		controller.createPixelFromPoints();
 
-		MyJFrame rootFrame = new MyJFrame();
+
 
 	}
 	}
