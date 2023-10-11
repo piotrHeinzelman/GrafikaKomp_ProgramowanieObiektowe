@@ -3,7 +3,6 @@ package pl.heinzelman.javaDraw.view;
 import pl.heinzelman.javaDraw.model.Model;
 import pl.heinzelman.javaDraw.model.Pixel;
 import pl.heinzelman.javaDraw.model.Swatch;
-import pl.heinzelman.javaDraw.trash.Rys1;
 
 import java.awt.*;
 
@@ -34,9 +33,6 @@ public class View extends Canvas {
         for ( Pixel pix : model.getPixels() ){
             g.drawLine( pix.getX(), pix.getY(), pix.getX(), pix.getY() );
         }
-
-
-
     }
 
 

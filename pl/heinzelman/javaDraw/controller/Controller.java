@@ -30,4 +30,10 @@ public class Controller {
         model.setScreenRange(  minX,  maxX,  minY,  maxY );
     }
 
+
+    // *****  ACTIONS CALL **********
+    public void a_LEFT(){
+        System.out.println( this.getClass().getName() +  ".a_LEFT();" );
+    }
+
 }

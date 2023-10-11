@@ -1,7 +1,5 @@
 package pl.heinzelman.javaDraw.model;
 
-import pl.heinzelman.javaDraw.view.MyMenuBar;
-
 import javax.swing.*;
 import java.awt.*;
 

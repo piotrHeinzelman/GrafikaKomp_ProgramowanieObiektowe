@@ -1,24 +1,24 @@
 package pl.heinzelman.javaDraw;
 
+import pl.heinzelman.javaDraw.actions.myBar;
 import pl.heinzelman.javaDraw.controller.Controller;
 import pl.heinzelman.javaDraw.model.Model;
 import pl.heinzelman.javaDraw.model.Swatch;
 import pl.heinzelman.javaDraw.model.Window;
-import pl.heinzelman.javaDraw.view.MyMenuBar;
 import pl.heinzelman.javaDraw.view.View;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class JavaDraw{
 	
 	public static void main(String[] args) {
 
 		Window win = new Window();
-
 		Model model = new Model();
 		Controller controller = new Controller( model );
 		View view = new View( model );
+
+		JMenuBar menuBar = new myBar( win, model, controller );
 
 		if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else  controller.loadPointsFromFile( "G:\\JavaDraw\\dataWykres.txt" );
 
@@ -31,7 +31,7 @@ public class JavaDraw{
 		view.setStroke(3);
 
 
-		win.setJMenuBar( new MyMenuBar() );
+		win.setJMenuBar( menuBar );
 		win.add(view);
 		win.setVisible(true);
 
