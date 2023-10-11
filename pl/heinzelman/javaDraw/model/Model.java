@@ -58,7 +58,6 @@ public class Model {
               if ( y<minY || y>maxY ) continue;
 
               Pixel pix = new Pixel( x, y );
-            //System.out.println( pix );
             pixels.add( pix );
         }
 

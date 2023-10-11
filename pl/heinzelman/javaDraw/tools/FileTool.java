@@ -1,7 +1,6 @@
 package pl.heinzelman.javaDraw.tools;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Scanner;
 public class FileTool {
 
     public static List<String> getListOfString( String fileName ){
+        if (fileName==null) return null;
         List<String> lines = new ArrayList<>(20);
         try{
             File file = new File ( fileName );

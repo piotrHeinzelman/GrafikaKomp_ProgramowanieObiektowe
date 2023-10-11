@@ -18,7 +18,7 @@ public enum Swatch {
     private static Color green = new Color(0x00,0xFF,0x00);
 
     
-    public Color getJColor(Swatch swatch ){
+    public static Color getJColor(Swatch swatch ){
         switch ( swatch ){
             case B: return black;
             case W: return white;
