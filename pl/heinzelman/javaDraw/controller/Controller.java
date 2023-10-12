@@ -64,13 +64,13 @@ r_DOWN
     }
 
     public void loadPointsFromFile( String fileName ){
-        view.clear();
         clearPixels();
+        view.repaint();
         FileTool ft = new FileTool();
         for ( String s : ft.getListOfString( fileName )){
             model.addPoint( s.split(","));
         }
         createPixelFromPoints();
-        view.refresh();
+        view.repaint();
     }
 }
