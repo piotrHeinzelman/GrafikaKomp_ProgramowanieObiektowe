@@ -1,0 +1,3784 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/W5.html
+Subject: =?utf-8?Q?Wyk=C5=82ad=205?=
+Date: Thu, 12 Oct 2023 09:02:58 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----"
+
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: text/html
+Content-ID: <frame-7E174E0B2766DF8FA5B125D20CC4A800@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/W5.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head =
+rel=3D"stylesheet" type=3D"text/css" href=3D"../STYLE/common.css"><meta htt=
+p-equiv=3D"Content-Type" content=3D"text/html; charset=3DISO-8859-2">
+   <meta http-equiv=3D"Content-Language" content=3D"pl">
+  =20
+   <meta http-equiv=3D"Content-Style-Type" content=3D"text/css">
+   <meta name=3D"Author" content=3D"Bart=B3omiej Starosta">
+   <link rel=3D"STYLESHEET" href=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/s=
+cb/STYLE/common.css">
+  =20
+   <title>Wyk=B3ad 5</title>
+  </head>
+<body bgcolor=3D"#efefef">
+
+<center><a name=3D"W5"><h1>5. Grafika dwuwymiarowa</h1></a></center>
+
+<hr>
+<i>
+Wyk=B3ad jest po=B6wi=EAcony grafice dwuwymiarowej w Javie.
+Zobaczymy w jaki spos=F3b mo=BFna wykre=B6la=E6 w=B3asne obrazy oraz jak ko=
+rzysta=E6 z gotowych,
+umieszczonych w plikach graficznych.
+</i>
+<hr>
+
+<a name=3D"W5.1"><h2>1. Wst=EAp</h2></a>
+
+<a name=3D"W5.1.1"><h3>1.1. Kontekst graficzny</h3></a>
+
+<p>
+Do wykre=B6lania obiekt=F3w graficznych w Javie s=B3u=BFy <dfn>wykre=B6lacz=
+</dfn> - kontekst=20
+graficzny - b=EAd=B1cy obiektem (abstrakcyjnej) klasy <code>java.awt.Graphi=
+cs</code>.=20
+Klasa ta udost=EApnia metody pozwalaj=B1ce na rysowanie figur geometrycznyc=
+h jak r=F3wnie=BF=20
+zewn=EAtrznych obraz=F3w.
+</p>
+
+<p>
+</p><div class=3D"def">
+Wykre=B6lacz mo=BFna pobra=E6 metod=B1 <code>getGraphics()</code> z:
+<ul>
+<li> komponentu AWT lub  Swing - <code>java.awt.Component</code></li>
+<li>=20
+obrazu, w szczeg=F3lno=B6ci bufora, w kt=F3rym jest przechowywany -=20
+<code>java.awt.Image</code> wraz z podklasami,=20
+g=B3=F3wnie <code>BufferedImage</code> (u=BFywana jako bufor ekranowy).
+</li>
+</ul>
+</div>
+<p></p>
+
+<p>
+Po u=BFyciu wykre=B6lacza, je=B6li nie b=EAdzie on wi=EAcej potrzebny, nale=
+=BFy mu wyda=E6 polecenie <code>dispose()</code>,=20
+kt=F3re zniszczy zasoby przez niego wykorzystywane.
+</p>
+
+<p>
+</p><div class=3D"important">
+Nie wolno wywo=B3ywa=E6 na rzecz komponentu metody <code>getGraphics()</cod=
+e>, ani =BFadnej innej z nim zwi=B1zanej=20
+(<code>getWidth()</code>, <code>getHeight()</code>) dop=F3ki komponent, kt=
+=F3rego dotyczy wywo=B3anie nie b=EAdzie w pe=B3ni=20
+zrealizowany (<code>pack()</code>).=20
+Aby to zapewni=E6 stosuje si=EA mechanizmy synchronizuj=B1ce w=B1tki, a tak=
+=BFe metod=EA=20
+<code>SwingUtilities.invokeLater()</code>.
+</div>
+<p></p>
+
+<p>
+Zamiast rysowa=E6 na wykre=B6laczu pobranym od komponentu, wygodniej jest u=
+mie=B6ci=E6 kod
+rysuj=B1cy w metodzie wykre=B6laj=B1cej: <code>paintComponent(Graphics g)</=
+code> w Swingu
+lub <code>paint(Graphics g)</code> dla AWT.
+Dzi=EAki temu od=B6wie=BFanie rysunku b=EAdzie nast=EApowa=E6 automatycznie=
+, poniewa=BF
+obie metody s=B1 wywo=B3ywane na zasadzie <dfn>callback</dfn>-u w w=B1tku z=
+darzeniowym,=20
+gdy:
+</p><ul>
+<li>system stwierdzi, =BFe komponent wymaga od=B6wie=BFenia, lub</li>
+<li>=20
+zostanie wywo=B3ana metoda <code>repaint()</code>, kt=F3ra wstawi do kolejk=
+i=20
+zdarzeniowej =BF=B1danie od=B6wie=BFenia komponentu
+</li>
+</ul>
+<p></p>
+
+<p>
+</p><div class=3D"important">
+Nie nale=BFy umieszcza=E6 w tych metodach kodu wykonuj=B1cego z=B3o=BFone o=
+peracje,=20
+poniewa=BF mo=BFe to powodowa=E6 op=F3=BCnienia w kolejce zdarzeniowej. Tym=
+ bardziej nie=20
+wolno tam u=BFywa=E6 metody <code>Thread.sleep()</code>.
+Nale=BFy r=F3wnie=BF unika=E6 blok=F3w i metod synchronizowanych.
+</div>
+<p></p>
+
+<p>
+Aby u=BFy=E6 metody wykre=B6laj=B1cej komponent do wykre=B6lania w=B3asnej =
+grafiki nale=BFy=20
+stworzy=E6 podklas=EA klasy komponentu, w kt=F3rej si=EA j=B1 przedefiniuje=
+. Pierwsz=B1=20
+instrukcj=B1 w metodzie wykre=B6laj=B1cej musi by=E6 wywo=B3anie jej wersji=
+ z klasy bazowej:=20
+<code>super.paintComponent(g)</code> w Swingu lub=20
+<code>super.paint(g)</code> dla AWT.
+</p>
+
+<p>
+</p><div class=3D"important">
+Jako argument, metody te otrzymuj=B1 odniesienie do kopii kontekstu graficz=
+nego
+komponentu, kt=F3ra zostanie zniszczona po wyj=B6ciu z metody odrysowuj=B1c=
+ej,=20
+<strong>nawet je=B6li istniej=B1</strong> jakie=B6 odniesienia do niej stwo=
+rzone w bloku=20
+<code>paint()</code> lub <code>paintComponent()</code>.=20
+</div>
+<p></p>
+
+<p>
+Mimo, i=BF mo=BFna rysowa=E6 na dowolnym komponencie, to jednak do przedsta=
+wiania w=B3asnej=20
+grafiki s=B3u=BF=B1 g=B3=F3wnie klasy <code>Canvas</code> dla AWT i <code>J=
+Panel</code>=20
+w przypadku Swinga.=20
+</p>
+
+<a name=3D"W5.1.2"><h3>1.2. Po=B3o=BFenia i rozmiary</h3></a>
+
+<p>
+Uk=B3ad wsp=F3=B3rz=EAdnych kontekstu graficznego jest zaczepiony w jego le=
+wym-g=F3rnym rogu,=20
+tzn. jego wsp=F3=B3rz=EAdne wynosz=B1 [0,0] i rosn=B1 w prawo (pierwsza wsp=
+=F3=B3rz=EAdna) i w d=F3=B3=20
+(druga). Wsp=F3=B3rz=EAdne s=B1 umiejscowione <strong>pomi=EAdzy</strong> p=
+ikselami urz=B1dzenia wyj=B6ciowego.
+Wykre=B6lenie punktu o danych wsp=F3=B3rz=EAdnych wy=B6wietla najbli=BFszy =
+piksel le=BF=B1cy=20
+poni=BFej i po prawej stronie w stosunku do tego punktu.
+</p>
+
+
+<p>
+</p><div class=3D"notec">
+Trzeba pami=EAta=E6 o tym wykre=B6laj=B1c kontury prostok=B1t=F3w (innych f=
+igur r=F3wnie=BF):=20
+je=B6li ma on szeroko=B6=E6 <code>w</code> i wysoko=B6=E6 <code>h</code>, t=
+o wype=B3niaj=B1c go podaje si=EA w=B3a=B6nie te wielko=B6ci,
+podczas gdy rysuj=B1c jego kraw=EAd=BC nale=BFy przyj=B1=E6 rozmiary o jede=
+n piksel mniejsze: <code>w-1</code>, <code>h-1</code>.
+</div>
+<p></p>
+
+
+<a name=3D"W5.1.2.1"><h4>1.2.1. Klasa <code>Point</code></h4></a>
+
+
+<p>
+Po=B3o=BFenia obiekt=F3w graficznych s=B1 przewa=BFnie reprezentowane przy =
+pomocy obiektu klasy <code>java.awt.Point</code>.
+Obiekt tej klasy przechowuje dwie liczby typu <code>int</code>, b=EAd=B1ce =
+jego publicznymi sk=B3adowymi (a wi=EAc
+mo=BFna na nich bezpo=B6rednio operowa=E6):=20
+</p><ul>
+<li><code>x</code> - wsp=F3=B3rz=EAdna pozioma</li>
+<li><code>y</code> - wsp=F3=B3rz=EAdna pionowa</li>
+</ul>
+Konstruktor <code>Point(int x, int y)</code> inicjuje wsp=F3=B3rz=EAdne pod=
+anymi warto=B6ciami,
+natomiast <code>Point()</code> nadaje wsp=F3=B3rz=EAdnym domy=B6lne warto=
+=B6ci <code>0</code>.=20
+Metody tej klasy umo=BFliwiaj=B1 dokonywanie prostych operacji na punktach:
+
+<ul>
+<li><code>void move(int x, int y)</code> - zmiana po=B3o=BFenia</li>
+<li><code>void translate(int dx, int dy)</code> - przesuni=EAcie</li>
+<li>
+<code>double distance(Point2D p)</code> - odleg=B3o=B6=E6 od podanego punkt=
+u (metoda
+odziedziczona z nadklasy <code>java.awt.geom.Point2D</code>)
+</li>
+</ul>
+<p></p>
+
+<a name=3D"W5.1.2.2"><h4>1.2.2. Klasa <code>Dimension</code></h4></a>
+
+<p>
+Do reprezentowania rozmiar=F3w komponent=F3w (i nie tylko) s=B3u=BFy klasa =
+<code>java.awt.Dimension</code>.
+Obiekt tej klasy zawiera publiczne sk=B3adowe:
+</p><ul>
+<li><code>width</code> - szeroko=B6=E6</li>
+<li><code>height</code> - wysoko=B6=E6</li>
+</ul>
+Konstruktor <code>Dimension(int width, int height)</code> inicjuje wymiary =
+podanymi=20
+warto=B6ciami, natomiast <code>Dimension()</code> nadaje im domy=B6lne wart=
+o=B6ci <code>0</code>.=20
+<p></p>
+
+<hr>
+<a name=3D"W5.2"><h2>2. Wykre=B6lanie</h2></a>
+
+<a name=3D"W5.2.1"><h3>2.1. Obci=EAcia</h3></a>
+
+<div class=3D"notel33">
+Bardziej z=B3o=BFone kszta=B3ty obcinania mo=BFna uzyska=E6 metod=B1 <code>=
+setClip(Shape clip)</code>,=20
+przekazuj=B1c jako argument odniesienie do obiektu klasy implementuj=B1cj i=
+nterfejs=20
+<code>java.awt.Shape</code>. Nie wszystkie tego typu kszta=B3ty s=B1 honoro=
+wane.
+</div>
+
+<p>
+Wykre=B6lanie mo=BFna ograniczy=E6 do zadanego obszaru. Punkty le=BF=B1ce p=
+oza tym obszarem=20
+nie b=EAd=B1 wykre=B6lane, nawet je=B6li rysowany obiekt z niego wystaje. N=
+ajprostszym=20
+sposobem zdefiniowania obszaru obcianania jest metoda <code>setClip(int x, =
+int y, int w, int h)</code>.
+Ogranicza ona wykre=B6lanie do prostok=B1ta zaczepionego w <code>[x,y]</cod=
+e> i wymiarach <code>[w,h]</code>.
+</p>
+
+<p>
+Domy=B6lny obszar wykre=B6lania mo=BFna przywr=F3ci=E6 poprzez <br>
+<code>setClip(0, 0, w-1, h-1)</code> -=20
+gdzie <code>w</code> jest szeroko=B6ci=B1 a <code>h</code> wysoko=B6ci=B1 p=
+ierwotnego obszaru (komponentu).
+Innym sposobem jest <code>setClip(null)</code>.
+</p>
+
+<a name=3D"W5.2.2"><h3>2.2. Kolory</h3></a>
+
+<p>
+Kolory s=B1 obiektami klasy <code>java.awt.Color</code>. Ka=BFdy kolor komp=
+onuje si=EA z=20
+trzech sk=B3adowych: czerwonej, zielonej i niebieskiej. Opr=F3cz tego kolor=
+y mog=B1 by=E6=20
+mniej lub bardziej przezroczyste. Poziom nasycenia koloru dan=B1 sk=B3adow=
+=B1 okre=B6la=20
+liczba typu <code>int</code> z przedzia=B3u <code>0-255</code> lub typu <co=
+de>float</code>=20
+z przedzia=B3u <code>0.0-1.0</code> - zale=BFnie od u=BFytego konstruktora.
+Stopie=F1 przezroczysto=B6ci reguluje sk=B3adowa <dfn>alpha</dfn> przyjmuj=
+=B1ca warto=B6ci z=20
+powy=BFszych przedzia=B3=F3w. Kolor ca=B3kowicie przezroczysty odpowiada wa=
+rto=B6ci <dfn>alpha</dfn>=20
+r=F3wnej 0 (lub 0.0), natomiast nieprzezroczysty odpowiada liczbie 255 (lub=
+ 1.0).
+</p>
+
+<p>
+W klasie <code>Color</code> s=B1 zdefiniowane statyczne sk=B3adowe okre=B6l=
+aj=B1ce 13=20
+najcz=EA=B6ciej u=BFywanych kolor=F3w:
+<code>black</code>,=20
+<code>blue</code>,=20
+<code>cyan</code>,=20
+<code>darkGray</code>,
+<code>gray</code>,=20
+<code>green</code>,=20
+<code>lightGray</code>,=20
+<code>magenta</code>,=20
+<code>orange</code>,=20
+<code>pink</code>,=20
+<code>red</code>,=20
+<code>white</code>,=20
+<code>yellow</code>,
+oraz ich odpowiedniki pisane du=BFymi literami.
+</p>
+
+<a name=3D"W5.2.2.1"><h4>2.2.1. Konstruktory</h4></a>
+
+<ul>
+<li>
+<code>Color(int r, int g, int b)</code> - tworzy nieprzezroczysty kolor
+(<code><dfn>alpha</dfn>=3D=3D255</code>)
+na podstawie sk=B3adowych z przedzia=B3u <code>0-255</code>.
+</li>
+<li>
+<code>Color(int r, int g, int b, int a)</code> - jak wy=BFej, ale uwzgl=EAd=
+nia stopie=F1=20
+przezroczysto=B6ci <code>a</code> z przedzia=B3u <code>[0..255]</code>.=20
+</li>
+<li>=20
+<code>Color(float r, float g, float b)</code> - jak w pierwszym przypadku, =
+ale=20
+<code>r, g, b</code> s=B1 z przedzia=B3u  <code>[0.0 1.0]</code>.
+</li>
+<li>
+<code>Color(float r, float g, float b, float a)</code> - umo=BFliwia okre=
+=B6lenie=20
+przezroczysto=B6ci:  <code>0.0 &lt; a &lt; 1.0</code>.
+</li>
+</ul>
+
+
+<a name=3D"W5.2.2.2"><h4>2.2.2. Wybrane metody</h4></a>
+
+<ul>
+<li><code>Color brighter()</code> - zwraca ja=B6niejsz=B1 wersj=EA tego kol=
+oru (<code>this</code>). Tworzy nowy obiekt !</li>
+<li><code>Color darker()</code> - zwraca ciemniejsz=B1 wersj=EA tego koloru=
+. Tworzy nowy obiekt - jak wy=BFej.</li>
+<li><code>int getRed()</code>, <code>int getGreen()</code>, <code>int getBl=
+ue()</code> - sk=B3adowe</li>
+<li><code>int getAlpha()</code> - stopie=F1 przezroczysto=B6ci</li>
+</ul>
+
+
+
+<a name=3D"W5.2.2.3"><h4>2.2.3. Przyk=B3ad u=BFycia klasy <code>Color</code=
+></h4></a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/Colors.png"=
+ alt=3D"images/Colors.png" align=3D"right">
+
+<p>
+Poni=BFszy program demonstruje stosowanie klasy <code>Color</code>, w szcze=
+g=F3lno=B6ci=20
+przezroczysto=B6=E6 kolor=F3w. Cztery etykiety nak=B3adaj=B1 si=EA na siebi=
+e w ten spos=F3b,=20
+=BFe prawa-dolna jest na spodzie, a lewa-g=F3rna na wierzchu.
+Skrajne etykiety maj=B1 kolory t=B3a, kt=F3re s=B1 nieprzezroczystymi wersj=
+ami kolor=F3w t=B3a=20
+etykiet =B6rodkowych. Kolory napis=F3w na etykietach wewn=EAtrznych s=B1 ja=
+=B6niejszymi,=20
+a ich t=B3a - ciemniejszymi wersjami kolor=F3w du=BFych etykiet.=20
+Napis okre=B6la warto=B6=E6 czynnika <dfn>alpha</dfn>.
+</p>
+
+<pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+import java.util.*;
+
+class Colors extends JFrame {
+   =20
+    int xy =3D 5;
+    Random rand =3D new Random();
+    Container cp =3D getContentPane();
+   =20
+    Colors()
+    {
+        super("Colors");
+        setSize(220, 240);
+        setLocation(200, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        cp.setLayout(null);
+       =20
+        Color rIntClr =3D new Color(rand.nextInt(256),
+                                  rand.nextInt(256), =20
+                                  rand.nextInt(256), =20
+                                  rand.nextInt(256) =20
+                                  );
+        Color rFltClr =3D new Color(rand.nextFloat(),
+                                  rand.nextFloat(),
+                                  rand.nextFloat(),
+                                  rand.nextFloat()
+                                  );
+        int ri =3D rIntClr.getRed();
+        int gi =3D rIntClr.getGreen();
+        int bi =3D rIntClr.getBlue();
+                                 =20
+        int rf =3D rFltClr.getRed();
+        int gf =3D rFltClr.getGreen();
+        int bf =3D rFltClr.getBlue();
+       =20
+        Color opI  =3D new Color(ri, gi, bi);
+        Color opF  =3D new Color(rf, gf, bf);
+       =20
+        addLab(opF);
+        addLab(rIntClr);
+        addLab(rFltClr);
+        addLab(opI);
+       =20
+        setVisible(true);
+    }   =20
+   =20
+    void addLab(Color c)
+    {
+        JLabel inner =3D new JLabel("a=3D" + c.getAlpha());
+        inner.setOpaque(true);
+        inner.setBackground(c.darker());
+        inner.setForeground(c.brighter());
+        inner.setBorder(BorderFactory.createEtchedBorder());
+        inner.setHorizontalAlignment(JLabel.CENTER);
+        inner.setBounds(10, 50, 60, 20);
+       =20
+        JLabel label =3D new JLabel();
+        label.setOpaque(true);
+        label.setBackground(c);
+        label.setBounds(xy, xy, 80, 80);
+        label.setBorder(BorderFactory.createEtchedBorder());
+        label.setLayout(null);
+        label.add(inner);
+        cp.add(label);
+        xy +=3D 40;
+    }
+   =20
+    public static void main(String[] args){
+        new Colors();
+    }
+}
+</pre>
+
+<a name=3D"W5.2.3"><h3>2.3. Fonty</h3></a>
+
+Czcionki s=B1 obiektami klasy <code>java.awt.Font</code>.=20
+Tworzy si=EA je konstruktorem
+
+<p>
+</p><div class=3D"def">
+<code><strong>Font(String name, int style, int size)</strong></code>, przy =
+czym:
+<ol>
+<li>
+<code>name</code> jest
+  <ul>
+  <li>
+       nazw=B1 logiczn=B1 czcionki: <dfn>Dialog</dfn>, <dfn>DialogInput</df=
+n>,
+       <dfn>Monospaced</dfn>, <dfn>Serif</dfn>, <dfn>SansSerif</dfn>, <dfn>=
+Symbol</dfn>.
+  </li>
+  <li>
+      lub nazw=B1 (kroju) czcionki, kt=F3ra identyfikuje j=B1 w macierzysty=
+m systemie operacyjnym - np.:
+      <dfn>Arial Bold</dfn>, <dfn>Courier Bold Italic</dfn>.=20
+      Ta metoda jest preferowana, poniewa=BF odnosi si=EA do konkretnych fo=
+nt=F3w=20
+      zainstalowanych w systemie. Mo=BFe jednak w zwi=B1zku z tym powodowa=
+=E6 problemy z przeno=B6no=B6ci=B1.
+  </li>
+  </ul>
+</li>
+<li>
+  <code>style</code> jest sta=B3=B1 (z klasy <code>Font</code>) okre=B6laj=
+=B1c=B1 styl:=20
+  <code>PLAIN</code>, <code>BOLD</code>, <code>ITALIC</code>,=20
+  b=B1d=BC sum=B1 bitow=B1 dwu ostatnich.
+</li>
+<li><code>size</code> jest rozmiarem czcionki w punktach (1 pt =3D 1/72 cal=
+a).</li>
+</ol>
+</div>
+<p></p>
+
+
+<p>
+Czcionki mo=BFna modyfikowa=E6 przeci=B1=BFonymi metodami <code>deriveFont(=
+)</code> klasy=20
+<code>Font</code>, kt=F3re na podstawie tej czcionki tworz=B1 now=B1, o atr=
+ybutach=20
+okre=B6lonych przez parametry konkretnej wersji metody. Np. poni=BFsza meto=
+da tworzy=20
+wersj=EA wyt=B3uszczon=B1 czcionki <code>font</code>:=20
+</p><p>
+
+</p><pre class=3D"syntax">Font bold =3D font.<strong>deriveFont</strong>(Fo=
+nt.BOLD)=20
+</pre>
+
+
+<p>
+Aby umiejscowi=E6 napis w kontek=B6cie graficznym, potrzebna jest znajomo=
+=B6=E6 jego rozmiar=F3w.=20
+Klasa <code>FontMetrics</code> zawiera informacje o sposobie wykre=B6lania =
+konkretnych=20
+font=F3w. Odniesienie do obiektu tej klasy zwraca metoda <code>getFontMetri=
+cs()</code>=20
+z klasy <code>Graphics</code>.
+</p>
+
+<p>
+</p><p>
+</p><div class=3D"def">
+<dfn>Lini=B1 bazow=B1</dfn> tekstu jest linia, na kt=F3rej jest on oparty.
+Jest to linia przechodz=B1ca bezpo=B6rednio pod znakiem <strong><code>'_'</=
+code></strong>.=20
+Wszystkie rozmiary i po=B3o=BFenia podaje si=EA wzgl=EAdem tej linii (jej l=
+ewego pocz=B1tku).
+</div>
+<p></p>
+
+Przy ustalaniu po=B3o=BFenia tekstu mog=B1 by=E6 potrzebne nast=EApuj=B1ce =
+metody:
+<ul>
+<li><code>int getAscent()</code> - uniesienie ponad lini=EA bazow=B1: odleg=
+=B3o=B6=E6 od linii bazowej do najwy=BFszego punktu napisu</li>
+<li><code>int getDescent()</code> - obni=BFenie poni=BFej linii bazowej: od=
+leg=B3o=B6=E6 od linii bazowej do najni=BFszego punktu napisu</li>
+<li><code>int getLeading()</code> - standardowy odst=EAp mi=EAdzy wierszami=
+ w tym foncie</li>
+<li><code>int getHeight()</code> - suma trzech powy=BFszych</li>
+<li>
+<code>int stringWidth(String s)</code> - ca=B3kowita d=B3ugo=B6=E6 linii ba=
+zowej napisu. <br>
+Mo=BFe si=EA r=F3=BFni=E6 od rzeczywistej d=B3ugo=B6ci po wykre=B6leniu, po=
+niewa=BF metoda nie bierze pod uwag=EA=20
+specyficznych parametr=F3w kontekstu graficznego, kt=F3re mog=B1 wp=B3ywa=
+=E6 na wynik -=20
+dlatego zamiast tej metody czasem lepiej jest u=BFy=E6 nast=EApnej:
+</li>
+<li>
+<code>Rectangle2D getStringBounds(String s, Graphics g)</code> - zwraca pro=
+stok=B1t=20
+mieszcz=B1cy napis w danym kontek=B6cie graficznym.
+</li>
+</ul>
+<p></p>
+
+
+<a name=3D"W5.2.4"><h3>2.4. Obiekty graficzne</h3></a>
+
+<p>
+Klasa <code>Graphics</code> dostarcza metody umo=BFliwiaj=B1ce wykre=B6lani=
+e prostych obiekt=F3w graficznych.
+Bardziej z=B3o=BFone obiekty komponuje si=EA przy pomocy tych elementarnych=
+ metod.
+Obiekty s=B1 wykre=B6lane aktualnie obowi=B1zuj=B1cym kolorem, kt=F3ry mo=
+=BFna zmieni=E6 metod=B1 <code>setColor(Color)</code>.
+</p>
+
+
+<a name=3D"W5.2.4.1"><h4>2.4.1. Linie</h4></a>
+
+Metody wykre=B6laj=B1ce odcinki lub obszary przez nie ograniczone (aktualni=
+e obowi=B1zuj=B1cym kolorem):
+
+<ul>
+<li>
+<code>drawLine(int x1, int y1, int x2, int y2)</code> rysuje odcinek o pocz=
+=B1tku=20
+<code>[x1, y1]</code> i ko=F1cu <code>[x2, y2]</code>.
+</li>
+
+<li>
+<code>drawPolyLine(int[] xPoints, int[] yPoints, int nPoints)</code> rysuje=
+ =B3aman=B1=20
+lini=EA o <code>nPoints</code> wierzcho=B3kach, kt=F3rych wsp=F3=B3rz=EAdne=
+ s=B1 dane w tablicach.
+</li>
+
+<li>
+<code>drawPolygon(int[] xPoints, int[] yPoints, int nPoints)</code> podobni=
+e jak=20
+poprzednia - metoda rysuje =B3aman=B1 lini=EA - jednak dodaje odcinek =B3=
+=B1cz=B1cy pierwszy=20
+punkt z ostatnim tworz=B1c wielok=B1t.
+</li>
+
+<li>
+<code>fillPolygon(int[] xPoints, int[] yPoints, int nPoints)</code> rysuje =
+wielok=B1t=20
+wype=B3niaj=B1c jego wn=EAtrze aktualnym kolorem.
+</li>
+</ul>
+
+
+<a name=3D"W5.2.4.2"><h4>2.4.2. Prostok=B1ty</h4></a>
+
+Metody s=B3u=BF=B1ce do wykre=B6lania i wype=B3niania kolorem obszar=F3w pr=
+ostok=B1tnych:
+
+<ul>
+<li>
+<code>drawRect(int x, int y, int w, int h)</code> rysuje brzeg prostok=B1ta=
+, kt=F3rego=20
+lewy-g=F3rny r=F3g ma wsp=F3=B3rz=EAdne <code>[x, y]</code>, szeroko=B6=E6 =
+wynosi <code>w</code>=20
+a wysoko=B6=E6 <code>h</code>.
+</li>
+<li><code>fillRect(int x, int y, int w, int h)</code> wype=B3nia prostok=B1=
+t obowi=B1zuj=B1cym kolorem.</li>
+<li>
+<code>drawRoundRect(int x, int y, int w, int h, int arcW, int arcH)</code> =
+rysuje
+prostok=B1t o zaokr=B1glonych brzegach - parametry <code>arcW, arcH </code>=
+ specyfikuj=B1=20
+odpowiednio poziomy i pionowy wymiar =B6rednicy =B3uku zaokr=B1glaj=B1cego =
+rogi.
+</li>
+<li><code>fillRoundRect(int x, int y, int w, int h, int arcW, int arcH)</co=
+de> wype=B3nia zaokr=B1glony prostok=B1t.</li>
+<li>
+<code>draw3DRect(int x, int y, int w, int h, boolean raised)</code> rysuje =
+prostok=B1t o tr=F3jwymiarowym wygl=B1dzie
+- kraw=EAdzie s=B1 cieniowane sprawiaj=B1c, =BFe prostok=B1t wystaje ponad =
+powierzchni=EA (gdy <code>raised =3D=3D true</code>) lub
+jest wci=B6ni=EAty do wewn=B1trz (<code>raised =3D=3D false</code>).</li>
+
+<li><code>fill3DRect(int x, int y, int w, int h, boolean raised)</code> wyp=
+e=B3nia prostok=B1t 3D.</li>
+
+<li><code>clearRect(int x, int y, int w, int h)</code> wyczyszcza prostok=
+=B1tny obszar zaczepiony=20
+w punkcie <code>[x,y]</code> i o bokach <code>[w,h]</code>. Puste miejsce z=
+ostanie wype=B3nione kolorem t=B3a.</li>
+</ul>
+
+
+<a name=3D"W5.2.4.3"><h4>2.4.3. Elipsy</h4></a>
+
+<ul>
+<li><code>drawOval(int x, int y, int w, in h)</code> rysuje elips=EA wpisan=
+=B1 w prostok=B1t, kt=F3rego lewy-g=F3rny r=F3g
+ma wsp=F3=B3rz=EAdne <code>[x, y]</code>, szeroko=B6=E6 wynosi <code>w</cod=
+e> a wysoko=B6=E6 <code>h</code>. Oczywi=B6cie, je=B6li s=B1 one r=F3wne to
+powstanie okr=B1g.</li>
+
+<li><code>fillOval(int x, int y, int w, in h)</code> wype=B3nia obowi=B1zuj=
+=B1cym kolorem elips=EA.</li>
+</ul>
+
+
+<a name=3D"W5.2.4.4"><h4>2.4.4. =A3uki</h4></a>
+
+<p>
+Metoda=20
+</p><pre class=3D"syntax"><strong>drawArc</strong>(int x, int y, int w, int=
+ h, int startAngle, int arcAngle)=20
+</pre>
+rysuje eliptyczny=20
+=B3uk wpisany w prostok=B1t zaczepiony w punkcie <code>[x,y]</code> i o bok=
+ach <code>[w, h]</code>.=20
+Parametr <code>startAngle</code> okre=B6la po=B3o=BFenie k=B1towe pocz=B1tk=
+u =B3uku a <code>arcAngle</code> okre=B6la jego=20
+rozpi=EAto=B6=E6 w stopniach.=20
+K=B1ty s=B1 interpretowane w ten spos=F3b, =BFe 0<sup>o</sup> odpowiada god=
+zinie 3 na zegarku i ro=B6nie w kierunku=20
+przeciwnym do ruchu wskaz=F3wek. Warto=B6ci ujemne odpowiadaj=B1 godzinom n=
+ast=EApuj=B1cym po 3.
+Zatem <code>startAngle =3D=3D 0</code> oznacza, =BFe =B3uk b=EAdzie zaczyna=
+=B3 si=EA na godz. 3, a <code>startAngle =3D=3D 90</code> -=20
+na godz. 12. Podobnie <code>arcAngle =3D=3D 360</code> oznacza, =BFe =B3uk =
+b=EAdzie elips=B1 wpisan=B1 w ten prostok=B1t,
+a <code>arcAngle =3D=3D -180</code> tworzy jej doln=B1 po=B3ow=EA.
+<p></p>
+
+Metoda <code>fillArc(int x, int y, int w, int h, int startAngle, int arcAng=
+le)</code> wype=B3nia =B3uk kolorem.
+
+
+<a name=3D"W5.2.4.5"><h4>2.4.5. Napisy</h4></a>
+
+<p>
+Opr=F3cz koloru kontekst graficzny przechowuje r=F3wnie=BF obowi=B1zuj=B1cy=
+ kr=F3j pisma.=20
+Mo=BFna go zmieni=E6 metod=B1 <code>setFont(Font f)</code>, pobra=E6 metod=
+=B1 <code>getFont()</code>.=20
+Wykre=B6laj=B1c napis podaje si=EA jako wsp=F3=B3rz=EAdne po=B3o=BFenie jeg=
+o linii bazowej.=20
+</p>
+
+<ul>
+<li><code>drawString(String str, int x, int y)</code> wykre=B6la napis <cod=
+e>str</code> w punkcie <code>[x,y]</code>.</li>
+<li><code>drawChars(char[] data, int off, int len, int x, int y)</code> wyk=
+re=B6la <code>len</code> znak=F3w z tablicy=20
+<code>data</code> pocz=B1wszy od pozycji <code>off</code>.</li>
+</ul>
+
+
+<a name=3D"W5.2.4.6"><h4>2.4.6. Przyk=B3ad z obiektami geometrycznymi</h4><=
+/a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/JHelloWorld=
+.png" alt=3D"images/JHelloWorld.png" align=3D"right">
+
+<p>
+Nast=EApny program ilustruje niekt=F3re metody wykre=B6laj=B1ce klasy <code=
+>Graphics</code>. Tworzymy w=B3asny panel
+dziedzicz=B1c klas=EA <code>JPanel</code>. Wykre=B6lanie odbywa si=EA w met=
+odzie <code>paintComponent()</code>,=20
+kt=F3ra jest wywo=B3ywana na zasadzie <dfn>callback</dfn>-u zawsze, gdy kom=
+ponent wymaga odrysowania.
+Przedefiniowana metoda <code>getPreferredSize()</code> jest potrzebna do us=
+talenia rozmiar=F3w naszego komponentu
+i wywo=B3ywana przez zarz=B1dc=EA rozk=B3adu. Nale=BFy pami=EAta=E6 o wywo=
+=B3aniu <code>super.paintComponent(g)</code>
+w pierwszej instrukcji metody odrysowuj=B1cej.
+</p>
+
+<pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+
+class JHelloWorld extends JPanel {
+
+    public void paintComponent(Graphics g){
+       =20
+	<strong>super.paintComponent(g);</strong>
+       =20
+        g.setColor(Color.blue);
+        g.fillRect(0, 0, 200, 200);
+       =20
+        g.setColor(Color.yellow);
+        g.fillOval(50, 50, 100, 100);
+       =20
+        g.setColor(Color.red);
+        g.drawArc(75, 100, 50, 33, -20, -140);
+
+        g.setColor(Color.black);
+        g.fillOval(76, 83, 8, 10);
+        g.fillOval(116, 83, 8, 10);       =20
+       =20
+        g.setColor(Color.orange);
+        g.fillPolygon(new int[]{100, 95, 105}, new int[]{95, 115, 115}, 3);
+       =20
+        g.setColor(Color.green);
+        g.setFont(new Font("Serif", Font.BOLD, 30));
+        g.drawString("Hello World", 3, 199);
+    }
+
+    public Dimension getPreferredSize(){
+        return new Dimension(200, 200);
+    }
+   =20
+    public static void main(String[] args){
+       =20
+        JFrame frame =3D new JFrame("JHelloWorld");
+        JPanel world =3D new JHelloWorld();
+        frame.getContentPane().add(world);
+        frame.setLocation(200, 200);
+        frame.pack();
+        frame.show();
+    }
+
+}
+</pre>
+
+
+<a name=3D"W5.2.5"><h3>2.5. T=B3o</h3></a>
+
+<p>
+Kolorem t=B3a jest jest kolor t=B3a ci=EA=BFkiego komponentu, na kt=F3rym o=
+dbywa si=EA wykre=B6lanie.
+Zatem mo=BFe on by=E6 zale=BFny od systemu. Po wywo=B3aniu metody <code>cle=
+arRect()</code>,=20
+kt=F3ra czy=B6ci prostok=B1tny obszar uka=BFe si=EA w=B3a=B6nie ten kolor j=
+ako t=B3o - co ilustruje=20
+nast=EApny przyk=B3ad. Aby mie=E6 pewno=B6=E6 co do koloru t=B3a, nale=BFy =
+wype=B3ni=E6 =BF=B1danym kolorem=20
+prostok=B1tny obszar pokrywaj=B1cy ca=B3y pulpit, na kt=F3rym odbywa si=EA =
+rysowanie.=20
+W praktyce oznacza to wywo=B3anie metod <code>setColor()</code> oraz <code>=
+fillRect()</code>=20
+na rzecz odniesienia do obiektu klasy <code>Graphics</code> pozyskanego od =
+danego komponentu.=20
+</p>
+
+<a name=3D"W5.2.5.1"><h4>2.5.1. Przyk=B3ad kolor=F3w t=B3a r=F3=BFnych obsz=
+ar=F3w</h4></a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/BackShow.pn=
+g" alt=3D"images/BackShow.png" align=3D"right">
+
+<p>
+Kolorem t=B3a g=B3=F3wnego okna <code>JFrame</code> jest <code>green</code>=
+ (widoczny=20
+poprzez wywo=B3anie metody <code>clearRect()</code>).
+Jego <code>contentPane</code> ma kolor t=B3a <code>cyan</code> (marginesy).
+W=B3asny panel wstawiony do <code>contentPane</code> ma kolor t=B3a <code>b=
+lue</code>.=20
+Umieszczona w nim etykieta ma ramk=EA, kt=F3rej kolory (s=B1 dwa) powsta=B3=
+y na podstawie=20
+koloru t=B3a tej etykiety. Jest on zdeterminowany przez domy=B6lny L&amp;F =
+i ma wrto=B6=E6
+<code>javax.swing.plaf.ColorUIResource[r=3D204,g=3D204,b=3D204]</code>.=20
+</p>
+
+<pre class=3D"code">
+import java.awt.*;
+import javax.swing.*;
+
+
+class BackShow extends JFrame {
+
+    BackShow()
+    {
+        super("BackShow");
+        setLocation(200, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+       =20
+        Container cp =3D getContentPane();
+        cp.setLayout(new FlowLayout());
+        cp.add(new BackPane());
+
+        cp.setBackground(Color.cyan);
+        setBackground(Color.green);
+       =20
+        pack();
+        show();
+    }
+   =20
+    public static void main(String[] args)
+    {
+        new BackShow();
+    }
+}
+
+class BackPane extends JPanel=20
+{
+    BackPane()
+    {
+        setBackground(Color.blue);
+        setLayout(null);
+       =20
+        JLabel lab =3D new JLabel("JLabel");
+        lab.setBorder(BorderFactory.createEtchedBorder());
+        lab.setBounds(90, 90, 100, 100);
+        add(lab);
+       =20
+    }
+
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        g.setColor(Color.magenta);
+        g.fillRect(50, 50, 100, 100);
+        g.clearRect(10, 10, 100, 100);
+       =20
+    }
+   =20
+    public Dimension getPreferredSize()
+    {
+        return new Dimension(200, 200);
+    }
+}
+</pre>
+
+
+<a name=3D"W5.2.6"><h3>2.6. Tryb XOR</h3></a>
+
+Rysowanie mo=BFe odbywa=E6 si=EA w dw=F3ch trybach prze=B3=B1czanych nast=
+=EApuj=B1cymi metodami:
+
+<p>
+</p><div class=3D"def">
+<ol>
+<li>
+<code><strong>setPaintMode</strong>()</code> - przywraca normalny spos=F3b =
+kolorowania (tryb domy=B6lny)
+</li>
+<li>
+<code><strong>setXORMode</strong>(Color xorClr)</code> - po wywo=B3aniu tej=
+ metody kolory wykre=B6lanych=20
+obiekt=F3w b=EAd=B1 si=EA zmienia=E6 w nast=EApuj=B1cy spos=F3b:=20
+  <ul>
+    <li>nadrysowanie koloru bie=BF=B1cego nim samym poka=BFe kolor <code>xo=
+rClr</code></li>
+    <li>rysowanie kolorem <code>xorClr</code> nie wprowadza =BFadnych zmian=
+.</li>
+    <li>rysowanie na kolorze <code>xorClr</code> daje normalny efekt.</li>
+    <li>
+       rysowanie na innych kolorach daje nieprzewidywalny skutek,
+       ale dwukrotne wykre=B6lanie tym samym kolorem przywraca kolor pierwo=
+tny.
+    </li>
+  </ul>
+</li>
+</ol>
+</div>
+<p></p>
+
+<a name=3D"W5.2.6.1"><h4>2.6.1. Demonstracja trybu XOR</h4></a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/PaintModes.=
+png" alt=3D"images/PaintModes.png" align=3D"right">
+
+<p>
+Nast=EApny programik ilustruje tryb XOR.
+Pierwsze dwa kwadraty (licz=B1c od lewego-g=F3rnego rogu) s=B1 wykre=B6lane=
+ w trybie XOR z=20
+kolorem t=B3a (niebieski). Pozosta=B3e w trybie XOR z kolorem zielonym.=20
+Ponadto pierwsze cztery s=B1 rysowane kolorem bia=B3ym, pi=B1ty zielonym, a=
+ pozosta=B3e dwa=20
+niebieskim (!). Ka=BFdy z siedmiu kwadrat=F3w ma ramk=EA w kolorze t=B3a, d=
+la lepszej widoczno=B6ci.
+</p>
+
+<pre class=3D"code">
+import java.awt.*;
+
+class PaintModes extends Canvas
+{
+    int xy;
+    int wh =3D 50;
+    Color bgc =3D Color.blue;
+    Color fgc =3D Color.white;
+    Color xor =3D Color.green;
+   =20
+    PaintModes()
+    {
+        setBackground(bgc);
+        setForeground(fgc);
+    }
+   =20
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        xy =3D 0;
+               =20
+        g.setXORMode(bgc);
+        fRect(g, fgc);
+        fRect(g, fgc);
+        g.setXORMode(xor);
+        fRect(g, fgc);
+        fRect(g, fgc);
+        fRect(g, xor);
+        fRect(g, bgc);
+        fRect(g, bgc);
+    }
+
+   =20
+    void fRect(Graphics graph, Color c)
+    {
+        graph.setColor(bgc);
+        graph.drawRect(xy, xy, wh, wh);
+        graph.setColor(c);
+        graph.fillRect(xy, xy, wh, wh);
+        xy +=3D (wh/2);
+    }
+   =20
+    public Dimension getPreferredSize()
+    {
+        return new Dimension(200, 200);
+    }
+   =20
+    public static void main(String[] args)
+    {
+       =20
+        Frame  frame =3D new Frame("PaintModes");
+        Canvas modes =3D new PaintModes();
+        frame.add(modes);
+        frame.setLocation(300, 300);
+        frame.pack();
+        frame.setVisible(true);
+    }
+}
+</pre>
+
+<hr>
+<a name=3D"W5.3"><h2>3. Grafika 2D</h2></a>
+
+<p>
+Klasa <code>java.awt.Graphics2D</code> - b=EAd=B1c podklas=B1 klasy <code>G=
+raphics</code>=20
+- dodaje do niej nowe mo=BFliwo=B6ci. Aby si=EA nimi pos=B3ugiwa=E6 nale=BF=
+y rzutowa=E6 odniesienie
+do wykre=B6lacza typu <code>Graphics</code>, na <code>Graphics2D</code>.=20
+Jest to zawsze wykonalne, poniewa=BF klasa wykre=B6lacza jest bezpo=B6redni=
+=B1 podklas=B1=20
+klasy <code>Graphics2D</code>.=20
+Jest to podstawowa klasa do wykre=B6lania 2-wymiarowych obiekt=F3w.
+</p>
+
+Klasa <code>Graphics2D</code> posiada nast=EApuj=B1ce atrybuty,=20
+kt=F3re determinuj=B1 wynik wykre=B6lania:
+
+<p>
+</p><div class=3D"def">
+<ul>
+<li><dfn>pi=F3ro</dfn> - pozwala zmienia=E6 kszta=B3t, grubo=B6=E6 rysowane=
+j linii</li>
+<li>
+<dfn>p=EAdzel</dfn> - pozwala wype=B3nia=E6 obszary nie tylko pojedynczym k=
+olorem,=20
+ale r=F3wnie=BF gradientem lub tekstur=B1
+</li>
+<li><dfn>obci=EAcie</dfn> - podobnie jak <code>Graphics</code></li>
+<li><dfn>czcionka</dfn> - podobnie jak <code>Graphics</code></li>
+<li>
+<dfn>tryb nak=B3adania</dfn> - spos=F3b, w jaki kolory rysowanych obiekt=F3=
+w przes=B3aniaj=B1 pod=B3o=BFe
+</li>
+<li>
+<dfn>przekszta=B3cenie afiniczne</dfn> - spos=F3b przeliczania wsp=F3=B3rz=
+=EAdnych (i=20
+rozmiar=F3w) obiekt=F3w podanych przez u=BFytkownika na obszar wykre=B6lacz=
+a
+</li>
+<li>
+mo=BFna r=F3wnie=BF okre=B6la=E6 inne, specyficzne w=B3a=B6ciwo=B6ci algory=
+tm=F3w wykre=B6laj=B1cych
+metod=B1 <code>setRenderingHint(RenderingHints.Key key, Object value)</code=
+>=20
+(np. w=B3=B1czy=E6 <dfn>antyaliasing</dfn>, czyli wyg=B3adzanie czcionek lu=
+b grafiki -=20
+o ile dana platforma to obs=B3uguje).
+</li>
+</ul>
+</div>
+<p></p>
+
+<p>
+Ponadto mo=BFliwe s=B1 nast=EApuj=B1ce operacje wykre=B6laj=B1ce:
+</p><ul>
+<li>rysowanie kontur=F3w - linii, obramowa=F1 figur, kszta=B3t=F3w - obowi=
+=B1zuj=B1cym pi=F3rem</li>
+<li>wype=B3nianie ich wn=EAtrz - obowi=B1zuj=B1cym p=EAdzlem</li>
+<li>wykre=B6lanie napis=F3w (zar=F3wno ich kontur=F3w, jak i wn=EAtrz) - ob=
+owi=B1zuj=B1c=B1 czcionk=B1</li>
+<li>wykre=B6lanie obraz=F3w (w=B3asnych i zewn=EAtrznych).</li>
+</ul>
+Wszystkie te operacje wykonywane s=B1 przy u=BFyciu aktualnego trybu nak=B3=
+adania kolor=F3w=20
+i s=B1 ograniczone do obowi=B1zuj=B1cego obszaru obcinania (domy=B6lnie ca=
+=B3y wykre=B6lacz),=20
+a ich po=B3o=BFenia s=B1 poddawane obowi=B1zuj=B1cemu przekszta=B3ceniu (do=
+my=B6lnie identyczno=B6=E6).
+<p></p>
+
+
+<a name=3D"W5.3.1"><h3>3.1. Nak=B3adanie kolor=F3w</h3></a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/PaintModes2=
+D.png" alt=3D"images/PaintModes2D.png" align=3D"right">
+
+<p>
+Klasa <code>Graphics</code> dysponowa=B3a dwoma trybami nak=B3adania kolor=
+=F3w: normalny=20
+i XOR. W klasie <code>Graphics2D</code> metoda <code>setComposite(Composite=
+ comp)</code>=20
+pozwala na sterowanie nak=B3adaniem si=EA kolor=F3w w znacznie szerszym zak=
+resie.=20
+Interfejs <code>Composite</code> okre=B6la spos=F3b w jaki b=EAdzie na=B3o=
+=BFony aktualny=20
+kolor na ju=BF wykre=B6lone piksele. Klasa <code>AlphaComposite</code> impl=
+ementuje ten=20
+interfejs, dostarczaj=B1c 12 sta=B3ych okre=B6laj=B1cych sposoby przenikani=
+a si=EA kolor=F3w.=20
+</p>
+<p>
+</p><div class=3D"noter">
+Metod=B1 <code>getComposite()</code> mo=BFna pobra=E6 aktualny spos=F3b kom=
+ponowania
+kolor=F3w, co mo=BFe by=E6 potrzebne do przywr=F3cenia poprzedniego trybu.
+</div>
+<p></p>
+<p>
+Obiekt=F3w klasy <code>AlphaComposite</code> nie tworzy si=EA konstruktorem=
+ (bo go nie ma),
+lecz u=BFywa si=EA statycznej metody <code>getInstance()</code>, kt=F3ra zw=
+raca obiekt=20
+tej klasy. Przekazuje si=EA jej jako argumenty: <code>alpha</code> - wsp=F3=
+=B3czynnik=20
+przenikania i (opcjonalnie) <code>rule</code> -  sta=B3=B1 okre=B6laj=B1c=
+=B1 regu=B3=EA, np.:
+<code>AlphaComposite.SRC_OVER</code>.
+Mo=BFna r=F3wnie=BF u=BFy=E6 statycznych sk=B3adowych tej klasy przechowuj=
+=B1cych odniesienia do=20
+gotowych obiekt=F3w reprezentuj=B1cych nieprzezroczyste wersje (<code>alpha=
+=3D=3D1.0</code>)=20
+ka=BFdego trybu np.: <code>AlphaComposite.SrcOver</code>.
+</p>
+
+
+<a name=3D"W5.3.1.1"><h4>3.1.1. Demonstracja nak=B3adania kolor=F3w</h4></a=
+>
+
+<p>
+Na obrazku widzimy efekty jakie daj=B1 wszystkie 12 regu=B3 nak=B3adania si=
+=EA kolor=F3w=20
+dla sta=B3ej przenikania 1.0 i dla sta=B3ej przenikania 0.4. Napisy pod obr=
+azkami s=B1 takie
+jak nazwy sta=B3ych z klasy <code>AlphaComposite</code> (wyj=B1wszy warto=
+=B6=E6 przenikania).
+Obrazek jest wynikiem dzia=B3ania poni=BFszego programu.
+</p>
+<p>
+Poszczeg=F3lne jego fragmenty s=B1 tworzone najpierw w buforze, a nast=EApn=
+ie wykre=B6lane w=20
+kontek=B6cie graficznym komponentu po to, by unikn=B1=E6 niepo=BF=B1danego =
+wp=B3ywu koloru t=B3a.=20
+Dysponujemy dzi=EAki temu czyst=B1 kartk=B1 - wykre=B6laczem bufora.
+</p>
+
+<p>
+</p><pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+import java.awt.image.*;
+import java.awt.geom.*;
+
+class PaintModes2D extends JPanel {
+
+    int rule;
+    float alpha;
+    String rName;
+   =20
+    PaintModes2D(String desc, int acr, float al){
+        setBorder(BorderFactory.createLineBorder(Color.cyan));
+        setBackground(Color.white);
+        rName =3D desc + "  " + al;
+        rule =3D acr;
+        alpha =3D al;
+    }
+   =20
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);   =20
+        Graphics2D g2d =3D (Graphics2D)g;   =20
+       =20
+        int w =3D getWidth();
+        int h =3D getHeight();
+
+        BufferedImage buffImg =3D=20
+            new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D gbi =3D buffImg.createGraphics();
+       =20
+        gbi.setColor(Color.red);
+        gbi.setFont(new Font("Sans", Font.BOLD, 10));
+        gbi.drawString(rName, (w-6*rName.length())/2, getHeight()-5);
+
+        gbi.setColor(Color.blue);
+        gbi.fillRect(8, 8, 2*w/3, h/2);
+
+        gbi.<strong>setComposite(AlphaComposite.getInstance(rule, alpha))</=
+strong>;
+        gbi.setColor(Color.green);
+        gbi.fillOval(w/4, h/4, 2*w/3, h/2);
+
+        g2d.drawImage(buffImg, null, 0, 0);
+    }
+
+    public Dimension getPreferredSize(){
+        return new Dimension(100, 80);
+    }
+
+    static void addMode(Container cp, String title, int mode){
+        cp.add(new PaintModes2D(title, mode, 1f));
+        cp.add(new PaintModes2D(title, mode, 0.4f));
+    }
+
+    static void addModes(Container cp){
+        addMode(cp, "CLEAR",    AlphaComposite.CLEAR);
+        addMode(cp, "XOR",      AlphaComposite.XOR);
+        addMode(cp, "SRC",      AlphaComposite.SRC);
+        addMode(cp, "SRC_IN",   AlphaComposite.SRC_IN);
+        addMode(cp, "SRC_OUT",  AlphaComposite.SRC_OUT);
+        addMode(cp, "SRC_OVER", AlphaComposite.SRC_OVER);
+        addMode(cp, "SRC_ATOP", AlphaComposite.SRC_ATOP);
+        addMode(cp, "DST",      AlphaComposite.DST);
+        addMode(cp, "DST_IN",   AlphaComposite.DST_IN);
+        addMode(cp, "DST_OUT",  AlphaComposite.DST_OUT);
+        addMode(cp, "DST_OVER", AlphaComposite.DST_OVER);
+        addMode(cp, "DST_ATOP", AlphaComposite.DST_ATOP);
+    }
+
+    public static void main(String[] args){
+
+        JFrame frame =3D new JFrame("PaintModes2D");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocation(200, 200);
+        Container cp =3D frame.getContentPane();
+        cp.setLayout(new GridLayout(12, 2));
+       =20
+        addModes(cp);
+       =20
+        frame.pack();
+        frame.show();
+    }
+}
+</pre>
+<p></p>
+<p>
+Metoda <code>addMode()</code> dodaje pojedynczy podobrazek dla danej regu=
+=B3y nak=B3adania
+kolor=F3w i dw=F3ch sta=B3ych przenikania: 1 i 0.4. Jest ona wywo=B3ywana w=
+ metodzie
+<code>addModes()</code> dla wszystkich sta=B3ych z klasy <code>AlphaComposi=
+te</code>.
+Metoda <code>paintComponent()</code> jest odpowiedzialna za wykre=B6lanie p=
+oszczeg=F3lnych
+kom=F3rek. Wywo=B3uje metod=EA <code>setComposite()</code> na rzecz wykre=
+=B6lacza (klasy=20
+<code>Graphics2D</code>), kt=F3ra ustala nowy tryb nak=B3adania.
+</p>
+
+<!--=20
+% \begin{itemize}
+% \item \kod{CLEAR} - wyczyszcza cz=EA=B6=E6 pod=B3o=BFa przykryt=B1 przez =
+aktualny obiekt, nic nie wykre=B6laj=B1c.
+% \item \kod{SRC} - wykre=B6lany obiekt przes=B3ania pod=B3o=BFe,
+%                     kt=F3re jest przedtem wyczyszczone w miejscu ich prze=
+ci=EAcia.
+% \item \kod{SRC\_IN} - wykre=B6la cz=EA=B6=E6 aktualnego obiektu nak=B3ada=
+j=B1c=B1 si=EA na obiekty pod=B3o=BFa
+% \item \kod{SRC\_OUT}- wykre=B6la cz=EA=B6=E6 aktualnego obiektu wystaj=B1=
+c=B1 poza wcze=B6niej wykre=B6lone obiekty pod=B3o=BFa;
+%                       ich cz=EA=B6=E6 wsp=F3lna jest wyczyszczona.
+% \item \kod{SRC\_OVER} - aktualnie wykre=B6lany obiekt przes=B3ania pod=B3=
+o=BFe (tryb domy=B6lny).
+% \item \kod{DST\_IN} - piksele pod=B3o=BFa (ich kolory i wsp=F3=B3czynniki=
+ przezroczysto=B6ci \textit{alpha}) s=B1 mno=BFone
+%                      przez wsp=F3=B3czynnik przezroczysto=B6ci wykre=B6la=
+nego obiektu w ich cz=EA=B6ci wsp=F3lnej;
+%                      je=B6li \kod{alpha=3D=3D1.0} - pod=B3o=BFe pozostaje=
+ bez zmian, a gdy \kod{alpha=3D=3D0.0} - jest ono
+%                      czyszczone w miejscu przeci=EAcia.
+% \item \kod{DST\_OUT} - piksele pod=B3o=BFa (kolory i \textit{alpha}) s=B1=
+ mno=BFone przez \textbf{dope=B3nienie}
+%                       wsp=F3=B3czynnika przezroczysto=B6ci (\kod{1-alpha}=
+) wykre=B6lanego obiektu
+%                      w ich cz=EA=B6ci wsp=F3lnej; je=B6li \kod{alpha=3D=
+=3D1.0} - pod=B3o=BFe jest czyszczone w miejscu
+%                      przeci=EAcia, a gdy \kod{alpha=3D=3D0.0} - pozostaje=
+ bez zmian.
+% \item \kod{DST\_OVER} - wykre=B6la cz=EA=B6=E6 aktualnego obiektu wystaj=
+=B1c=B1 poza wcze=B6niej wyrysowane obiekty pod=B3o=BFa;
+%                         ich cz=EA=B6=E6 wsp=F3lna \textbf{nie} jest czysz=
+czona.
+% \end{itemize}
+ -->
+
+<a name=3D"W5.3.2"><h3>3.2. Kszta=B3ty i obiekty graficzne</h3></a>
+
+<p>
+Kszta=B3ty s=B1 obiektami klas implementuj=B1cych interfejs <code>java.awt.=
+Shape</code>.=20
+Mo=BFna je obrysowywa=E6 metod=B1 <code>draw(Shape s)</code> lub wype=B3nia=
+=E6 metod=B1=20
+<code>fill(Shape s)</code> - obie z klasy <code>Graphics2D</code>.
+</p>
+
+
+<p>
+Pakiet <code>java.awt.geom</code> dostarcza kilku predefiniowanych kszta=B3=
+t=F3w:
+</p><ul>
+<li>elipsy (w tym okr=EAgi) - klasa <code>Ellipse2D</code></li>
+<li>prostok=B1ty - klasy <code>Rectangle2D</code>, <code>RoundRectangle2D</=
+code></li>
+<li>krzywe stopnia 1, czyli proste - klasa <code>Line2D</code></li>
+<li>krzywe stopnia 2 - klasa <code>QuadCurve2D</code></li>
+<li>krzywe stopnia 3 - klasa <code>CubicCurve2D</code></li>
+</ul>
+<p></p>
+
+<p>
+Wi=EAkszo=B6=E6 klas tego pakietu, reprezentuj=B1cych obiekty graficzne, ma=
+ trzy warianty:
+
+</p><ol>
+<li>
+<dfn>XXX2D</dfn> - klasa abstrakcyjna, okre=B6laj=B1ca w=B3a=B6ciwo=B6ci fi=
+gury, zawieraj=B1ca=20
+poni=BFsze dwie statyczne klasy wewn=EAtrzne:
+</li>
+<li><dfn>XXX2D.Float</dfn> - wsp=F3=B3rz=EAdne punkt=F3w s=B1 w pojedynczej=
+ precyzji (typu <code>float</code>)</li>
+<li><dfn>XXX2D.Double</dfn> - wsp=F3=B3rz=EAdne s=B1 liczbami podw=F3jnej p=
+recyzji (typ <code>double</code>)</li>
+</ol>
+<p></p>
+
+
+Klasa <code>java.awt.Rectangle</code>, b=EAd=B1ca podklas=B1 <code>Rectangl=
+e2D</code>, reprezentuje prostok=B1t o wsp=F3=B3rz=EAdnych
+ca=B3kowitoliczbowych (<code>int</code>).
+
+
+<a name=3D"W5.3.2.1"><h4>3.2.1. Kontury</h4></a>
+
+<p>
+Klasa <code>java.awt.geom.GeneralPath</code> jest kszta=B3tem z=B3o=BFonym =
+z kilku krzywych=20
+(stopni 1, 2, lub 3). Tak=B1 =B6cie=BFk=EA tworzy si=EA konstruktorem <code=
+>GeneralPath()</code>,=20
+a nast=EApnie buduje - dodaj=B1c do niej kolejne krzywe, punkty lub inne ko=
+ntury -=20
+nast=EApuj=B1cymi metodami:
+
+</p><ul>
+<li><code>moveTo(float x, float y)</code> - dodaje do =B6cie=BFki punkt o w=
+sp=F3=B3rz=EAdnych <code>[x,y]</code>.</li>
+<li><code>lineTo(float x, float y)</code> - dodaje odcinek =B3=B1cz=B1cy os=
+tatni punkt =B6cie=BFki z <code>[x,y]</code>.</li>
+<li>
+<code>quadTo(float cx, float cy, float x, float y)</code> - =B3=B1czy ostat=
+ni punkt =B6cie=BFki z punktem <code>[x,y]</code>
+krzyw=B1 drugiego stopnia, z punktem kontrolnym <code>[cx, cy]</code>.
+</li>
+<li>
+<code>curveTo(float c1x, float c1y, float c2x, float c2y, float x, float y)=
+</code> - =B3=B1czy ostatni punkt na=20
+=B6cie=BFce z punktem <code>[x,y]</code> krzyw=B1 trzeciego stopnia o punkt=
+ach kontrolnych:=20
+<code>[c1x,c1y]</code> i  <code>[c2x,c2y]</code>.
+</li>
+<li>
+<code>append(Shape s, boolean con)</code> - dodaje do konturu kszta=B3t <co=
+de>s</code>,=20
+i je=B6li <code>con</code> ma warto=B6=E6 <code>true</code>, to zostanie on=
+ po=B3=B1czony=20
+odcinkiem z ostatnim punktem na dotychczasowej =B6cie=BFce.
+</li>
+<li><code>closePath()</code> - dodaje odcinek =B3=B1cz=B1cy ostatni punkt =
+=B6cie=BFki z punktem okre=B6lonym w ostatnim=20
+wywo=B3aniu <code>moveTo()</code>.</li>
+</ul>
+<p></p>
+
+
+Wn=EAtrze konturu ograniczonego przez zestaw krzywych
+jest okre=B6lone na jeden z dw=F3ch sposob=F3w (okre=B6lonych w konstruktor=
+ze, lub metod=B1 <code>setWindingRule()</code>):
+
+<ul>
+<li>sta=B3a <code>int WIND_EVEN_ODD</code> - poruszaj=B1c si=EA po prostej =
+z zewn=B1trz w kierunku konturu, po
+pierwszym przeci=EAciu jego brzegu wchodzimy do jego wn=EAtrza, po drugim -=
+ wychodzimy. Og=F3lnie: po nieparzystej
+liczbie przeci=EA=E6 punkt na prostej znajduje si=EA wewn=B1trz obszaru, po=
+ parzystej - na zewn=B1trz.
+</li>
+
+<li>
+sta=B3a <code>int WIND_NON_ZERO</code> - punkt jest na zewn=B1trz (wewn=B1t=
+rz) obszaru, je=B6li p=F3=B3prosta o=20
+pocz=B1tku w tym  punkcie, przecina brzeg obszaru w kierunku od lewej do pr=
+awej tak=B1 sam=B1 (r=F3=BFn=B1)=20
+liczb=EA razy jak od prawej do lewej.
+Kierunek obchodzenia konturu (jego orientacja) jest okre=B6lony przez w=B3a=
+=B6ciwy dla niego =20
+obiekt klasy <code>PathIterator</code>. Intuicyjnie - kierunek ten jest okr=
+e=B6lony przez przej=B6cie od pocz=B1tku do ko=F1ca,=20
+kszta=B3ty zamkni=EAte zgodnie z ruchem wskaz=F3wek zegara, jednak dla bard=
+ziej z=B3o=BFonych kontur=F3w mo=BFe to nie
+by=E6 jasne.
+</li>
+</ul>
+Od tego jak okre=B6limy wn=EAtrze z=B3o=BFonego obszaru zale=BFy, gdzie b=
+=EAd=B1 pojawia=E6 si=EA dziury po jego wype=B3nieniu=20
+p=EAdzlem. Domy=B6lnie przyjmowany jest spos=F3b <code>WIND_NON_ZERO</code>=
+.
+
+
+<a name=3D"W5.3.2.2"><h4>3.2.2. Obszary</h4></a>
+
+<p>
+Klasa <code>Area</code> definiuje obszary i operacje algebraiczne, jakie mo=
+=BFna na nich wykonywa=E6: dodawanie,
+odejmowanie i przecinanie obszar=F3w. Obiekt tej klasy tworzy si=EA konstru=
+ktorem bezargumentowym=20
+<code>Area()</code> lub podaj=B1c pocz=B1tkowy kszta=B3t: <code>Area(Shape =
+s)</code>, kt=F3rego wn=EAtrze b=EAdzie tworzy=E6 ten obszar.
+</p>
+
+<p>
+Bardziej z=B3o=BFone obszary uzyskuje si=EA wykonuj=B1c nast=EApuj=B1ce ope=
+racje:
+</p><ul>
+<li><code>add(Area a)</code> - dodaje nowy obszar.</li>
+<li><code>subtract(Area a)</code> - z obszaru <code>this</code> usuwa wszys=
+tkie punkty obszaru <code>a</code>.</li>
+<li><code>intersect(Area a)</code> - pozostawia punkty nale=BF=B1ce jednocz=
+e=B6nie do <code>this</code> i <code>a</code>.</li>
+<li><code>exclusiveOr(Area a)</code> - dodaje obszar <code>a</code>, a nast=
+=EApnie usuwa cz=EA=B6=E6 wsp=F3ln=B1=20
+<code>this</code> (pierwotnego) i <code>a</code>.</li>
+</ul>
+<p></p>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/Shapes.png"=
+ alt=3D"images/Shapes.png" align=3D"right">
+
+<p>
+W kolejnym programie metoda <code>octopus()</code>  pokazuje jak tworzy=E6 =
+z=B3o=BFone kszta=B3ty. Jej pierwszy i drugi
+argument okre=B6la po=B3o=BFenie figury, a trzeci wielko=B6=E6. Warto zauwa=
+=BFy=E6, =BFe elipsy dodawane jako oczy, le=BF=B1
+we wn=EAtrzu tworzonych obszar=F3w - ale mo=BFna to zmieni=E6 podaj=B1c do =
+konstruktora <code>GeneralPath</code>=20
+argument <code>GeneralPath.WIND_EVEN_ODD</code>.
+Zastosowanie antyaliasingu do wykre=B6lania zielonych kszta=B3t=F3w wyg=B3a=
+dza ich kontury.=20
+</p>
+
+<pre class=3D"code">
+import java.awt.*;
+import javax.swing.*;
+import java.awt.geom.*;
+
+class Shapes extends JPanel
+{
+   =20
+    public void paintComponent(Graphics g){
+       =20
+        super.paintComponent(g);
+        Graphics2D g2d =3D (Graphics2D)g;
+               =20
+        Shape ob =3D octopus(60, 100, 11);
+        g2d.setColor(Color.blue);
+        g2d.fill(ob);
+        g2d.setColor(Color.yellow);
+        g2d.draw(ob);
+       =20
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,=20
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+       =20
+        Area af =3D new Area(octopus(130, 130, 11));
+        af.subtract(new Area(new Ellipse2D.Float(135, 145, 22, 11)));
+        af.subtract(new Area(new Ellipse2D.Float(102, 145, 22, 11)));
+        g2d.setColor(Color.green.darker().darker());
+        g2d.fill(af);
+
+        Shape so =3D octopus(110, 20, 14);           =20
+        Area ao =3D new Area(so);
+        ao.add(new Area(octopus(80, 70, 5)));
+        ao.add(new Area(octopus(140, 70, 5)));
+        g2d.draw(so);       =20
+        g2d.setColor(new Color(180, 220, 60, 150));
+        g2d.fill(ao);
+        g2d.setColor(Color.black);
+        g2d.draw(ao);       =20
+    }
+
+
+    Shape octopus(int x, int y, int s){
+        GeneralPath gp =3D new GeneralPath();
+       =20
+        gp.append(new Ellipse2D.Float(x+s, y+s, s, 2*s), false);
+        gp.append(new Ellipse2D.Float(x-2*s, y+s, s, 2*s), false);
+       =20
+        gp.moveTo(x, y);
+        gp.lineTo(x+s, y);
+        gp.quadTo(x+5*s, y, x+5*s, y+5*s);
+        gp.curveTo(x+s, y+2*s, x+3*s, y+4*s, x, y+5*s);
+        gp.curveTo(x-3*s, y+4*s, x-s, y+2*s, x-5*s, y+5*s);
+        gp.quadTo(x-5*s, y, x-s, y);
+        gp.closePath();
+        return gp;
+    }
+       =20
+    public Dimension getPreferredSize(){
+        return new Dimension(200, 200);
+    }
+   =20
+    public static void main(String[] args){
+       =20
+        JFrame frame =3D new JFrame("Shapes");
+        JPanel shape =3D new Shapes();
+        frame.getContentPane().add(shape);
+        frame.setLocation(300, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.show();
+    }
+}
+</pre>
+
+<a name=3D"W5.3.2.3"><h4>3.2.3. Teksty</h4></a>
+
+<p>
+Do graficznej reprezenatacji napis=F3w s=B3u=BFy klasa <code>java.awt.font.=
+TextLayout</code>.=20
+Obiekt tej klasy jest odpowiedzialny za zwymiarowanie napisu w aktualnym ko=
+ntek=B6cie.=20
+Podstawowy konstruktor=20
+</p><pre class=3D"syntax"><code>TextLayout(String s, Font f, FontRenderCont=
+ext frc)</code>
+</pre>
+pobiera jako trzeci argument <code>frc</code> odniesienie do obiektu obrazo=
+wania=20
+czcionki. Mo=BFna go uzyska=E6 metod=B1 z klasy <code>Graphics2D</code> o n=
+azwie=20
+<code>getFontRenderContext()</code>.=20
+<p></p>
+
+Wykre=B6lanie napisu przy pomocy klasy <code>TextLayout</code> mo=BFe by=E6=
+ wykonane na dwa sposoby:=20
+
+<ul>
+<li>metod=B1 <code>draw(Graphics2D g, float x, float y)</code> - gdzie <cod=
+e>g</code> to kontekst graficzny a <code>x, y</code>
+s=B1 wsp=F3=B3rz=EAdnymi pocz=B1tku linii bazowej napisu.</li>
+
+<li>poprzez uzyskanie odniesienia do kszta=B3tu tego napisu metod=B1 <br>
+<code>Shape getOutline(AffineTransform af)</code> (o przekszta=B3ceniach af=
+inicznych dalej), przekazuj=B1c jako=20
+argument <code>null</code>.</li>
+</ul>
+
+<p>
+W obu przypadkach mo=BFe by=E6 potrzebna metoda <code>Rectangle2D getBounds=
+()</code> -=20
+zwracaj=B1ca prostok=B1t, w kt=F3rym mie=B6ci si=EA napis.
+</p><p>
+</p><div class=3D"important">
+Wsp=F3=B3rz=EAdna pionowa jego po=B3o=BFenia (lewego-g=F3rnego rogu) b=EAdz=
+ie ujemna, poniewa=BF
+jest ona liczona wzgl=EAdem lewego pocz=B1tku linii bazowej tekstu.=20
+Wsp=F3=B3rz=EAdna pozioma mo=BFe by=E6 ujemna, je=B6li pismo jest pochy=B3e=
+.
+</div>
+<p></p>
+<p></p>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/Text2D.png"=
+ alt=3D"images/Text2D.png" align=3D"right">
+
+<p>
+Przyk=B3adowy program wy=B6wietla dwoma sposobami napisy, u=BFywaj=B1c=20
+klasy <code>AlphaComposite</code> do ustalenia sposobu nak=B3adania kolor=
+=F3w.=20
+Wykre=B6lanie w buforze jest potrzebne dla unikni=EAcia niepo=BF=B1danej in=
+terakcji z innymi,=20
+ju=BF wykre=B6lonymi, kolorami kontekstu graficznego.
+U=BFyta metoda <code>translate(int x, int y)</code> z klasy <code>Graphics<=
+/code>
+przemieszcza wsp=F3=B3rz=EAdne wykre=B6lacza tak, =BFe jego pocz=B1tek (<co=
+de>[0,0]</code>)=20
+b=EAdzie w miejscu okre=B6lonym przez argumenty <code>[x,y]</code>.=20
+Nale=BFy zwr=F3ci=E6 uwag=EA na spos=F3b pozycjonowania tekstu - r=F3=BFny =
+w obu przypadkach.
+</p>
+
+<pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+import java.awt.font.*;
+import java.awt.geom.*;
+import java.awt.image.*;
+
+class Text2D extends JPanel
+{
+    public void paintComponent(Graphics g){
+       =20
+        super.paintComponent(g);
+        Graphics2D g2d =3D (Graphics2D)g;
+        int h =3D getHeight();
+        int w =3D getWidth();   =20
+        FontRenderContext frc =3D g2d.getFontRenderContext(); =20
+            // napisy wykreslamy w buforze
+        BufferedImage bimg =3D new BufferedImage(w, h, BufferedImage.TYPE_I=
+NT_ARGB);
+        Graphics2D gbi =3D bimg.createGraphics();
+ =20
+            // wykreslenie napisu "2D"=20
+        Font fb =3D new Font("Lucida Bright", Font.BOLD, getHeight());
+        TextLayout tlb =3D new TextLayout("2D", fb, frc);
+            // dla ustalenia polozenia napisu
+        Rectangle2D rb =3D tlb.getBounds();
+        gbi.setColor(Color.cyan);
+        tlb.draw(gbi,=20
+                (float)(w-rb.getWidth()-rb.getX())/2,=20
+                h/2+(float)rb.getHeight()/2);
+                       =20
+            // wykreslenie napisu "Java"=20
+        Font ff =3D new Font("Serif",=20
+                            Font.BOLD|Font.ITALIC,=20
+                            (int)(0.6*h));
+        TextLayout tlf =3D new TextLayout("Java", ff, frc);                =
+                            =20
+            // dla ustalenia polozenia napisu
+        Rectangle2D rf =3D tlf.getBounds();
+        Shape st =3D tlf.getOutline(null);
+        int yPos =3D (int)((h-rf.getHeight())/2);
+        int xPos =3D (int)((w-rf.getWidth())/2);
+            // przemieszczenie uk=B3adu wsp=F3=B3rz=EAdnych
+        gbi.translate(xPos-rf.getX(), yPos-rf.getY());
+            // ustalenie trybu nakladania kolorow w buforze
+        gbi.setComposite(AlphaComposite.SrcOut);
+        gbi.setColor(Color.blue);
+        gbi.fill(st);
+        gbi.setComposite(AlphaComposite.Src);
+        gbi.setColor(Color.yellow);
+        gbi.draw(st);
+       =20
+        g2d.setColor(new Color(217, 127, 255));
+        g2d.fillRect(0, 0, w, h);
+        g2d.drawImage(bimg, null, 0, 0);
+       =20
+    }
+   =20
+    public Dimension getPreferredSize(){
+        return new Dimension(300, 200);
+    }
+   =20
+    public static void main(String[] args){
+       =20
+        JFrame frame =3D new JFrame("Text2D");
+        JPanel textd =3D new Text2D();
+        frame.getContentPane().add(textd);
+        frame.setLocation(300, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.show();
+    }
+}
+</pre>
+
+<a name=3D"W5.3.2.4"><h4>3.2.4. Zawieranie</h4></a>
+
+Interfejs <code>Shape</code> zawiera nast=EApuj=B1ce metody (typu <code>boo=
+lean</code>)
+umo=BFliwiaj=B1ce rozstrzyganie wzajemnego po=B3o=BFenia danego obszaru wzg=
+l=EAdem innych:
+
+<div class=3D"notel">
+Sprawdzanie zawierania si=EA punkt=F3w mo=BFna r=F3wnie=BF wykonywa=E6 w st=
+osunku do tekst=F3w.=20
+Klasa <code>TextLayout</code> udost=EApnia w tym celu kilka metod, zwracaj=
+=B1cych=20
+obiekt klasy <code>TextHitInfo</code>.
+Do pobrania prostok=B1ta ograniczaj=B1cego dany obiekt s=B3u=BFy metoda <co=
+de>getBounds()</code>.
+Jest ona zdefiniowana w klasie <code>TextLayout</code>, jak r=F3wnie=BF w i=
+nterfejsie=20
+<code>Shape</code>.
+</div>
+
+
+<ul>
+<li>
+testowanie zawierania si=EA podanego punktu w tym obszarze:
+<br><code>contains(Point2D p)</code>,=20
+<br><code>contains(double x, double y)</code>
+</li>
+<li>
+sprawdzenie, czy podany prostok=B1t le=BFy w tym konturze:=20
+<br><code>contains(Rectangle2D r)</code>,=20
+<br><code>contains(double x, double y, double w, double h)</code>
+</li>
+<li>
+czy przeci=EAcie tego obszaru z podanym prostok=B1tem jest niepuste:
+<br><code>intersects(Rectangle2D r)</code>,=20
+<br><code>intersects(double x, double y, double w, double h)</code>
+</li>
+</ul>
+
+<p>
+W klasie <code>Graphics2d</code> jest metoda=20
+<code>hit(Rectangle r, Shape s, boolean stroke)</code>, kt=F3ra sprawdza cz=
+y
+prostok=B1t <code>r</code> przecina kontur <code>s</code>.=20
+Je=B6li <code>stroke</code> ma warto=B6=E6 <code>false</code>, to jest bran=
+e
+pod uwag=EA wn=EAtrze kszta=B3tu <code>s</code>, w przeciwnym wypadku spraw=
+dzane jest=20
+przeci=EAcie jego zarysu=20
+(wykonanego przy pomocy obowi=B1zuj=B1cego pi=F3ra) z prostoko=B1tem <code>=
+r</code>.
+</p>
+
+
+<a name=3D"W5.3.3"><h3>3.3. Rysowanie linii</h3></a>
+
+<p>
+W przeciwie=F1stwie do klasy <code>Graphics</code>, w <code>Graphics2D</cod=
+e> mo=BFna=20
+wykre=B6la=E6 linie o dowolnej grubo=B6ci.
+Przez =B6rodek pogrubionej linii przechodzi linia =B6rodkowa, kt=F3rej wsp=
+=F3=B3rz=EAdne podaje=20
+si=EA przy wykre=B6laniu.
+Ponadto, opr=F3cz linii prostych i =B3amanych mo=BFna wykre=B6la=E6 krzywe =
+okre=B6lonych typ=F3w.
+</p>
+
+
+<a name=3D"W5.3.3.1"><h4>3.3.1. Pi=F3ra</h4></a>
+
+<p>
+</p><div class=3D"def">
+<dfn>Pi=F3ra</dfn> s=B1 obiektami klas implementuj=B1cych interfejs <code>S=
+troke</code>.=20
+Klasa <code>BasicStroke</code> implementuje ten interfejs i dostarcza dodat=
+kowe=20
+metody okre=B6laj=B1ce grubo=B6=E6, kszta=B3ty zagi=EAcia, zako=F1czenia lu=
+b przerywanie linii.=20
+</div>
+<p></p>
+
+<p>
+Konstruktor <code>BasicStroke()</code> konstruuje pi=F3ro domy=B6lne,=20
+a <code>BasicStroke(float width)</code> - pi=F3ro o podanej szeroko=B6ci.=
+=20
+Pozosta=B3e konstruktory zostan=B1 opisane dalej.
+Pi=F3ro domy=B6lne wykre=B6la ci=B1g=B3y =B6lad o szeroko=B6ci jednego piks=
+ela.=20
+Metoda <code>setStroke(Stroke s)</code> (w klasie <code>Graphics2D</code>) =
+ustala
+nowy kszta=B3t pi=F3ra, kt=F3ry jest zazwyczaj obiektem klasy <code>BasicSt=
+roke</code>,=20
+natomiast metoda <code>Stroke getStroke()</code> dostarcza aktualne pi=F3ro=
+.=20
+</p>
+
+<a name=3D"W5.3.3.2"><h4>3.3.2. Zako=F1czenia linii</h4></a>
+
+<p>
+Linie mog=B1 mie=E6 trzy rodzaje zako=F1cze=F1 okre=B6lanych  sta=B3ymi kla=
+sy=20
+<code>BasicStroke</code>:
+</p>
+
+<div class=3D"def">
+<ul>
+<li><code>static int CAP_BUTT</code> - =B6ci=EAte</li>
+<li><code>static int CAP_ROUND</code> - p=F3=B3koliste</li>
+<li><code>static int CAP_SQUARE</code> - kwadratowe (domy=B6lna)</li>
+</ul>
+</div>
+
+
+<a name=3D"W5.3.3.3"><h4>3.3.3. Po=B3=B1czenia linii</h4></a>
+
+Po=B3=B1czenie dw=F3ch linii mo=BFe by=E6 zako=F1czone na trzy sposoby:
+
+<p>
+</p><div class=3D"def">
+<ul>
+<li><code>static int JOIN_BEVEL</code> - sp=B3aszczone</li>
+<li><code>static int JOIN_ROUND</code> - zaokr=B1glone</li>
+<li><code>static int JOIN_MITER</code> - zaostrzone (domy=B6lne)</li>
+</ul>
+</div>
+<p></p>
+
+<p>
+Konstruktor <code>BasicStroke(float width, int cap, int join)</code> pozwal=
+a=20
+ustali=E6 spos=F3b zako=F1czenia i =B3=B1czenia linii inny ni=BF domy=B6lne=
+.
+Je=B6li linie s=B1 nachylone do siebie pod ma=B3ym k=B1tem a =B3=B1czenie j=
+est zaostrzone -=20
+to mo=BFe okaza=E6 si=EA zbyt d=B3ugie. Mo=BFna je ograniczy=E6 dodatkowym =
+argumentem konstruktora,=20
+kt=F3ry okre=B6li maksymaln=B1 d=B3ugo=B6=E6 zaostrzenia:=20
+<br><code>BasicStroke(float width, int cap, int join, float miterLimit)</co=
+de>.
+Je=B6li =B3=B1czenie przekracza <code>miterLimit</code>, to  zostaje zast=
+=B1pione po=B3=B1czeniem=20
+sp=B3aszczonym.=20
+</p>
+
+
+<a name=3D"W5.3.3.4"><h4>3.3.4. Linie przerywane</h4></a>
+
+<p>
+Wykre=B6lana linia nie musi by=E6 ci=B1g=B3a - mo=BFe by=E6 przerywana. Par=
+ametry okre=B6laj=B1ce=20
+spos=F3b przerywania i moment jego rozpocz=EAcia podaje si=EA w tablicy jak=
+o argument=20
+konstruktora:
+</p><pre class=3D"syntax">BasicStroke(float w, int cap, int join, float mLi=
+m, float[] dash, float phase).
+</pre>
+Parametr <code> float[] dash </code> jest tablic=B1 zawieraj=B1c=B1 d=B3ugo=
+=B6ci kresek i=20
+odst=EAp=F3w. Przerywanie linii nast=B1pi od miejsca okre=B6lonego przez pa=
+rametr=20
+<code>phase</code> (jesli <code>phase =3D=3D 0</code>, to od razu).
+<p></p>
+
+<a name=3D"W5.3.3.5"><h4>3.3.5. Przyk=B3ad rysowania linii</h4></a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/LinesDemo.p=
+ng" alt=3D"images/LinesDemo.png" align=3D"right">
+
+<p>
+Program b=EAdzie rysowa=B3 linie r=F3=BFnymi pi=F3rami, o r=F3=BFnych zako=
+=F1czeniach i sposobach=20
+=B3=B1czenia. Ka=BFda z nich jest rysowana dwoma pi=F3rami: cienkie pokazuj=
+e lini=EA =B6rodkow=B1=20
+grubego.Nale=BFy zwr=F3ci=E6 uwag=EA na podobie=F1stwa i r=F3=BFnice pomi=
+=EAdzy zako=F1czeniem =B6ci=EAtym =20
+(kolor magenta) i kwadratowym (kolor zielony). Linia przerywana jest wykre=
+=B6lana od=20
+lewego-g=F3rnego ko=F1ca z przesuni=EAciem 10 pikseli i ma zaostrzone =B3=
+=B1czenie.
+</p>
+
+<pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+
+class LinesDemo extends JPanel
+{
+   =20
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        Graphics2D g2d =3D (Graphics2D)g;
+       =20
+        drawZ(g2d, Color.green, 50, 50, 15,=20
+              new BasicStroke(20f,
+                              BasicStroke.CAP_SQUARE,
+                              BasicStroke.JOIN_MITER,
+                              10
+                              ));
+       =20
+        drawZ(g2d, Color.blue, 90, 100, 40,=20
+              new BasicStroke(5f,
+                              BasicStroke.CAP_ROUND,
+                              BasicStroke.JOIN_MITER,
+                              5f,
+                              new float[]{10f, 15f},
+                              10f
+                              ));
+       =20
+        drawZ(g2d, Color.cyan, 60, 25, 105,=20
+              new BasicStroke(30f,
+                              BasicStroke.CAP_ROUND,
+                              BasicStroke.JOIN_ROUND
+                              ));
+                     =20
+        drawZ(g2d, Color.magenta, 30, 140, 150,=20
+              new BasicStroke(10f,
+                              BasicStroke.CAP_BUTT,
+                              BasicStroke.JOIN_BEVEL
+                              ));
+    }
+   =20
+        // rysuje duza litere 'Z'
+    void drawZ(Graphics2D g2d, Color c,=20
+               int st, int sx, int sy,=20
+               BasicStroke stroke){
+        int[] xv =3D new int[]{sx, sx+st, sx, sx+st};
+        int[] yv =3D new int[]{sy, sy, sy+st, sy+st};
+        g2d.setColor(c);
+        g2d.setStroke(stroke); =20
+        g2d.drawPolyline(xv, yv, 4);
+        g2d.setColor(c.darker());
+        g2d.setStroke(new BasicStroke()); =20
+        g2d.drawPolyline(xv, yv, 4);
+    }
+ =20
+    public Dimension getPreferredSize(){
+        return new Dimension(200, 200);
+    }
+   =20
+    public static void main(String[] args){
+        JFrame frame =3D new JFrame("LinesDemo");
+        JPanel lines =3D new LinesDemo();
+        frame.getContentPane().add(lines);
+        frame.setLocation(200, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.show();
+    }
+}
+</pre>
+
+<a name=3D"W5.3.4"><h3>3.4. Wype=B3nianie obszar=F3w</h3></a>
+
+<p>
+Do malowania i wype=B3niania s=B3u=BF=B1 p=EAdzle - obiekty klas implementu=
+j=B1cych interfejs=20
+<code>Paint</code>. Trzy takie klasy dostarczone przez Java API znajduj=B1 =
+si=EA w=20
+pakiecie <code>java.awt</code>. Odpowiadaj=B1 one trzem sposobom wype=B3nia=
+nia obszar=F3w:
+</p>
+
+<p>
+</p><div class=3D"def">
+<ul>
+<li>kolorem - klasa <code>Color</code>,</li>
+<li>gradientem - gam=B1 kolor=F3w utworzon=B1 na podstawie dw=F3ch podanych=
+ kolor=F3w - klasa <code>GradientPaint</code>,</li>
+<li>tekstur=B1 - powielonym obrazem graficznym - klasa <code>TexturePaint</=
+code>.</li>
+</ul>
+</div>
+<p></p>
+
+Do ustalania p=EAdzla s=B3u=BFy polecenie <code>setPaint(Paint p)</code>, a=
+ jego aktualn=B1=20
+warto=B6=E6 mo=BFna pobra=E6 metod=B1: <code>getPaint()</code>.
+
+
+<a name=3D"W5.3.4.1"><h4>3.4.1. Wype=B3nianie gradientem</h4></a>
+
+<p>
+Malowanie gradientem polega na podaniu dw=F3ch punkt=F3w <code>P1,P2</code>=
+ i ich=20
+kolor=F3w <code>C1,C2</code>. Kolory punkt=F3w le=BF=B1cych na odcinku <cod=
+e>[P1,P2]</code>=20
+b=EAd=B1 zmienia=E6 si=EA od <code>C1</code> do <code>C2</code>.=20
+Punkty prostej wyznaczonej przez ten odcinek maj=B1 kolory:
+</p>
+
+<p>
+</p><div class=3D"def">
+<ul>
+<li>
+je=B6li gradient jest <dfn>acykliczny</dfn> to punkty le=BF=B1ce za <code>P=
+1</code>=20
+maj=B1 kolor <code>C1</code>, a punkty le=BF=B1ce za <code>P2</code> maj=B1=
+ kolor=20
+<code>C2</code>
+</li>
+<li>
+je=B6li gradient jest <dfn>cykliczny</dfn> to punkty prostej le=BF=B1ce na =
+zewn=B1trz=20
+odcinka maj=B1 kolory cyklicznie zmieniaj=B1ce si=EA, jak wewn=B1trz odcink=
+a
+</li>
+</ul>
+Pozosta=B3e punkty maj=B1 taki kolor, jak ich rzut prostopad=B3y na prost=
+=B1=20
+<code>[P1,P2]</code>.
+</div>
+<p></p>
+
+W klasie <code>GradientPaint</code> s=B1 cztery konstruktory:
+
+<p>
+</p><pre class=3D"syntax">GradientPaint(float x1, float y1, Color c1, float=
+ x2, float y2, Color c2)
+GradientPaint(float x1, float y1, Color c1, float x2, float y2, Color c2, b=
+oolean ac)
+GradientPaint(Point p1, Color c1, Point p2, Color c2)
+GradientPaint(Point p1, Color c1, Point p2, Color c2, boolean ac)
+</pre>
+
+<p></p>
+
+Pierwszy i trzeci konstruuj=B1 domy=B6lny gradient acykliczny, drugi i czwa=
+rty pozwalaj=B1 ustali=E6
+acykliczno=B6=E6.
+
+
+<a name=3D"W5.3.4.2"><h4>3.4.2. Wype=B3nianie tekstur=B1</h4></a>
+
+<p>
+Malowanie tekstur=B1 polega na powielaniu obrazu graficznego we wszystkich =
+kierunkach.
+Konstruktor p=EAdzla teksturowego=20
+</p><pre class=3D"syntax">TexturePaint(BufferedImage img, Rectangle2D rec)=
+=20
+</pre>
+
+pobiera jako argumenty powielany obraz (kt=F3ry powinien by=E6 mo=BFliwie m=
+a=B3y) i=20
+punkt jego zaczepienia w kontek=B6cie graficznym.
+Obraz mo=BFe by=E6 tworzony dynamicznie poprzez rysowanie na wykre=B6laczu =
+pozyskanym od=20
+obiektu <code>img</code>, ale mo=BFe te=BF by=E6 ikon=B1 wczytan=B1 z pliku=
+ (a nast=EApnie=20
+odrysowan=B1 na tym wykre=B6laczu). Argument <code>rec</code> okre=B6la obs=
+zar wewn=B1trz=20
+kontekstu graficznego (tego, kt=F3rego dotyczy zmiana p=EAdzla).
+Zostanie na nim odrysowany obraz dostarczony przez argument <code>img</code=
+>,=20
+a nast=EApnie powielony na tym wykre=B6laczu we wszystkich kierunkach.=20
+Po=B3o=BFenie prostok=B1ta <code>rec</code> wp=B3ywa na przesuni=EAcie teks=
+tury w=20
+kontek=B6cie graficznym, natomiast jego rozmiary okre=B6laj=B1 rozmiar wyni=
+kowy pojedynczego=20
+obrazu i w zwi=B1zku z tym umo=BFliwiaj=B1 - je=B6li s=B1 r=F3=BFne od rozm=
+iar=F3w tego obrazu -=20
+jego skalowanie.
+<p></p>
+
+<a name=3D"W5.3.4.3"><h4>3.4.3. Przyk=B3ad zastosowania p=EAdzli</h4></a>
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/PaintShow.p=
+ng" alt=3D"images/PaintShow.png" align=3D"right">
+
+<p>
+Poni=BFszy programik ilustruje spos=F3b u=BFycia gradient=F3w (cykliczny i =
+acykliczny),=20
+oraz tekstur utworzonych z pliku, b=B1d=BC dynamicznie, poprzez rysowanie n=
+a wykre=B6laczu.
+</p>
+
+<pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+import java.awt.image.*;
+import java.awt.geom.*;
+
+class PaintShow extends JPanel
+{
+    ImageIcon imic;
+    Image img;
+   =20
+    PaintShow(String icName){
+        imic =3D new ImageIcon(icName);
+        img =3D imic.getImage();
+    }
+
+    public void paintComponent(Graphics g){
+       =20
+        super.paintComponent(g);
+       =20
+        Graphics2D g2d =3D (Graphics2D)g;
+        int w =3D getWidth();
+        int h =3D getHeight();
+       =20
+        Paint paint;
+       =20
+        paint =3D new GradientPaint(w/7, h/7, Color.red,=20
+                                  w/3, h/3, Color.green);
+        g2d.setPaint(paint);
+        g2d.fillRect(0, 0, w/2, h/2);   =20
+       =20
+        paint =3D new GradientPaint(w*2/3, h*2/3, Color.yellow,=20
+                                  w*3/4, h*3/4, Color.blue,=20
+                                  true);
+        g2d.setPaint(paint);
+        g2d.fillRect(w/2, h/2, w/2, h/2);   =20
+       =20
+        BufferedImage bimg;
+        Graphics imgr;
+        Rectangle rect;
+       =20
+        int iw =3D 15;
+        int ih =3D 15;               =20
+        bimg =3D new BufferedImage(iw, ih, BufferedImage.TYPE_INT_RGB);
+        imgr =3D bimg.createGraphics();
+        imgr.setColor(Color.magenta);
+        imgr.fillRect(0, 0, iw-1, ih-1);
+        imgr.setColor(Color.cyan);
+        imgr.fillOval(0, 0, iw-2, ih-2);
+        rect =3D new Rectangle(iw/2, h/2+ih/2, iw, ih);
+        paint =3D new TexturePaint(bimg, rect);
+        g2d.setPaint(paint);
+        g2d.fillRect(0, h/2, w/2, h/2);   =20
+           =20
+        iw =3D imic.getIconWidth();       =20
+        ih =3D imic.getIconHeight();       =20
+        bimg =3D (BufferedImage)this.createImage(iw, ih);
+        imgr =3D bimg.getGraphics();
+        imgr.drawImage(img, 0, 0, null);
+        rect =3D new Rectangle(w/2, 0, iw/2, ih/2); // skalowanie
+        paint =3D new TexturePaint(bimg, rect);
+        g2d.setPaint(paint);
+        g2d.fillRect(w/2, 0, w/2, h/2);   =20
+    }
+
+    public Dimension getPreferredSize(){
+        return new Dimension(200, 200);
+    }
+   =20
+    public static void main(String[] args){
+       =20
+        JFrame frame =3D new JFrame("PaintShow");
+        JPanel paint =3D new PaintShow(args[0]);
+        frame.getContentPane().add(paint);
+        frame.setLocation(300, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.show();
+    }
+}
+</pre>
+<p>
+Jako argument wywo=B3ania trzeba przekaza=E6 nazw=EA pliku z ikonk=B1.
+</p>
+
+<a name=3D"W5.3.5"><h3>3.5. Przekszta=B3cenia afiniczne</h3></a>=20
+
+<div class=3D"notel33">
+<h5>Przypomnienie:</h5>
+Przekszta=B3cenie afiniczne przeprowadza proste na proste i zachowuje ich r=
+=F3wnoleg=B3o=B6=E6.
+Ka=BFde takie przekszta=B3cenie jest z=B3o=BFeniem przekszta=B3ce=F1 elemen=
+tarnych:
+przesuni=EAcia, rozci=B1gania, symetrii wzgl=EAdem prostej (i ew. obrotu).=
+=20
+</div>
+
+<p>
+Ka=BFdy obiekt graficzny mo=BFe zosta=E6 poddany afinicznemu przekszta=B3ce=
+niu, kt=F3re jest
+obiektem klasy <code>java.awt.geom.AffineTransform</code>.=20
+Obiekty przekszta=B3cenia mo=BFna konstruowa=E6 podaj=B1c jako argument kon=
+struktora jego macierz.
+Jednak w wi=EAkszo=B6ci przypadk=F3w wygodniej jest wykorzysta=E6 konstrukt=
+or bezparametrowy <code>AffineTransform()</code>
+i sk=B3ada=E6 przekszta=B3cenie wywo=B3uj=B1c metody b=EAd=B1ce przekszta=
+=B3ceniami elementarnymi:
+</p>
+
+
+<p>
+</p><div class=3D"def">
+<ul>
+<li><code>void translate(double x, double y)</code> - przesuni=EAcie o wekt=
+or <code>[x, y]</code></li>
+<li>
+<code>void scale(double x, double y)</code> - rozci=B1ganie o wsp=F3=B3czyn=
+nikach <code>x</code> i <code>y</code>,
+dla ujemnych argument=F3w jest z=B3o=BFone z symetri=B1
+</li>
+<li>
+<code>void rotate(double t, double x, double y)</code> - obr=F3t o k=B1t <c=
+ode>t</code> wzgl=EAdem punktu <code>[x,y]</code>
+</li>
+<li>
+<code>void shear(double x, double y)</code> - przekszta=B3cenie no=BFycowe =
+-=20
+z=B3o=BFenie obrotu z rozci=B1ganiem
+</li>
+</ul>
+</div>
+<p></p>
+
+<p>
+Innym sposobem jest wykorzystanie statycznych metod <code>getXxxInstance(..=
+.)</code>,=20
+(gdzie <code>Xxx</code> jest nazw=B1 jednego z powy=BFszych przekszta=B3ce=
+=F1) kt=F3re zwracaj=B1=20
+gotowy obiekt .
+</p>
+
+<p>
+Ka=BFdy kontekst graficzny ma obowi=B1zuj=B1ce przekszta=B3cenie afiniczne,=
+ kt=F3re jest aplikowane do jego
+uk=B3adu wsp=F3=B3rz=EAdnych przed wykre=B6laniem. Domy=B6lnie jest to iden=
+tyczno=B6=E6. Mo=BFna je zmieni=E6 metod=B1=20
+<code>setTransform(AffineTransform af)</code> (ale potem koniecznie trzeba =
+przywr=F3ci=E6 oryginalne, uzyskane
+metod=B1 <code>getTransform()</code>), albo sk=B3ada=E6 z przekszta=B3ce=F1=
+ elementarnych metodami=20
+<code>rotate()</code>, <code>scale()</code>, <code>shear()</code>, <code>tr=
+anslate()</code> - odpowiednikami metod z klasy=20
+<code>AffineTransform</code>. Drugi spos=F3b jest preferowany, poniewa=BF p=
+odmiana obowi=B1zuj=B1cego przekszta=B3cenia
+mo=BFe wprowadzi=E6 w b=B3=B1d zarz=B1dc=F3w rozk=B3ad=F3w, kt=F3rzy z nieg=
+o korzystaj=B1.
+</p>
+
+<p>
+Napisy mo=BFna poddawa=E6 przekszta=B3ceniom bezpo=B6rednio - nie korzystaj=
+=B1c z przekszta=B3cania kontekstu graficznego.
+Umo=BFliwia to metoda <code>Font deriveFont(AffineTransform af)</code> z kl=
+asy <code>Font</code>, jak i wspomniana wcze=B6niej
+metoda <code>Shape getOutline(AffineTransform af)</code> z klasy <code>Text=
+Layout</code>. Pierwsza dostarcza przekszta=B3con=B1
+wersj=EA czcionki, druga - napisu.
+</p>
+
+<a name=3D"W5.3.5.1"><h4>3.5.1. Przyk=B3ad przekszta=B3ce=F1 afinicznych</h=
+4></a>=20
+
+
+<img src=3D"https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/AffineTrans=
+form.png" alt=3D"images/AffineTransform.png" align=3D"right">
+
+<p>
+Kolejny obrazek wraz z programem ilustruj=B1 przekszta=B3canie afiniczne ko=
+ntekstu=20
+graficznego. Najpierw jest on przesuwany, aby punkt <code>[0,0]</code> znal=
+az=B3 si=EA=20
+na =B6rodku.Nast=EApnie zostaje odbity wzgl=EAdem osi poziomej (przy pomocy=
+ skalowania o=20
+wsp=F3=B3czynniku -1), aby wsp=F3=B3rz=EAdne pionowe ros=B3y w g=F3r=EA. Po=
+tem wykre=B6lany jest=20
+uk=B3ad wsp=F3=B3rz=EAdnych, ko=B3o i kwadrat, kt=F3re maj=B1 pokazywa=E6 j=
+ak dzia=B3aj=B1 kolejne przekszta=B3cenia.
+</p>
+
+<pre class=3D"code">import java.awt.*;
+import javax.swing.*;
+import java.awt.font.*;
+import java.awt.geom.*;
+
+class Affine extends JPanel
+{
+    public void paintComponent(Graphics g){
+       =20
+        super.paintComponent(g);
+        Graphics2D g2d =3D (Graphics2D)g;
+       =20
+        g2d.translate(100, 100);
+        g2d.scale(1, -1);
+        drawAxes(g, new Color(10, 10, 200));
+       =20
+        g2d.shear(0.25, 0.25);
+        drawAxes(g, new Color(10, 200, 10));               =20
+
+        g2d.rotate(Math.PI/3);                     =20
+        drawAxes(g, new Color(200, 10, 10));               =20
+       =20
+    }
+
+    void drawAxes(Graphics g, Color c){
+        g.setColor(c);
+        g.drawLine(-100, 0, 100, 0);
+        g.drawLine(0, 100, 0, -100);
+        g.setColor(c.brighter());
+        g.drawRect(20, 20, 50, 50);
+        g.setColor(c.darker());
+        g.fillOval(-70, 20, 50, 50);
+    }
+   =20
+    public Dimension getPreferredSize(){
+        return new Dimension(200, 200);
+    }
+   =20
+    public static void main(String[] args){
+       =20
+        JFrame frame =3D new JFrame("AffineTransform");
+        JPanel affine =3D new Affine();
+        frame.getContentPane().add(affine);
+        frame.setLocation(300, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.show();
+    }
+
+}
+</pre>
+
+<hr>
+<h2><a name=3D"W5.4">4 Obrazy</a></h2><a name=3D"W5.4">
+
+<p>
+Opr=F3cz rysowania w=B3asnych obrazk=F3w istnieje mo=BFliwo=B6=E6 wykre=B6l=
+ania obraz=F3w zawartych=20
+w plikach graficznych typu <dfn>GIF</dfn>, <dfn>JPEG</dfn> lub <dfn>PNG</df=
+n>.
+Obrazy s=B1 obiektami klasy <code>java.awt.Image</code>, a w=B3a=B6ciwie je=
+j podklas -=20
+poniewa=BF jest to klasa abstrakcyjna.
+</p>
+
+</a><a name=3D"W5.4.1"><h3>4.1. Pozyskiwanie obraz=F3w</h3></a>
+
+Odniesienie do obiektu reprezentuj=B1cego obraz mo=BFna uzyska=E6 na kilka =
+sposob=F3w.
+
+<ol>
+<li>Metodami klasy <code>java.awt.Toolkit</code>:
+
+<p>
+</p><div class=3D"syntax">
+<ul>
+<li><code>Image createImage(String fileName)</code> - tworzy nowy obrazek z=
+ pliku <code>fileName</code></li>
+<li><code>Image createImage(URL url)</code> - tworzy obrazek z pliku umiejs=
+cowionego w <code>url</code></li>
+<li><code>getImage(String fileName)</code>, <code>getImage(URL url)</code> =
+- buforowane warianty powy=BFszych metod.=20
+Aktualny przybornik (obiekt klasy <code>Toolkit</code>) przechowuje obrazki=
+ tworzone tymi metodami w pami=EAci=20
+podr=EAcznej aby przyspieszy=E6 kolejne wywo=B3ania tych metod z identyczny=
+m argumentami (<code>fileName</code> lub <code>url</code>).
+</li>
+</ul>
+</div>
+<p></p>
+
+<p>
+Uzyskanie w ten spos=F3b odniesienia nie gwarantuje, =BFe obrazek jest od r=
+azu w ca=B3o=B6ci=20
+za=B3adowany do pami=EAci operacyjnej i gotowy do wy=B6wietlenia.=20
+Je=B6li trzeba - =B3adowanie zostanie automatycznie doko=F1czone w osobnym =
+w=B1tku (systemowym).
+</p>
+
+<p>
+Odniesienie do w=B3a=B6ciwego obiektu klasy <code>Toolkit</code> mo=BFna uz=
+yska=E6 jej statyczn=B1 metod=B1:=20
+<code>Toolkit.getDefaultToolkit()</code>, albo metod=B1 <code>getToolkit()<=
+/code>=20
+z klasy <code>Component</code> - a wi=EAc dost=EApn=B1 w ka=BFdym komponenc=
+ie.
+</p>
+
+</li>
+
+<li>Tworz=B1c obiekt klasy <code>javax.swing.ImageIcon</code> konstruktorem=
+:
+
+<p>
+</p><div class=3D"syntax">
+<ul>
+<li><code>ImageIcon(String fileName)</code> - podaj=B1c nazw=EA pliku lub,<=
+/li>
+<li><code>ImageIcon(URL url)</code> - podaj=B1c jego lokalizacj=EA</li>
+</ul>
+</div>
+<p></p>
+i wydaj=B1c mu polecenie <code>Image getImage()</code>.=20
+Po utworzeniu obiektu <code>ImageIcon</code> obrazek b=EAdzie znajdowa=B3 s=
+i=EA w=20
+pami=EAci operacyjnej. Je=B6li =B3adowanie obrazu trwa powoli, to wywo=B3an=
+ie tego=20
+konstruktora mo=BFe zuwa=BFalnie wstrzyma=E6 wykonanie w=B1tku.
+W takich przypadkach lepiej u=BFy=E6 metod klasy <code>Toolkit</code>.
+<p>
+</p><div class=3D"important">
+Nawet je=B6li obrazka nie uda si=EA za=B3adowa=E6, metoda <code>getImage()<=
+/code>=20
+zwr=F3ci warto=B6=E6 r=F3=BFn=B1 od <code>null</code>.
+</div>
+<p></p>
+
+</li>
+
+<li>
+W apletach u=BFywa si=EA metody <code>getImage(URL url)</code> z klasy=20
+<code>java.applet.Applet</code> (nie dzia=B3a ona do momentu uzyskania prze=
+z aplet=20
+pe=B3nego kontekstu, zatem nie mo=BFna jej wywo=B3ywa=E6
+w konstruktorze apletu, ani te=BF w inicjatorach jego sk=B3adowych).
+</li>
+</ol>
+
+
+<a name=3D"W5.4.2"><h3>4.2. Wykre=B6lanie obraz=F3w</h3></a>
+
+Wykre=B6lenie obrazka r=F3wnie=BF mo=BFe by=E6 wykonane na kilka sposob=F3w=
+:
+
+<p>
+
+</p><ul>
+<li>
+Przeci=B1=BFonymi metodami <code>drawImage()</code> z klasy <code>Graphics<=
+/code>,=20
+kt=F3re wykre=B6laj=B1 za=B3adowany fragment obrazka w ca=B3o=B6ci lub poda=
+n=B1 jego cz=EA=B6=E6,=20
+ewentualnie skaluj=B1c go.
+</li>
+<li>
+Przeci=B1=BFonymi metodami <code>drawImage()</code> z klasy <code>Graphics2=
+D</code>,=20
+kt=F3re do metody odziedziczonych z <code>Graphics</code> dodaj=B1 mo=BFliw=
+o=B6=E6=20
+przekszta=B3cenia afinicznego obrazka oraz poddania go filtrowaniu.=20
+</li>
+<li>
+metod=B1 <code>paintIcon(Component c, Graphics g, int x, int y)</code> z kl=
+asy=20
+<code>ImageIcon</code> - wykre=B6la ona obrazek zaczepiony w punkcie=20
+<code>[x,y]</code> kontekstu graficznego <code>g</code>.
+Metody tej nie nale=BFy wywo=B3ywa=E6, poniewa=BF robi to VM poprzez <dfn>c=
+allback</dfn>.
+Mo=BFna j=B1 natomiast przedefiniowa=E6 dostarczaj=B1c w ten spos=F3b ikon=
+=EA wykre=B6lan=B1 przez kod javy.
+</li>
+</ul>
+
+<p></p>
+
+<p>
+Wszystkie metody <code>drawImage()</code> wymagaj=B1 podania jako jednego z=
+ argument=F3w=20
+odniesienia do obiektu typu <code>ImageObserver</code>, kt=F3ry b=EAdzie do=
+gl=B1da=B3 procesu=20
+=B3adowania obrazu. W praktyce podaje si=EA <code>this</code> odnosz=B1ce s=
+i=EA do komponentu,=20
+na kt=F3rym odbywa si=EA wykre=B6lanie. Podobn=B1 rol=EA gra  pierwszy argu=
+ment
+w <code>paintIcon()</code>.
+</p>
+
+
+<a name=3D"W5.4.3"><h3>4.3. Kontrola =B3adowania</h3></a>
+
+
+<p>
+Je=B6li szybko=B6=E6 =B3adowania obrazka jest ma=B3a w stosunku do jego roz=
+miar=F3w, to nale=BFy wykorzysta=E6 obserwator
+=B3adowania. Pozwoli on zaczeka=E6 (wstrzyma=E6 wykonanie w=B1tku) do momen=
+tu, gdy obrazek b=EAdzie za=B3adowany w=20
+odpowiedniej cz=EA=B6ci lub w ca=B3o=B6ci. Dodatkowo mo=BFna uzyskiwa=E6 in=
+formacje o post=EApach =B3adowania.
+</p>
+
+
+<a name=3D"W5.4.3.1"><h4>4.3.1. Interfejs <code>ImageObserver</code></h4></=
+a>
+
+<p>
+Interfejs <code>java.awt.image.ImageObserver</code> zawiera metod=EA=20
+<code>imageUpdate()</code>, kt=F3ra jest wywo=B3ywana (poprzez wywo=B3ania =
+zwrotne), gdy=20
+pojawi si=EA jaka=B6 nowa informacja dotycz=B1ca obrazka - np. za=B3adowano=
+ kolejny fragment.=20
+Obiekty tego typu przekazuje si=EA przewa=BFnie jako argumenty metody=20
+<code>drawImage()</code> w celu asynchronicznego wykre=B6lenia pozosta=B3ej=
+ cz=EA=B6ci obrazka,=20
+niedost=EApnej w chwili jej wywo=B3ania. Klasa <code>Component</code> imple=
+mentuje ten=20
+interfejs, wi=EAc ka=BFdy komponent jest obserwatorem =B3adowania.=20
+Zaimplementowana metoda <code>imageUpdate()</code> powoduje od=B6wie=BFenie=
+ komponentu=20
+(<code>repaint()</code>), gdy tylko kolejna porcja obrazka zostanie dostarc=
+zona -=20
+skutkuje to dorysowaniem kolejnej jego cz=EA=B6ci.
+</p>
+
+<p>
+Metoda <code>boolean imageUpdate(Image img, int flags, int x, int y, int w,=
+ int h)</code>=20
+ma zwraca=E6 <code>true</code>, je=B6li kolejne do=B3adowania b=EAd=B1 potr=
+zebne i=20
+<code>false</code> w przeciwnym przypadku - gdy uzyskano potrzebn=B1 inform=
+acj=EA.
+Argument <code>img</code> jest odniesieniem do obserwowanego obrazka,=20
+a <code>flags</code> dostarcza informacji o post=EApie =B3adowania, kt=F3re=
+ mo=BFna=20
+odczyta=E6 u=BFywaj=B1c sta=B3ych interfejsu <code>ImageObserver</code>.=20
+Interpretacja pozosta=B3ych argument=F3w zale=BFy od aktualnego stanu okre=
+=B6lonego=20
+przez <code>flags</code>.
+</p>
+
+
+<a name=3D"W5.4.3.2"><h4>4.3.2. Klasa <code>MediaTracker</code></h4></a>
+
+<p>
+Inny - prostszy - spos=F3b oczekiwania na =B3adowanie udost=EApnia klasa=20
+<code>java.awt.MediaTracker</code>. Umo=BFliwia ona jednoczesne =B6ledzenie=
+ post=EApu=20
+=B3adowania wielu obrazk=F3w. Obiekt tej klasy tworzy si=EA  konstruktorem=
+=20
+<code>MediaTracker(Component c)</code> - podaj=B1c jako argument komponent,=
+=20
+na kt=F3rym zostan=B1 wy=B6wietlone obrazki. Po uzyskaniu obiektu dodaje si=
+=EA kolejne=20
+obrazki metod=B1 <code>addImage(Image img, int id)</code> ka=BFdemu przypis=
+uj=B1c=20
+identyfikator <code>id</code> definiuj=B1cy ich grup=EA.
+Metod=B1 <code>waitForAll()</code> rozpoczyna si=EA =B3adowanie wszystkich =
+obrazk=F3w,=20
+a po ich za=B3adowaniu nast=EApuje wyj=B6cie z metody. =A3adowanie grupy (b=
+y=E6 mo=BFe=20
+jednoelementowej) nast=EApuje po wywo=B3aniu <code>waitForId(int id)</code>=
+.
+Mo=BFna r=F3wnie=BF sprawdza=E6 stan =B3adowania metodami <code>checkAll()<=
+/code>,=20
+<code>checkId()</code>, <code>statusAll()</code>, <code>statusId()</code>.=
+=20
+</p>
+
+<p>
+Klasa <code>ImageIcon</code> wykorzystuje obiekt klasy <code>MediaTracker</=
+code>=20
+do =B6ledzenia post=EApu =B3adowania obraz=F3w - ikon b=EAd=B1cych obiektam=
+i tej klasy.
+</p>
+
+
+<a name=3D"W5.4.4"><h3>4.4. Buforowanie</h3></a>
+
+<p>
+W kilku przypadkach mo=BFe by=E6 u=BFyteczne umieszczenie obrazu w buforze =
+-=20
+obiekcie klasy <code>BufferedImage</code>, kt=F3ra zreszt=B1 jest jedyn=B1 =
+znan=B1 podklas=B1=20
+abstrakcyjnej klasy <code>Image</code>:
+</p>
+
+<p>
+</p><div class=3D"notec">
+<ul>
+<li>dokonywanie operacji na obrazku (fitrowanie, przekszta=B3cenia afiniczn=
+e)</li>
+<li>tworzenie w=B3asnego obrazka w pami=EAci, bez zapisywania go do pliku</=
+li>
+<li>skr=F3cenie czasu wykre=B6lania z=B3o=BFonych, cz=EAsto u=BFywanych obr=
+az=F3w</li>
+</ul>
+</div>
+<p></p>
+
+Ostatnia technika zwana jest podw=F3jnym buforowaniem i jest cz=EAsto stoso=
+wana w=20
+animacji. Swing u=BFywa jej domy=B6lnie dla wszystkich komponent=F3w.=20
+Jej zastosowanie zobaczymy w nast=EApnym wyk=B3adzie.
+
+
+<hr>
+<center><a name=3D"W5.5"><h2>Dokumentacja i literatura</h2></a></center>
+
+<dl>
+<dt><a href=3D"http://java.sun.com/docs/books/tutorial/2d/index.html">Java =
+Tutorial</a></dt>
+<dd>Rozdzia=B3 po=B6wi=EAcony grafice dwuwymiarowej w podr=EAczniku on-line=
+.</dd>
+
+<dt><strong>Podr=EAcznik programisty</strong></dt>
+<dd>
+Dost=EApny w dokumentacji Javy w katalogu  <samp>docs/guide/2d/spec/index.h=
+tml</samp>
+oraz w wersji <a href=3D"http://java.sun.com/j2se/1.4/docs/guide/2d/spec/in=
+dex.html">on-line</a>
+</dd>
+<dt><a href=3D"http://java.sun.com/products/java-media/2D/index.html">Stron=
+a domowa projektu Java 2D</a></dt>
+</dl>
+
+
+
+</body></html>
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/STYLE/common.css
+
+@charset "iso-8859-2";
+
+pre.code { background-color: rgb(255, 255, 247); color: black; border: 1px =
+solid rgb(128, 0, 0); padding: 2%; display: block; white-space: pre; }
+
+pre.syntax { background-color: rgb(255, 255, 247); color: black; border: 2p=
+x solid dodgerblue; padding: 2%; display: block; white-space: pre; }
+
+pre.shell { background-color: rgb(51, 51, 153); color: rgb(204, 204, 204); =
+display: block; border: 4px ridge aliceblue; padding: 1%; font-size: 90%; f=
+ont-weight: bold; white-space: pre; }
+
+pre.inline { background-color: transparent; border: none; display: inline; =
+white-space: pre; padding: 0px; }
+
+pre.block { background-color: transparent; border: none; display: block; wh=
+ite-space: pre; padding: 0px; }
+
+pre { background-color: rgb(255, 255, 247); color: black; display: block; w=
+hite-space: pre; border: 1px solid rgb(128, 0, 0); padding: 2%; }
+
+div.syntax { background-color: rgb(255, 255, 247); color: black; border: 2p=
+x solid dodgerblue; padding: 2%; }
+
+div.notec { background-color: rgb(255, 255, 247); color: black; border: 1px=
+ solid rgb(128, 0, 0); padding: 1%; }
+
+div.notel { background-color: rgb(255, 255, 247); color: black; border: 1px=
+ solid rgb(128, 0, 0); font-size: 80%; margin: 2px; padding: 1%; width: 25%=
+; float: right; }
+
+div.notel33 { background-color: rgb(255, 255, 247); color: black; border: 1=
+px solid rgb(128, 0, 0); font-size: 80%; margin: 2px; padding: 1%; width: 3=
+3%; float: right; }
+
+div.noter { background-color: rgb(255, 255, 247); color: black; border: 1px=
+ solid rgb(128, 0, 0); font-size: 80%; margin: 2px; padding: 1%; width: 25%=
+; float: left; }
+
+div.noter33 { background-color: rgb(255, 255, 247); color: black; border: 1=
+px solid rgb(128, 0, 0); font-size: 80%; margin: 2px; padding: 1%; width: 3=
+3%; float: left; }
+
+div.def { background-color: rgb(255, 228, 196); color: black; border: 3px s=
+olid blue; padding: 1em; width: 90%; }
+
+div.important { background-color: rgb(255, 255, 204); color: rgb(204, 0, 0)=
+; border: 5px solid rgb(204, 0, 0); width: 90%; padding: 1%; }
+
+div.listing25r { background-color: rgb(51, 51, 153); color: rgb(204, 204, 2=
+04); border: 4px ridge aliceblue; font-family: monospace; font-size: 75%; m=
+argin: 2px; padding: 1%; width: 25%; float: right; }
+
+div.listing25l { background-color: rgb(51, 51, 153); color: rgb(204, 204, 2=
+04); border: 4px ridge aliceblue; font-family: monospace; font-size: 75%; m=
+argin: 2px; padding: 1%; width: 25%; float: left; }
+
+div.listing33r { background-color: rgb(51, 51, 153); color: rgb(204, 204, 2=
+04); border: 4px ridge aliceblue; font-family: monospace; font-size: 75%; m=
+argin: 2px; padding: 1%; width: 33%; float: right; }
+
+div.listing33l { background-color: rgb(51, 51, 153); color: rgb(204, 204, 2=
+04); border: 4px ridge aliceblue; font-family: monospace; font-size: 75%; m=
+argin: 2px; padding: 1%; width: 33%; float: left; }
+
+div.listing50 { background-color: rgb(51, 51, 153); color: rgb(204, 204, 20=
+4); border: 4px ridge aliceblue; font-family: monospace; font-size: 75%; ma=
+rgin: 2px; padding: 1%; width: 50%; }
+
+div.listing100 { background-color: rgb(51, 51, 153); color: rgb(204, 204, 2=
+04); border: 4px ridge aliceblue; font-family: monospace; font-size: 75%; m=
+argin: 2px; padding: 1%; width: 90%; }
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/Colors.png
+
+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
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/JHelloWorld.png
+
+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
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/BackShow.png
+
+iVBORw0KGgoAAAANSUhEUgAAAO4AAAEACAMAAACDCbpWAAAAz1BMVEUAAAAPjs0A//8A/wD6+vr2
+9vby8vLs7Ozo6Ojm5ubk5OTi4uLg4ODc3Nza2toIT3LW1tbU1NTS0tLQ0NDOzs7MzMzKysrIyMjG
+xsbExMTCwsLAwMC+vr68vLy6urqysrKurq5mZpmgoKD/AP+Ojo5gYGD////7+/v19fXx8fHv7+/t
+7e3p6enn5+fj4+Pf39/b29vZ2dnX19fV1dXT09PR0dHPz8/Nzc3Ly8vJycnHx8fFxcXDw8PBwcG/
+v78MDAy9vb27u7u5ubm3t7cAAP8TxOXFAAALYUlEQVR4nO2dAWOrthGAs3Xre+nWLrEBiapOF/fB
++tKsadekSR5Cw2T//zf1JOEXAj5jZVywL7kkxpKJ7j7uEBJg7ih/VXI0tQEvK2+4nOUNl7O84XKW
+N1zO0sL9zcl0plDIv0GOjx/LLdzjY/vBl6wkz2d3J8lG3NlpmV9cXCzbYiv2TDr2bS9eXOSzRGzE
+nUf5O5Bl1hJXs1/SsW97ESSbbfZulF9aWWb5X378+O79z1ffnGS+6vLyT9vlciTZRU3Hvu1FK9nt
+Rtz/ur33eJn962Gl0vvb2cks81XHx//YLsd+v1/3AG35XNN82l+jJbuo6di3vWglO92Im//NyTL7
+68qk4vbm5JvbrKnbSVwDefc/1hXrT3srhErHvo3Fo6OW9RDUG3GvnCyzL/3W+eXqPmvqrgaizK3j
+GrAvTVt+0f6zL/5346e7qenYB8WjRpqiSm3h0XoM92sny+wnv7Gufk6zpu7rgShz67gG4MUunyx8
+y/njordSs8pOaqx9Hs/ZB8U1blNsf2oFw/3VyTK79Nvuq/cqa+p2knYjsGzePtb96t41f0/f5gF6
+rH0eyNnXL67p19ZjuCdOltlX3rfv362ypu5kIMrcOq4B++Iba9p7bNi9b1ZYL5q361V2UdOxzxUd
+7bq4xl1bj+FeO1lmf/e+/enjQ9bUXQ9EmVvHNQAvdtksHis2ffr4dq17FzUd+3wRaNvFJ9ZjuL87
+WWa/+G338cfvs6ZuJ3ENwItd9hbIp63PdpWOfduLVjDc2Mky+8/s9j5Vq4fv/5k1dfFAlLl1Pjdi
+X92vLTU1zcfrt3G8Vvh5nV3VdOzbXrSC4d47eToM83X3A1F2P5LsoqZj3/aiFQxXOsmfiNw76di3
+vWgFw9U8BcNVPAXDNVL+mZ1UNYZbSTW1cePLwmC4haimNm58qXDcdDG1ceOLQnGlqqc2bnwpcdxI
+uzX+x0QcjEFxRSz54eoVhpvEgh/uln23YOjdFB1mKI64Ch0zFyLhh5uiuFIy9K5Gg1nLgh+uxPdd
+wbBnLtApguYYzDiuFJ86uF+8gBDj4mczivkNP1yB98w3c364EdpVyTjih2sqtKvq9cwMcHWKn5q7
+44crChQ3+Y0fbiLQM5GKYVdVorhq0R1EMsCVCdozm+6oigGuQHGrunuuigFugg4zzILhgSja0lV1
+p/cMcAV6fVdWDPdd/OSNMBU/XI0OM4pK8cON0J5ZFAxx8VHV6afv+OEaNJjjOGaIe4ZfI2KIq1Dv
+RoIhLn4F8FPEcEZU4fvuKceTN+i5quiU4yASxY0Fw0FkhN5GJnrXiBjg4l1VwdG7+H1VSjHExW8S
+1Irh2Qzcu1IwnCLUW25FYehd9YDfNcfQuyl6fVdoww/XoPNdIRl6Fz/upgXHYQa67yrBcEa0QI+7
+ScRwioAHM8spgkEvZ99xHFUZ/Is1HK8A4vuunmSY8cOO8kxcg96+XekpvEuMi9++rVh6Fx1EGpbe
+RbuqYpLpPTFuiu67i3qKKQK1d9F912iG+266Z6fmiHEl/rWpSSaA1MGMf393kkHkZMFset8jYoCL
+z4iknuK+KmLcGv8uQsXwQIRPAIVh2FXh3xKLOHZV+DAjmuQqAnUw4ydvIo64+B2vyas6EC0Khgci
+fBBpyiluNCLGxQeRqpjizpvJgtlwDGazwKcIHHHxc1WG4yAS9a7mOIis0XNVpl7ww8WDWZZTXN8l
+xsXHzCXHU3MKnQAWZcoP15ToMKP3ZAUGuFuCWXL07uu6JIZf3zWG46gKv4owyU2CxLhbru9yPO7i
+TzTqP42MAS7+RCMhGQazxL+/KxgGs0JxNcdgjtEvtBo5xT2RxLj4E41UdEqM+4Fe8g4u/sDihPyO
+1w85tfRw8ScaleQ3Gn3I+3XjBnMPV+On1c+oz1VNgFviw4yUeoowhXfR6X169sAPF3+ikSQ/8ToB
+rkGPuwX55ewpvIs/jUyV/HC3XBIzDL2LP/NGk995MwFuEeHerfnh6jmOS/1EowlwExS34HggwnFF
+xTCYY3SYkRjqK4AT4N6hx91EcQxm9KsXLAeRBT7MIL9oMsUwAz2bUWqG+y5+b4bsDTN2lV1N/pDv
+uuZouDXaVcmyO99lgLvYMt9liIvfrMASV6BnIlPV7aoY4Er8rrlnZ73YY9zhPICscIfzALLCHc4D
+yAp3OA8gK1yKPIB7jEuRB3CPcSnyAO4xLkUewD3GpcgDuMe4FHkA9xiXIg/gHuNS5AHcY1yKPIB7
+jEuRB/Agcft5ABnghuQBZIAbkgeQAW5IHkAGuCF5AF8O9/x8qOKZuCF5AElwHUiXhgw3JA8gA9yQ
+PID0uOfn/t15+82YuCF5AF8At1Vu/42GG5IHkB73B2rckDyA9LjrIH5EbVWMgRuSB5Ac93xTMD/6
+fATckDyAL4/r34yIG5IHkBLXB+2TZbMFRg3mkDyAdLjh8kzckDyA4+N+duJL4YbkARwf93mo/wdu
+SB5ABrgheQA54AbkAWSAG5IHcGxpG0OvwXs3IA8gpTH0GhxMSB5ASmPoNXjvBuQBpDSGXoMfRAbk
+AaQ0hl6DH2YE5AGkNIZew0BX1X/YOKUx9BocTEgeQEpj6DX4425AHkBKY+g1DHi3nweQ0hh6DQ4m
+JA8gpTH0GnwwB+QBpDSGXoODCckDSGkMvQZ/IArIA0hpDL2GgeNuPw8gpTH0GjxuQB5ASmPoNfgD
+UUAeQEpj6DUMBDPLKUJIHkBKY+g1eNyAPICUxtBrGNh3+3kAKY2h1+C9G5AHkNIYeg1+EBnw0FNK
+Y+g1eO8G5AGkNIZeg/duQB5ASmPoNfgpQkAeQEpj6DUM7Lv9PICUxtBr8N59XafmQvIAUhpDr2Hg
+1Fw/DyClMfQaBoK5nweQ0hh6DQMzon4eQEpj6DU4mJA8gJTG0GsYmAD28wBSGkOvwe+7AXkAKY2h
+1zAwzOjnAaQ0hl7D0MmbXh5ASmPoNXjcgDyAlMbQaxjwbj8P4OjGvPzTt0PyAI4t+QtIBzckD+Bh
+y0Aw9/MAHrZ43IA8gIctQ+eqek8SPGwZ8G4/D+Bhi58iBOQBPGwZCOZ+HsDDloExcz8P4GGLxw3I
+A3jY4oM5IA/gYctQMDd5AFnJcB5AVjKcB5CVDOcBZCXDeQBZydY8gEorpYWQQhRGJZVZQW9tlIEj
+clF+p4UxsFQwtq4X9mcFK1QqVaYSUaKSOayqZSyVFAn8CFnY1qRSlZYSam3LoKLW0ILSpQEtGsqS
+WO+WPICgBdRKDX9VpRZnC5MaaFcpUCzniaqkBtWgV6l0VRuTqhJUqQWsH0eJtVUKJcHwOymi2III
+kUgpCiVjaDiWRusa/gF+Cphew7pCx6PqbbvP60Vwb+x3HhVsYWhaRbHdhspA21KZO7vtEgHvhHxY
+KG1Ao6lWCzBJKHgFbXI+T6LCFLA9wSWiKKEh67AkikUE5CqOS2ilVmqhFDi2SCuZgHPBCXJMvdmj
+eL1ZpjfifpsXUssokhVs4iRSrj1dL1QqI9u4gOYgIh/spn2wWxq2dalS81AbLYsiipR1JjgRaKR1
+IMSUDSmAhgiLkxshhII1wPhKFmVh5BziDjyux9Tb8q7Xm2V3G3FFms9Foiv4r3ilhYaoSo1Z2S0o
+0uJMJrBX2TbtD+guq7Io7W4IroJ4lDH4CJwpwHcV/EsF9dZzgFzGLlILPY+kTEQk7GoS1o6ktVBa
+7tH0trzr9GbZ7c1G3N/n99ncdgYQGQb2q7q2u4paSFGmYO5c1mCLsc1Cl2GsldLaBTspdCUadlIJ
+oSitP51XK2V7IHANuEpVpoJ/uSnAZB0nFlbI+c08KuCflYpOqfQCtPn07UbcOL5OM3Zyen0929xV
+zW9mM2bA5Vmd3suNuK9B3nA5yxsuZ3nD5SxvuJzlleH+AaZpkbKWCYKDAAAAAElFTkSuQmCC
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/PaintModes.png
+
+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
+AElFTkSuQmCC
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/PaintModes2D.png
+
+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
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/Shapes.png
+
+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
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/Text2D.png
+
+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
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/LinesDemo.png
+
+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
+FI4GYoiCAAAAAElFTkSuQmCC
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/PaintShow.png
+
+iVBORw0KGgoAAAANSUhEUgAAAPEAAAEBCAIAAAAmTNTzAAAgAElEQVR4nO1db6gdx3U/+3/ufU/y
+pbjBhggexFYcUOoHdonkOMVJY6pCKCo1RGlt/NwYKoo/KBCoKfmgD4Y4xh8MFeUR5EoGh7igEgdU
+yBcHO3Ek25WK5MpYkRUQqJDX1Gqeeffd/b/bD0dvvdq7d/fc3dl7Z/fOj+Wxu3P2vLkzvz0zO3Pm
+jBLHMUhIdAjqvDMgIcEZktMSXYPktETXIDkt0TVITkt0DZLTEl2D5LRE1yA5LdE1SE5LdA16cbKi
+KJk7ct5RYsaYloQlnB5XtLW1VSFbEhKVgcQbZ/YkUDkdx/Hm5iae//SnP6U88uSTTyaPSLQRU1V0
+c8LIojiOibQmcTqO45s3b6bvvPnmm5QMhWFI0S8hLKaq6OaEAeDmzZtra2unTp0qfaqc03Ec/+53
+vxu/f/LkSd/3fd8PgmD87wsvvAAAuZze+6P/Lv2ndXD1bz7bqP55oelygwlFN1VFNycMAD/4wQ8A
+oJTWJDudS80gCN544w1d1w3DyPwNgqDgQfetH1H+aWWEh7+bvrz77rszAr/97W9zH0TJSam5Ahnl
+mFSqpxqaLjcYKzrEVBXdnDAdJZyO4/jGjRu5Sb7v6xNg23aS6fEHr/7T0WlzORVy/2nyK/bs2XP3
+3Xfn/qhJv3SS/j179hRozs1GHTRdbjAhz1NVdGXhhx9+GAAuXbpUSqG1tbXiX1Fupye9KEEQjL9e
+lJds9Sf/V/pP6+DiX/7B+M1MTsIwXFlZSS6vX78OAHjn+vXr4ydJKgDs2bMH70zSnPkXiXDBfyw4
+T9B0ucGEopuqooMgePTRR3OVv/vuu+PCqAcJDQD333//Rx991KydLlBa8Eb6vl/wbON9j7/4+5yb
+t+cESfOb3/wGAD73uc+trKzgeVoSbyapeJ48hSeYiufJ/dzH089O+o8F5zCbvkde0WFFJ7RLcOPG
+jfGKTu7k6hkXHtd877335mqmYw52+tILfzdtLqdC7j9FSiGuXr1a8FRykhabRDWU2bt3L+pPP5L7
+eEbP1atX8dlEOAzDvXv35may6XKDCUWHFT1+3zCMXDv97rvvfulLX8oIb2xsXLlyZVx4/FUBgD17
+9iSjIu2w0wd+Zk+by6lw7mBv/OaHH36YufOFL3whfTlOO6L5ROWobe/evck/yn2kVGeuJKLpcoMJ
+RYcVfenSpXHjNcn0Xrp06f777080bGxsTBKelJOW2enG+x6PPpVz8/ac7Nu3DwAuX76cnFfgdFrJ
+5cuXJ+mZSmcBp2fR98grumn705j00Ucf3XvvvQCwsbFRIPz+++/naj579mxGmI5yTk/6fqfY6dxn
+zx17YtpcToXcf1p6MzkfPxk/X11dvXjxYq7m4sfHb168eHF1dXXfvn2ocHV1FW+O57bpcoPpxz3G
+KzotfOPGDSQoRXgqChWjlp0OgsC27dwB84Jn//QX1In7anjjT3IcXDI5uXDhwgMPPIAESp9DoU1N
+JC9cuDD+IN7J/Y9hGGaE05KT/l0GTZcbTCi6qSq6OWE6qnMaJ3UqPOu+9a+lD9ZB+OVvpi/fe++9
+XLH0/YwMMWmS8kmPV8hJGk2XG4wVHWKqim5OmA6l1Hf03LlzmTsHDhwgah9/VqJFmKqimxNOX/7w
+hz8EgJMnTxY8UsVOv/3228QMSbQaU1V0c8LTonrfQ0JCTJD88izLAoADDz3UfH44I1Ig1G4dgf7p
++ewvn/zy+XkXRrsxHA6JYyDl6xGjKAIAz/PqZmrmEIfQoTbvsmg/4jjWdZIbaTmnGWOqqrauB5Im
+tAiHRH0Q18KS1o0HQdCupbUZQs/dSEtO1wd98qWc04qiBEHQIjvdHKGlnZ4j6GtsSXZ69+7d/X6/
+Rn5mhxga7D/UeR8kakLTqIVYzmlVVaMoomucI2IQopuRe0nEqyeO8y2TzijEsQoKSJxO/oqMRi10
+/YOI1197/ZnHn+ZYLJ1RSGcgyS+PHlphXkBCi2OVxy+JcBi7vrnBsWQWUGE598UfmZ4voTna6ccf
++wZzABzne9/7HpeS6ZJCnnGYDMPQNE3Yvsfcuxwc51w2Nx0AAGAXCfFcFk1hHMfEwTfSWF4URdxX
+9nNBQmihuhm5l6U4c/r0zqkDg8H585drFk7HFHqeV7DWK41yTuPLIeCcyyRCi3mU4rVUeCEG8Pyx
+Z2uWT8cUqqpqmiZFLYnTqqqKNpZX0OUQwSqPX5ZiY3MTgN26cBwAp2YRdUyhruvEDnC5kKZpURTR
+RwdngDShBaFsaVtRjLfPn2eMAQNgjLFb1XziePWR4O4pVBQF/UNLQeK0qqrijOXN/aOQckw75/L8
+sWOAJstxHAccYADs9ddeq1xK3VNIn8km+U8zxgThdIbQglhlDuPTDjCA9fXXVq5dX3n1nYvOxqGN
+N9lgUL2kOqfQtm1u34iKoihK+bLFGWAqQot2FCAIAmCwsrKysjJYOb8BAKtscGyw+trPXj/+4osV
+CqqTCukOGqROt+/7IvSna7b+870swPr6+qn19cObg5Uj63DlOsAmOM4qGwwGzHGqfId1UqHnedy+
+EcMwDIJg7rOJgdiUzb0k2ukrF6/s37/6+uYGOM6VjTevb1657lw5+vHllcHg8Nrh4cdT7x/SSYWa
+pvV6OaHPxkHitOM48x3LC1U+HYAZH5Q5lzNnzhx99igbwMFn1w5df2flrtVNtnJo8/rR577rANu/
+f//a2uNTlVVXFWqaRly7RRLq9/tz9J8OVVHsbq3x6bxp3WvXrq2/9NL1jQ0AZ+3I4bsGdx27+M6A
+sfWvn9r/8H4HHBzkunbt2n0rKwGhRjus0DAMYmeBNO4xGo2IUzjcwZfQczzGcfz4i888g3tNOADA
+GDt0+JGDh/bjgC0wvO2srq7ec889AcDHH3985513FpRVtxXquk78qKOu3dre3qao4wvuXQ5x1gQ8
+99xzWLuP7N8PALem0BhjbMAG4MCnX0pHjq7hydGjRXtfdF4h3aqWc9o0TU3TZj8+jYQWpOfAfXx6
+c+PWZ9ChT3cnYTt/WDLBBgCr990KG7ma2jpjHJ1XuLW15bpugf4E5QPPP//5z4Mg6Pf7D3/lKxSN
+XJBYaKF4Wefy325mY9Y8/thjr54+/dnP3jm4NdHgwE7ri0DDtek4hw4e3tzYOH3mTHGhdVsh+uVh
+pLzieHmktVuapuXuftAQukfocTsNAKv79z/+2DcGg7t2biS1y1J3GANwHOe+++4rLbfOK+Q2jwjT
+uETVx+wJPZtjHIxBqi7TEw0OAIDjMHAAHAZsMBgkm6EUoPMKua0JsCwLp10o6mpiLuPQs3l5Mjh9
++tU3f/YmgHO7oUr+MmDMgVvuavfdt1I6WbcICrn55amqqqpqsgdjc0gTeu5dBe6XGWxuAqBhugWs
+ace55UaMQ13o5wMDxhjAtWvXCkqv8wp93+cWWywMwxnE92jpTCH9yODppx8/febMp22xA5ffufjI
+IwcPHTy8f//Bw4fXnM1Nx3Gwv3nl+sbzL710zz33FBRg5xXGcXzHHXcU6E9QPueiaRpjjNg9r4YM
+oQWxrI2OTyNwpNZxnIOPHHxpff348RNJ0uHDR15af/6uu1YAwHE2i+myCArpnqHlY3kffPDB1taW
+bdtf/drXiEqngiCEbvp//fLD/PjTzzz9NGODF4/nOFieOH7i2WNHNjY2wBnoy9RQTl1VOBwOTdOk
+7H1Rzulkh6gHHnyQmGk6IkUgU9ro5dnLVWKqnz9/mTG2bx/JBHZboeM4QRCcOnUK6u/nEgQB0R9q
+WiwOocOqHyMPPriPa5G3WGEYhtzWBJim2cRAXimhO3ZI1ISqqsSxvHID7LquZVl851woQfznblk5
+XoIQiznbjeFwyM1OG4ZhmibHtVtI6LnzjHLJ5ZCE5gK6VaXG6uXV/RBtm5Xio/7rIQnNC7t27eK2
+ziWKouFwyMVOJ4QWxAw3fSkJzRGGYRDX85bb6SAIoiiqHwuBC6FbdFQjdGfC+nNXGIYhce0WNV5e
+zTUBvLocQpnhgsvKFrozYf25K3Qch5u/h+/71WI4JBBq7836l6VHnS6H+FH456iQ256fOIBSeS+5
+dn0UUo5ixsc1xjy7FNafu0LG2NLSEkUnyYeJ3j3PQMC9Nxu9rENo6FZY/yYUcutPwzTTkmmIufdm
+c0dNQncsrH8TCokfddR4edP2PYTde7Ohy5qEhnlH4Rdfoa7r3PrTuMZ2qrE8kffe5HWZPuoTGuYd
+hV98hZ7nESf+SLUxVXyPVsQ8r38kFOdC6LlH4RdfIc+4prjnJzEWgvh7b/K95EJoECAKv/gKdV0n
+LrYi+U+z1JtUgFbsvcnx4EVoAJh7FH7xFaqqyi2+R7/fN02zdBhl7l2OGb9LHAktQhR+8RXy7Huo
+qlraPW/R3puiERrEiMIvvkLXdbl9I8Zx7DhOwVheu/berH/wJTSIEYVffIX0GZLy+tne3o7jeJLG
+1u29WfOSO6EFicIvvsIwDHnOjU9y82vj3pt1Du6EFicKfysUEvse5ZnwPA9DUGfuz/2jkHJwfD0i
+3utkhYrC3wqF3GJA5trp9u69KQihRYvCL75CTdN4fiNqmpbeeaDVe29WOLgTGsSLwi++Qk3TiOPT
+5XGYzp496/u+aZoHHnoI77Rxq8LKl7wIff6C3CeglsKtrS0AeOWVV6D+PgG2bbuum2yl0UZCVz6a
+sNAJRIvCL7hCwzCITkekcQ8Mqw6tjahb7X1olNCQEzQ/fX4rULMDUCMKf6cUot9R6b8AYmwxDFvT
+jb03BSG0gFH4BVfI8xtR07QoijzPE6EzMJujaUKDeFH4xVcYRRHFkQ6I/WnP8zRN40iauZvhgssZ
+EBrEi8IvvsKCyewMSIthsHsuDu24XOYesyF0AnGi8IuvUFEU4hrb8rG8c+fOhWFoGMbn/2z/3InY
+6GWjhB4fy0MIEoVffIWu68ZxfOLECai/T8C5c+ds21ZV9Yt/9dW5066lhIbJnC55qrVh/bkrpO9j
+W/5u4V5ySd9DwFHk+seMuxx0tDesP3eFvu9zG/cwTVNRFL7fiLnH3DrWjWzsIcEZURQRg+uSvCcZ
+Y2EYzpF2jTYOEm0Bt/geURShA1PTdnouhwwR3T2Uc3praysIAtM0BbGsHC8lodsFbjHVwzD0fV9V
+1dnwTFpoiUno9XoUMdLcOG6ROBuqzcZIC0vozoT1565Q13VuPkyKoui6nrbTgvQcukdo6FBYf+4K
+iZHAgDI+jS+H53nqDDsGzR0iExqgU2H9uSsk0poaqxc6EZVGcEJ3Kaw/d4VRFHHbSw4A4ji2bVsV
+zN+oYxYa5h2FX3CFnuft3r2borPcTuPLkfHLm/FR//UQn9Bzj8IvuELbtnnuj4jx8ubec+gwoWHe
+UfjFV0hcEAAUTluWxRjr9XpztNN1jlYQGuYdhV98hcTBaSDuj4ihf8Wxu/TLthB67lH4xVcYRZFt
+2xTNpP40fnKKwNFOWmgQIAq/+ApxASFFc/m4BwasAfF8mIoZzz1eY7OYdxR+8RWGYchzHhEAoigS
+ykh3idAiROEXX6GmaUQ7TYqXh+MeFVr/uRztIjSIEYW/FQq5+U/HcRzHMWNs2tZ/LpetIzSIEYW/
+FQp5rt0yTdP3fREoO37ZagsNwkThF18hfZNO0jciuubNpSNReiQUbyOhhYrCL7jCMAyJMdXLM2Ga
+ZhzHgsesaSOhRYvCL77CdBD0ApD2klMUBdfYTtsZmM3RRkKLFoVffIWapnHzNY2iCEN8TNsZmM1l
+GwkN4kXhF18hPRZCeRymt99+G031By8/JEI3o6WElvsE1FSIgx7r6+tQf5+AIAgURen3+/PtYHSj
+y5GGUFH4xVfo+z63WL2KojDGcNxDHCPddkJDTtB8uO3ccRg4AE6NKPydUkgfyyunRr/fr+8/LS10
+BqJF4Rdfoed53Pw9bNv2fX80GtVhIUcjLWy8xqkgWhR+8RVqmjYajQr0JyD5T+PWWyL0OrpBaBAv
+Cr/4CpeWllSV1ECXz7n0+/0oitCHab5HZwidQJwo/OIrJDrlAWUs71e/+tVoNArD8D9/8edzNNJt
+J7TcJ6CmwiAIgiDgtk8Abvj5yze+WpOjlR9vO6FB7hNQW2EQBL7vv/zyy1B/nwB09uASU31hCV0Z
+7Q3rz12hqqrcfE0xCBOuc5l9r2ORCS2RBm7SSZEkfUjGcUz39+B4SEJLJIiiyLIsiiRpv3Gcc/n+
+P37a844VAAAFlBhipWwgXAoDwL59lmV5rmu6rpUcjsPSl5mjTqrrWqbpWZY76WDM4Zjq+0ajP+on
+P/lfovM0UDgdhqGqqkSzLzEJSOjmSJxO9TzLNBtkcObwPLPpHwU7fkeUoqaOv6SXN8a3a44VKLBk
+UhjhOA2SOH0goZsj8e2pM2p5AACDoE+shhTKOW0Yhud5ibo471WZVJFSOEGjVZ6k+r5hWTmMbIbi
+s2t5AIBn30PTNJxHzK2/TO0mdSmFM8L/s5FTf3wJ4fvGDDobmGoY/ixbHixGbusRcZELcWayuKYX
+Wbi0RmsSIgj0Ai7ypbhh+I2SOJ2KLQ8AmKbJjdMAgHMuSl78udybE/UssPCvnXubM2lhqNE5WpPi
+uh4U5K2hlgcAiJ1poHA6CAKcP48h20nE0avb7kxumhdc+L/cLzZk0sJQm9UXoatpIT3PNSmebnmw
+GInrEcs57XkejqFgDU1qfDNfRVI4c/nef2TrjwvF41gZJ2VDFNe0cDZfhO5YywPTzI2Xc1pRFFVV
+0Y0JqyfHRE0Y6pLCCfhWeULoRkmcTlWUeDwPM2t5AGA0GhHje5DG8lzXTXfPMxVZPM0mhRHcCaEo
+8SQ6cqe4osSNktgta3mAHAASiN+IqqoSuzISk1BzojsjoCjxDDobmBrHyqTszazlAVBx03tKUZM4
+PU7oxDiV+kJIYQRHNqhq1BCDxwXiWGmUxOnUgpYHoEfsTAN9blyiJnixQdPCpnsayRFFakMMHhco
+bnkAepqmcdvzM4oiRVHouz1L5IILIZDQsxm5C0ONrxkuSC1teQDAsiyiIx0pVq9lWZmuTPJVVOzf
+I4UT1CeEYfiNkjh9IKFnM3JHaXkAAB2eS2oCAIh2GjVS1ElMQk1CpAndtJ1OO0M3baeJLQ8AxHHM
+re/BGFNVNT2WN3e/zTYKV55Pdrvl3Z9Opbc8t8qWFoeJRPxkeny8CosrUgonqMaG7nn3J8dULQ8A
+BEHAbY8iRVGCIAjDMFaKvNIyqVI4I+w4LDnG6zs3NfHuTx/j9c0pNUvoTK4y2a6Tii3PVNmGnT0N
+KSARf/fu3dvb2xRJAZ08BRGe1qR11bu/WssD08RhIvlPR1EkfU1rCh9x/plOiA5791dbVwY7+1VQ
+aoHEafwrfU3rCP+t+y9EQnTbu79anqEJ/2lFUcTx22yj8Lf+muQy0Xnv/mp5zi/lCSD5T6cnEUXw
+22yjMIUNi+DdX9lOK0p5bEcEyddU07S05Z+732YbhUtd2xbEu79aywMAcRxzW4+oKAp9Gy+JSSgm
+xOJ491fLMwB4nsdt7VYYhpqmZcx+i5w8BREusNML5d1f7RcBgKqq3ObGwzCUTnn1MYkQi+bdX9lO
+81zngjFratWnxAQ7vYDe/ZXttKIo3Na54Adipu/RIidPQYTH2bCY3v2V7XS/3+fmaxrHMWOMPtsu
+kYtMxS+sd3+1VNjZ05BS1KRxj8zQ4Nz9NtsonCbEInv3V0v1PEAHjYnVkAKp3+37voxrWlM4qfsF
+9+6vlup54Hkecb9x0rgH9mOKXdIyg1lSOCPMLMuV3v1VU7e2QNO0Xq9XVOg7IHE6DMOlpSWKOgGd
+PAURdl0mvfvr9Kd5rhsHgH6/3+/3pa9pHWHTzHF+b4biHdw1BnZi+1NqgTTugaHKpK9pHeE72CeN
+kTh9iO7dXy0VAHRd5zY3jmu3tre3xfHbbKPwH35GevdXTvUAwDRNx3Hyi/t2lHPaNE30n06qZ+5+
+m20Ubtrnri3e/dOneq5rAsDW1hY3O23bdmbJ7tz9NtsoLL37K6QmLQ8AGIbBbc4FN3ORbkw10ZxJ
+a5d3Pz013fJgGXLjNORtTdciJ09BhKV3/1SpmZYHy5DbmgDLsrD7QVEnMQlNmLQ2evdTUsdbnp0y
+5LTfOO4lZ9t2rSpdeEjvfmJqbssDAL7vc1uPGIbhuPtIi5w8BRHmS4j2evcXp05qeVQV4ji+4447
+SmoCAIj+04wxYvdcYhIqf1qNC7Tau78gtaDl6fWoASCBwunl5eXM0ODc/TbbKMyLDW337p+UWtzy
+9HqgKAq3ORfHcQzDSMbyRPDbbKMwlyGwDnj35wqUtjwAoOs60d+jPF5TMuIRCxMjtI3CmRpl0wcj
+Tbz7nelDpE6bOk7oannOTc0IRJFakDG8AzvxCyaWeAqkuXHP84hufgI6eQoiXNNOd8a7v1rLAwCq
+qnIby3Nd17IsVVWlr2kd4X+wvl+ZEF3y7k8f9HVlADAcDrnZacMw0FRLX9M6wsfYsQpssDrn3V+t
+5YFp4pqWy6GuIAiUuOjzP5MqhTPC6Roldz2Fjt1fJzXT8pT28gFg165dPPdHHA6HyVieCH6bbRSe
+fpS3m9791VoeADAMg9tYXhAEURSlR7zn7rfZRuGpCNFh7/5q68oAIAxDbmu3cAxFhherCbqd7rZ3
+f7U8A4DjONz8PXzf930/E6qsRU6egggTCdF57/5qecYy5Naf1jQNwyFQ1ElMQm7Fl/pYFtR3TYq3
+a9cYAGCMcRvLw0UuxO65xCSUsmFBvPvr2Glu/WnIm5ZskZOnIMLFdnpxvPsL8lxspwGo235S4+VR
+xCQKUECIhfLur/aLgG98D1xjm167NXe/zTYKT7LTi+bdX+0XAbnjAUQ7jZ+JuVVYXJFSOEEuIRbQ
+u7+yneYZ1zQIAkVRDMModknLDGZJ4Yzw1V9n634xvfsr22ld17nFQgiCgDFGfEUEdPIURDjDhoX1
+7q9sp1VV5cbpfr+PSwykr2kd4Q32mQyhZzNy141dYwB8z/O4jU+rqorbLUpf0zrCm9ZAevdXTgXw
+Xdfltu9WHMeO42iahjU0qfHNfBVJ4cyl7eT4WDZqp8X07q9qp7eIRhoonN7e3o7jONEogt9mG4Ut
+6d1fy05DGIa7d+/Or4bbQfX3SI8Ozt1vs43C4979DfHb7eKuMViG3PZH9DzPNE265ZfIhfTur2mn
+gWMMyFy/vBY5eQoi3Fx9ZwgtuHd/hVTkdGYyuwCkb0Rd16Wdrgnp3V8tFV9UANA0jdv4tGmavu9L
+TtdEo3a6Rd79U6UmLQ+WITGwP2nvizAMM8tmWuTkKYhwc1atXd799NR0ywMAhmFw63tommZZllzn
+UhMNmbTWefcTUzMtDwAEQcBtPSIOeqT7HnP322yjcBNsaKN3PyV1vOUBAE3TuMVCwEXjyfi0CH6b
+bRTmbtJa6t1fmprb8gBAFEXcfE1t21YURdM0cfw22yj872d42un2evcXp05qeQCU9GR2MUhrAgzD
+IC4FE9DJUxBhjoRotXd/QWpBywPQUxSF2xpb/EA0DEP6mtYR/pHzrQr1PS7Qdu/+SanFLQ9AT9d1
+bt+IAOB5XhAE0te0jvBJ96n6bOiAd39uamnLA3Br3/tsoeeBFNdUVVVFURRhYoS2UdjpXOz+aqnj
+AuMtz3iuAMD3fW7j06Zpov90Uj1z99tso3BNk9YZ7/5qLQ8ARFHELRYCADDG0kODc/fbbKNwnY5p
+l7z706n0dWVYhjzjT6OppqiTmITKhOiYd3+G0MQ8T1XU5Zze2tpaWlqScU1rCudWbemgR/e8+6u1
+PDtlyGkeMQxD6ZdXH9Oyoave/dVaHizDXq9HKWrS3HgQBMRtvCQmYSo73WHv/motDwDous5t3ENR
+FF3XM7setcjJUxBhOiG67d1fLc/A19cUJ2/oEfgkckG005337q+WZyxDbmsCACDTn56732YbhSmE
+WATv/sp2OooibmN5ABDHsW3buVVYXJFSOEGpa9uCePdXttOe53GL74F9c0VRxPHbbKPwo1+X3v21
+7LRt29xiiwVBQA+/J6CTpyDCBXZ6obz7K9tp4oIAIPqaqqqq67r0Na0j/Mfuu9K7v/IvAoBer8fN
+38P3fQz9K31N6wj/kfP+OCEW0Lu/2i8CgCiKko+6YlD707quYw1NanwzX0VSOHO59/PSu7+WneYZ
+fzqzia0IfpttFM5U/8J691e20+NBZiaBNI8IAOmuzNz9NtsoXM3Hsn5qN3aN8X3QNI0bp+M4lpOI
+9ZEh9MJ691dIRU4DR/9pfDkyLlEtcvIURFh699dJHQ4BOMafxs603Mq2Jlzp3V8jFW7fpLMYpG9E
+dM2rW6uLDendXycVAMaDoE+CUtrvPnfuXBzHiqIQZyYlJJrAcDjUNO3ll18GgJMnTxZIkvaSi6Io
+DMPhcIi0xpFCwzDwPgDgOQ6J4xqCKIpwo3LDMBJLn/SHFEVRVTUMQ9M0+/2+53mj0SgMw16vF4Yh
+iinKp+8bjr3oum7bNq6PhB2HWkVRoijC6Gf4rGVZmB/TNFVVxczgljT4Zqqq6jiOaZoYiwd24nWr
+qmqaZhIcEN9kdBxHPXiCC39M0zRNEwvaMAzcQtJ1XWzQRqORZVmYpeQvTl0ZhtHr9TzPwzzgzV6v
+l+QTi0WWc245U9hPWmOrqmocx5hdxhhmF38A/tqlpaUoikajEZaOpmkYNQd9RTBbnufFcby8vIwZ
+9TwvDENd1x3HwYFCDCQCAMPhEFmC1YMaYGdGEwCQIjgThBowkGtS4jg4n/SXTNNEHmChYDUge5AQ
+GJTHsizHcXA/yKQE0S8ACwGzgVWLuVpeXt7e3k4GOrE6sQRgZ0gVVeE50isIAiQ3akvsxUKV84ED
+B4qJd+HChUnlXIvT+BKfPXsWf4amafizHcexbXtpaUnTNNu2k58Nt3+cMsbQMHieh4tlsCyGw2EQ
+BBgx1fd9fI9930/eXaytIAiwUhNbktSHouViA3MAAALUSURBVChJYJ44jlGJaZq4TQcKYxGMRiPM
+c+K4gi89kgzNTxRFiRLDMJLPkXR8WKw/zI+qqsvLy1EUWZaFq9qQE8vLy2hy8IfEcYx5QFImy4XQ
+SuE/1TRteXkZmZfQZRHK+amnnirm3pEjRzLlvL6+DgCnTp2q2/fAH9bv99GGbW9voxnDUjBNc3t7
+23XdKIrwRcRSwB3PsbASNsBOmDLDMDzP6/f72NYoioJljUxijCmKgi0pllccx2jqkkpFzdg84SNJ
+UWIjiGWd/C/06kqaNixorFoMsI0UxB+bbMuE9MIT9En3PC+ZpEWiRFG0a9euJKIKGnXGWLLaLU2X
+hPEJ6S3LQnqhAVucci7mJQC89dZbmXKmcJXEaayMDz74gDH2+9//HgsaN8rF6Rg0DPiOjkYj2Nnu
+HFth7I1hsbqui22Zpmm7d+9G64KFjlUVBEGv10tMY2IzYMdyRFGE7RryAwWwlLGd3draQmIl2zRh
+NpIOHJqZpM83zl3UDADIJ6x+rBvcBgTPkTSmaVqWpSiKbdu+7+N9NH6YbaxvtMdRFA0GA8w2Ywxv
+YmYcx1EUhTGm6/qClHOpnX7iiSfS5fzKK68AwKlTpzhwGrO7trb2ne98p9fr4eQLWg7XddFyYL8H
+zQ8G9sVSQDsUx3FSwXEcY/8P6xgFkg8pAMCvJewCIhuS8RYsILQ0rusmZhU1f/LJJ2hvTNM0DAML
+NzEYaAvHSxZpgfrxQVyolnSdsb3GE8wbAKApRZOMXLFtOz3cORwOl5aWMMO2bcdxPBgMbt68ORqN
+er2e7/vYpPq+j7QYDAbYAmBowkUo529/+9tpnyTP85JyXl5eTpfzj3/8Y5ShEJrKabo6CYmGQGdg
+yfj0eCj1tbW1SlmSkKiIcTaXkJbo6yQh0RaUx5+WkGgXJKclugbJaYmuQXJaomuQnJboGiSnJboG
+yWmJrkFyWqJrkJyW6Br+H1MZmvHeIqGRAAAAAElFTkSuQmCC
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://edu.pjwstk.edu.pl/wyklady/mpr/scb/W5/images/AffineTransform.png
+
+iVBORw0KGgoAAAANSUhEUgAAAOQAAAD2CAMAAADxl9svAAAAxlBMVEUAAAAAALIPjs0A///6+vr2
+9vby8vLs7Ozo6Ojm5ubk5OTi4uLg4ODc3Nza2toIT3LW1tbU1NTS0tLQ0NDOzs7MzMzKysrIyMjG
+xsbExMTAwMC+vr68vLy6uroDAwOysrKurq6goKBgYGD////7+/v19fXx8fHv7+/t7e3p6enj4+Pf
+39/b29vZ2dnX19fV1dXT09PR0dHPz8/Nzc3Ly8sAsrLJycnHx8fFxcXDw8PBwcG/v7+9vb27u7u5
+ubm3t7e1tbUAAP9V7Az+AAAQyklEQVR4nO2dDYObNhKGnfiubXrXJukaI3TO9hZfm6Zpr02zTgF5
+vbf//0+dxKcQmtEIYdi4+yb2GvGheRghhBDMav8X0GppA+bQE+Sl6AnyUvQEeSl6grwUaZCrUsuZ
+Mp1MEgNyv//iAtSw2CH3b9++vdGlEh6FDKvwybdv9zDk/kupm1RTmfIYZFiFT0qlEOT+ndJNuv/b
+Dz9++dXP7799lVZJ7949b/RuLj3vZ2lYhU8qpRDkC6Wb9D/3dzz59PG7V9+lVdKLFy8b1dP7ff1n
+X37tm+VetPP3tmRzGWTuy36WhlX4pBIAuf9HqZv073ciiT9+ePXtx7ROM1Uv3X1Zl7GnU+f3ZVhl
+nVytNJtlsbVCvi91k35R7ZNf3n9K67T3bdmpJvfVf7VO/VX/rxPLZaqp980yxhL97/d77dPP8bnN
+Kjm5qlVP8kRNdDZDkN+Uukl/qnbR+5+TtE77pi075ZRatPk0P/blp0tuZtZbHi6hffSl6rW7HF+2
+VlVQpVVysoGsJ/W5ShDkr6Vu0nfVHvv6K57WaYbUos2n+dH/82s7c9+u0i6xNzey1ze4t+aprKow
+SquGkw1zYzME+arUTfp15cevvrxL67RXbdkpp5rFy1XqH+2fZkvtzHr5V9oa2nrNuvp0L8fnNqvK
+yZKxmWwgG5shyN9L3aT/rPz404/3aZ32e1t21ES1pPwuf6iv+neT9Hu7lGWJMmHfpprbabbwspel
+aVU1KRn1yZ7NEOQfpW7SX6o99uMP36d1Wl/VkvK7/KG+6t/dn2YpZAntoy/1x96ap2EVPqkEQUal
+btL/fvfxU8Lv7r//d1qnRW3ZURPVkvK7/KG+6t/Vp95QO7NMq9O1JeqvJlXbQD/H5zar8EklCPJT
+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
+RK5CYII=
+
+------MultipartBoundary--jUkxQ9C38h80xofw6sYcfyysinie7zp13H7GHO7UEM------
