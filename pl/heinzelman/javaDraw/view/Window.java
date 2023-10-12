@@ -17,8 +17,8 @@ public class Window extends JFrame {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         setLayout(new FlowLayout()); //setLayout(new GridLayout(3, 2));
-        setSize(800, 600); // Change width and height as needed
+        //setSize(800, 600); // Change width and height as needed
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
     }
 }

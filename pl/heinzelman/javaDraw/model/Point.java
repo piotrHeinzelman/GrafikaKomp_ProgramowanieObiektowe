@@ -5,7 +5,7 @@ public class Point {
     protected Double x;
     protected Double y;
 
-    public Point(Double x, Double y) {
+    public Point( Double x, Double y ) {
         this.setX(x);
         this.setY(y);
     }

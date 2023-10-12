@@ -1,76 +1,83 @@
 package pl.heinzelman.javaDraw.model;
 
+import pl.heinzelman.javaDraw.strategy.ProjectionStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
     private List<Point> points = new ArrayList<>();
     private List<Pixel> pixels = new ArrayList<>();
-    private Double factor=100.0;
-    private Long minX= 0L;
-    private Long maxX=800L;
-    private Long minY= 0L;
-    private Long maxY=600L;
-    private Long deltaX=400L;
-    private Long deltaY=300L;
+    private List<Edge>  edges  = new ArrayList<>();
+    private List<Wall>  walls  = new ArrayList<>();
 
+    private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy( ProjectionStrategy strategy ) { this.strategy = strategy; }
+    private Double d = 100.0;                                                                                                         /* G&S */   public Double getD() { return d; } public void setD(Double d) { this.d = d; }
+    private Pixel viewTopLeft;                                                                                                        /* G&S */   public void setViewTopLeft    (Pixel viewTopLeft)     { this.viewTopLeft = viewTopLeft; }         public Pixel getViewTopLeft() { return viewTopLeft; }
+    private Pixel viewBottomRight;                                                                                                    /* G&S */   public void setViewBottomRight(Pixel viewBottomRight) { this.viewBottomRight = viewBottomRight; } public Pixel getViewBottomRight() { return viewBottomRight; }
+    private Point Pmax = null;
+    private Point Pmin = null;                                                                                                        /* G&S */   public Point getPmax() { return Pmax; } public void setPmax(Point pmax) { Pmax = pmax; } public Point getPmin() { return Pmin; } public void setPmin(Point pmin) { Pmin = pmin; }
 
-
-
-    public void clearPoint(){
-        points = new ArrayList<>();
-    }
-
-    public void addPoint( String[] split ){
+    // Points
+    public void         clearPoints() { points = new ArrayList<>(); }
+    public List<Point>  getPoints()   { return points;              }
+    public void addPoint(String[] split ){
         Point p = Point.PointFromFile( split );
         if (p!=null) {
             points.add( p );
         }
     }
 
-    public void clearPixels(){
-        pixels = new ArrayList<>();
+    // Pixels
+    public List<Pixel> getPixels()                   { return pixels;        }
+    public void        setPixels(List<Pixel> pixels) { this.pixels = pixels; }
+    public void        clearPixels()                 { pixels = new ArrayList<>(); }
+    public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points )   {
+        return strategy.getPixels_of_ProjectedPoints( points );
     }
 
-    public void setScreenRange( Long minX, Long maxX, Long minY, Long maxY ){
-        this.minX = minX; this.maxX=maxX; this.minY=minY; this.maxY=maxY;
+    // Edges
+    public List<Edge> getEdges()   { return edges;              }
+    public void       clearEdges() { edges = new ArrayList<>(); }
+    public void setEdges(List<Edge> edges) { this.edges = edges; }
+    public List<Edge> getEdgesOfPixels(List<Pixel> pixels )   {
+        return strategy.getEdgesOfPixels( pixels );
     }
 
 
 
-    public int XtoPixX( Double x ){
-        Double lx = deltaX+x*factor;
-        return lx.intValue();
+
+    // Walls
+    public List<Wall> getWalls()                 { return walls;              }
+    public void       clearWalls()               { walls = new ArrayList<>(); }
+    public void       setWalls(List<Wall> walls) { this.walls = walls;        }
+
+
+    public void setModel(){
+        getRangeOfPoint();
     }
 
-    public int YtoPixY( Double y ){
-        Double ly = deltaY+y*factor;
-        return ly.intValue();
-    }
 
-    public void createPixelFromPoints(){
-
+    private void getRangeOfPoint(){
+        Double minX=null, maxX=null;
+        Double minY=null, maxY=null;
         for ( Point p : points ){
-              int x = XtoPixX( p.getX() );
-              int y = YtoPixY( p.getY() );
-
-              if ( x<minX || x>maxX ) continue;
-              if ( y<minY || y>maxY ) continue;
-
-              Pixel pix = new Pixel( x, y );
-            pixels.add( pix );
+            if ( minX ==null) { minX=p.getX(); maxX=p.getX(); minY=p.getY(); maxY=p.getY() ;  continue; }
+            if ( p.getX()<minX ){ minX=p.getX(); }
+            if ( p.getX()>maxX ){ maxX=p.getX(); }
+            if ( p.getY()<minY ){ minY=p.getY(); }
+            if ( p.getY()>maxY ){ maxY=p.getY(); }
         }
 
+        Double max = minX*minX;
+        Double tmp = maxX*maxX; if ( tmp>max ) { max=tmp; }
+               tmp = minY*minY; if ( tmp>max ) { max=tmp; }
+               tmp = maxY*maxY; if ( tmp>max ) { max=tmp; }
+        Double maxValue = Math.pow( max,0.5 );
+        Pmin = new Point ( minX, minY );
+        Pmax = new Point ( maxX, maxY );
     }
 
-    public Double getFactor() { return factor; }
-    public void setFactor(Double factor) { this.factor = factor; }
-
-    public List<Pixel> getPixels() { return pixels; }
 
 
-    public Long getMinX() {return minX;}
-    public Long getMaxX() {return maxX;}
-    public Long getMinY() {return minY;}
-    public Long getMaxY() {return maxY;}
 }

@@ -1,6 +1,8 @@
 package pl.heinzelman.javaDraw.controller;
 
 import pl.heinzelman.javaDraw.model.Model;
+import pl.heinzelman.javaDraw.model.Point;
+import pl.heinzelman.javaDraw.strategy.ChartStrategy;
 import pl.heinzelman.javaDraw.tools.FileTool;
 import pl.heinzelman.javaDraw.view.View;
 
@@ -12,25 +14,14 @@ public class Controller {
     public final Model model;
     public final View view;
 
-    public Controller(Model model, View view) {
+    public Controller( Model model, View view ) {
         this.model = model;
         this.view = view;
-    }
-
-
-    public void clearPoint(){
-        model.clearPoint();
+        model.setStrategy( new ChartStrategy( model ) );
     }
 
 
 
-    public void clearPixels(){
-        model.clearPixels();
-    }
-    public void createPixelFromPoints(){ model.createPixelFromPoints(); }
-    public void setScreenRange( Long minX, Long maxX, Long minY, Long maxY ){
-        model.setScreenRange(  minX,  maxX,  minY,  maxY );
-    }
 
 
     // *****  ACTIONS CALL **********
@@ -64,13 +55,20 @@ r_DOWN
     }
 
     public void loadPointsFromFile( String fileName ){
-        clearPixels();
-        view.repaint();
+        model.clearPixels();
+        model.clearPoints();
         FileTool ft = new FileTool();
         for ( String s : ft.getListOfString( fileName )){
             model.addPoint( s.split(","));
         }
-        createPixelFromPoints();
+        model.setModel();
+        model.setPixels( model.getPixels_of_ProjectedPoints( model.getPoints() ));
+        model.setEdges ( model.getEdgesOfPixels( model.getPixels() ));
         view.repaint();
     }
+
+
+
+
+
 }
