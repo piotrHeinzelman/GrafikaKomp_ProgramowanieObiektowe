@@ -16,20 +16,31 @@ public class ChartStrategy implements ProjectionStrategy {
     }
 
     public List<Pixel> getPixels_of_ProjectedPoints(List<Point> points ){
-        Pixel ViewTL = model.getViewTopLeft();
-        Pixel ViewBR = model.getViewBottomRight();
-        int DeltaX = (ViewBR.getX()-ViewTL.getX())/2;
-        int DeltaY = (ViewBR.getY()-ViewTL.getY())/2;
-        int maxX = ViewBR.getX();
-        int maxY = ViewBR.getY();
-        Double mull = model.getD();
+        int deltaX=560; // screenWidth=1200;
+        int deltaY=360; // screenHeight=800;
+
+        Double minX = model.getPmin().getX();
+        Double maxX = model.getPmax().getX();
+        Double minY = model.getPmin().getY();
+        Double maxY = model.getPmax().getY();
+        Double aX = (deltaX+deltaX)/(maxX-minX);
+        //Double aY = (deltaY+deltaY)/(maxY-minY);
+
 
         List<Pixel> pixels = new ArrayList<>();
             for ( Point p : points ){
-                Double x=p.getX();
-                Double y=p.getY();
-                int ix = DeltaX+(int) (x*mull);
-                int iy = DeltaY-(int) (y*mull);
+
+                //  min,max
+                //        min--x--max
+                //     0-------------------------1200
+                //     (.)--(x-min)--(max-min)
+                //        (x-min) * 1200/(max-min)
+
+
+                System.out.println( minX+" : "+maxX+" - "+aX+" ? "+(p.getX()-minX) + " = " + (p.getX()-minX)*aX );
+
+                int ix = (int) ( 20+(p.getX()-minX) *aX );
+                int iy =(int) (  20+(p.getY()-minY) *aX );
                 if ( true || ix > 0 && ix < maxX && iy > 0 && iy < maxY ) {
                     pixels.add( new Pixel( ix, iy ) ); // LeftTop = 00
                 }
