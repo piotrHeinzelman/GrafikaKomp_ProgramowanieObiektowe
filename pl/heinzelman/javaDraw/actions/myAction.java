@@ -26,7 +26,7 @@ public class myAction extends AbstractAction  {
         try {
             if ( translate==null) {
                 Method method2Call = obj.getClass().getMethod( methodName );
-                method2Call.invoke( obj , null );
+                method2Call.invoke( obj );
             }
             else {
                 Method method2Call = obj.getClass().getMethod( methodName, Translate.class );

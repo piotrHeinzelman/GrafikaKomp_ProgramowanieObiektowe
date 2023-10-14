@@ -27,7 +27,6 @@ public class ChartStrategy implements ProjectionStrategy {
         Double aY = (deltaY+deltaY)/(maxY-minY);
         Double mull = aX<aY ? aX : aY;
 
-
         List<Pixel> pixels = new ArrayList<>();
             for ( Point p : points ){
 
@@ -63,9 +62,7 @@ public class ChartStrategy implements ProjectionStrategy {
 
 
     public List<Point> translatePoints( List<Point> points , Translate translate ){
-        System.out.println( translate  );
     List<Point> translated = new ArrayList<>();
-        // TODO
         Point vector = new Point( 0.0 ,0.0 );
         Double mul = 1.0;
 
@@ -91,38 +88,3 @@ public class ChartStrategy implements ProjectionStrategy {
     return translated;
     }
 }
-
-/*
-
-    public void createPixelFromPoints(){
-        for ( Point p : points ){
-            int x = XtoPixX( p.getX() );
-            int y = YtoPixY( p.getY() );
-
-            if ( x<minX || x>maxX ) continue;
-            if ( y<minY || y>maxY ) continue;
-
-            Pixel pix = new Pixel( x, y );
-            pixels.add( pix );
-        }
-
-    }
-
-    // * * * * *
-    // *
-    // *
-
-    public int XtoPixX( Double x ){
-        Double lx = deltaX+x*factor;
-        return lx.intValue();
-    }
-
-    public int YtoPixY( Double y ){
-        Double ly = deltaY+y*factor;
-        return ly.intValue();
-    }
-
-
-    // * * * * * * * * *
-
- */

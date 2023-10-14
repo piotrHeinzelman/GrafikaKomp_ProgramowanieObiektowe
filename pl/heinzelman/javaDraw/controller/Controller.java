@@ -1,9 +1,9 @@
 package pl.heinzelman.javaDraw.controller;
 
 import pl.heinzelman.javaDraw.model.Model;
-import pl.heinzelman.javaDraw.strategy.Translate;
 import pl.heinzelman.javaDraw.strategy.CameraStrategy;
 import pl.heinzelman.javaDraw.strategy.ChartStrategy;
+import pl.heinzelman.javaDraw.strategy.Translate;
 import pl.heinzelman.javaDraw.tools.FileTool;
 import pl.heinzelman.javaDraw.view.View;
 
@@ -26,10 +26,8 @@ public class Controller {
     public void setCameraStrategy(){ view.turnOffAxis(); model.setStrategy( new CameraStrategy( model ) ); }
 
 
-
     // *****  ACTIONS CALL **********
     public void callDoTranslatePoint ( Translate translate ){
-        //System.out.println( this.getClass().getName() +  ".translate;" + translate );
         model.translatePoints( translate );
         model.refreshPixels();
         view.repaint();
@@ -58,11 +56,6 @@ public class Controller {
         model.createAxisEdge();
         model.refreshPixels();
         view.repaint();
-    }
-
-    public void actConfig(){
-        System.out.println( "Config !" );
-        // TODO change width & color
     }
 
 
