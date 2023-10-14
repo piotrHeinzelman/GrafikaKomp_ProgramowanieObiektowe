@@ -1,7 +1,8 @@
 package pl.heinzelman.javaDraw.controller;
 
 import pl.heinzelman.javaDraw.model.Model;
-import pl.heinzelman.javaDraw.model.Point;
+import pl.heinzelman.javaDraw.model.Translate;
+import pl.heinzelman.javaDraw.strategy.CameraStrategy;
 import pl.heinzelman.javaDraw.strategy.ChartStrategy;
 import pl.heinzelman.javaDraw.tools.FileTool;
 import pl.heinzelman.javaDraw.view.View;
@@ -20,28 +21,19 @@ public class Controller {
         model.setStrategy( new ChartStrategy( model ) );
     }
 
+    public void setChartStrategy() { model.setStrategy( new ChartStrategy ( model ) ); }
+    public void setCameraStrategy(){ model.setStrategy( new CameraStrategy( model ) ); }
+
 
 
 
 
     // *****  ACTIONS CALL **********
-    public void a_LEFT(){
-        System.out.println( this.getClass().getName() +  ".a_LEFT();" );
+    public void callDoTranslatePoint(Translate translate ){
+        System.out.println( this.getClass().getName() +  ".translate;" + translate );
     }
 
 
-/*
-a_LEFT
-a_RIGHT
-a_UP
-a_DOWN
-a_IN
-a_OUT
-r_LEFT
-r_RIGHT
-r_UP
-r_DOWN
-*/
 
 
     // ** load from file
@@ -61,12 +53,15 @@ r_DOWN
         for ( String s : ft.getListOfString( fileName )){
             model.addPoint( s.split(","));
         }
-        model.setModel();
+        model.resetModelScale();
         model.setPixels( model.getPixels_of_ProjectedPoints( model.getPoints() ));
         model.setEdges ( model.getEdgesOfPixels( model.getPixels() ));
         view.repaint();
     }
 
+    public void actConfig(){
+        System.out.println( "Config !" );
+    }
 
 
 

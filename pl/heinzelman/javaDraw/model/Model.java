@@ -53,7 +53,7 @@ public class Model {
     public void       setWalls(List<Wall> walls) { this.walls = walls;        }
 
 
-    public void setModel(){
+    public void resetModelScale(){
         getRangeOfPoint();
     }
 

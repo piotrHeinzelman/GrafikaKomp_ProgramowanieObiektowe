@@ -2,6 +2,7 @@ package pl.heinzelman.javaDraw.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class Window extends JFrame {
     public Window() throws HeadlessException {
@@ -16,9 +17,13 @@ public class Window extends JFrame {
         }
         JFrame.setDefaultLookAndFeelDecorated(true);
 
-        setLayout(new FlowLayout()); //setLayout(new GridLayout(3, 2));
-        //setSize(800, 600); // Change width and height as needed
+        setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+    }
+
+    public void quit(){
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        // Bye...
     }
 }

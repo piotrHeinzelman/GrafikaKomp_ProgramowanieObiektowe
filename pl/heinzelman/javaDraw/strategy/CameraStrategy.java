@@ -8,14 +8,15 @@ import pl.heinzelman.javaDraw.model.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChartStrategy implements ProjectionStrategy {
+public class CameraStrategy implements ProjectionStrategy {
     private final Model model;
 
-    public ChartStrategy( Model model ) {
+    public CameraStrategy(Model model ) {
         this.model = model;
     }
 
     public List<Pixel> getPixels_of_ProjectedPoints(List<Point> points ){
+        // TODO
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
 
@@ -51,6 +52,7 @@ public class ChartStrategy implements ProjectionStrategy {
 
 
     public List<Edge> getEdgesOfPixels( List<Pixel> pixels ){
+        // TODO
         // Join one-two two-three ...
         Pixel tmp = null;
         List<Edge> edges = new ArrayList<>();

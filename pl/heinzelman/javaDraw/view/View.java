@@ -130,7 +130,9 @@ public class View extends Canvas {
     }
 
 
-
+    public void drawPixel( Pixel p ){
+        g2d.drawLine( p.getX(), p.getY(), p.getX(), p.getY());
+    }
     public void drawListOfPixel( List<Pixel> list ){
         for ( Pixel pix : list ){
             drawPixel( pix );
@@ -138,11 +140,10 @@ public class View extends Canvas {
     }
 
 
-    public void drawPixel( Pixel p ){
-        g2d.drawLine( p.getX(), p.getY(), p.getX(), p.getY());
+
+    public void drawLine( Pixel p1, Pixel p2 ){
+        g2d.drawLine( p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
-
-
     public void drawListOfEdge( List<Edge> list ){
         for ( Edge e : list ){
             drawLine( e.getStart(), e.getEnd() );
@@ -150,9 +151,6 @@ public class View extends Canvas {
     }
 
 
-    public void drawLine( Pixel p1, Pixel p2 ){
-        g2d.drawLine( p1.getX(), p1.getY(), p2.getX(), p2.getY());
-    }
 
 
     // getters & setters
