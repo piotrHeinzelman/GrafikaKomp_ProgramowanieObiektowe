@@ -16,10 +16,19 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
     public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points ){
+
+        myFirstTest();
+
+
         // TODO
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
+        List<Pixel> pixels = new ArrayList<>();
 
+        System.out.println( "CameraStrategy: getPixels_of_ProjectedPoints" );
+        pixels.add(new Pixel(1,1));
+
+/*
         Double minX = model.getPmin().getX();
         Double maxX = model.getPmax().getX();
         Double minY = model.getPmin().getY();
@@ -29,7 +38,7 @@ public class CameraStrategy implements ProjectionStrategy {
         Double mull = aX<aY ? aX : aY;
 
 
-        List<Pixel> pixels = new ArrayList<>();
+
             for ( Point p : points ){
 
                 //  min,max
@@ -47,6 +56,7 @@ public class CameraStrategy implements ProjectionStrategy {
                     pixels.add( new Pixel( ix, iy ) ); // LeftTop = 00
                 }
             }
+            */
         return pixels;
     }
 
@@ -74,39 +84,10 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
 
-    }
-
-/*
-
-    public void createPixelFromPoints(){
-        for ( Point p : points ){
-            int x = XtoPixX( p.getX() );
-            int y = YtoPixY( p.getY() );
-
-            if ( x<minX || x>maxX ) continue;
-            if ( y<minY || y>maxY ) continue;
-
-            Pixel pix = new Pixel( x, y );
-            pixels.add( pix );
-        }
-
-    }
-
-    // * * * * *
-    // *
-    // *
-
-    public int XtoPixX( Double x ){
-        Double lx = deltaX+x*factor;
-        return lx.intValue();
-    }
-
-    public int YtoPixY( Double y ){
-        Double ly = deltaY+y*factor;
-        return ly.intValue();
+    public void myFirstTest(){
+        Matrix m = new Matrix();
+        System.out.println( m );
     }
 
 
-    // * * * * * * * * *
-
- */
+    }

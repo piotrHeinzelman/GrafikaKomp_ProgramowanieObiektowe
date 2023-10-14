@@ -52,16 +52,12 @@ public class Controller {
         FileTool ft = new FileTool();
         for ( String s : ft.getListOfString( fileName )){
             model.addPoint( s.split(","));
-            if ( chart==null && s.length()>2){ chart=false; }
-            if ( chart==null && s.length()==2){ chart=true; }
         }
-        if (chart) {
-            model.setStrategy( new ChartStrategy( model ));
+        if ( model.isChartStrategy() ) {
             model.calculateModelScale();
             model.createAxisEdge();
             view.turnOnAxis();
         } else {
-            model.setStrategy( new CameraStrategy( model ) );
             view.turnOffAxis();
         }
         model.refreshPixels();

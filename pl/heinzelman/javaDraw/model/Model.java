@@ -1,5 +1,6 @@
 package pl.heinzelman.javaDraw.model;
 
+import pl.heinzelman.javaDraw.strategy.ChartStrategy;
 import pl.heinzelman.javaDraw.strategy.ProjectionStrategy;
 import pl.heinzelman.javaDraw.strategy.Translate;
 
@@ -12,7 +13,7 @@ public class Model {
     private List<Edge>  edges  = new ArrayList<>();
     private List<Wall>  walls  = new ArrayList<>();
 
-    private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy( ProjectionStrategy strategy ) { this.strategy = strategy; }
+    private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy( ProjectionStrategy strategy ) { this.strategy = strategy; } public Boolean isChartStrategy() { return ( strategy.getClass()==ChartStrategy.class ); }
     private Double d = 100.0;                                                                                                         /* G&S */   public Double getD() { return d; } public void setD(Double d) { this.d = d; }
     private Pixel viewTopLeft;                                                                                                        /* G&S */   public void setViewTopLeft    (Pixel viewTopLeft)     { this.viewTopLeft = viewTopLeft; }         public Pixel getViewTopLeft() { return viewTopLeft; }
     private Pixel viewBottomRight;                                                                                                    /* G&S */   public void setViewBottomRight(Pixel viewBottomRight) { this.viewBottomRight = viewBottomRight; } public Pixel getViewBottomRight() { return viewBottomRight; }
@@ -43,7 +44,7 @@ public class Model {
     // Points
     private void         clearPoints() { points = new ArrayList<>(); }
     private List<Point>  getPoints()   { return points;              }
-    public void addPoint(String[] split ){
+    public void addPoint( String[] split ){
         if (split.length==0) return;
         Point p = Point.PointFromFile( split );
         if (p!=null) {
