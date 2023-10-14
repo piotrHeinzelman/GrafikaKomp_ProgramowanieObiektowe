@@ -1,6 +1,6 @@
 package pl.heinzelman.javaDraw.actions;
 
-import pl.heinzelman.javaDraw.model.Translate;
+import pl.heinzelman.javaDraw.strategy.Translate;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

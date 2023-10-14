@@ -36,4 +36,9 @@ public class Point {
     public void setY(Double y) { this.y = y; }
     public void setX(Double x) { this.x = x; }
 
+    public Point move ( Point vector ){ return new Point( x+vector.getX() , y+vector.getY() ); }
+    public Point scale ( Double mul ){
+        return new Point( x*mul , y*mul );
+    }
+
 }

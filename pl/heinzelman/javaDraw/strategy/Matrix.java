@@ -1,4 +1,4 @@
-package pl.heinzelman.javaDraw.model;
+package pl.heinzelman.javaDraw.strategy;
 
 public class Matrix {
     private Double x1, x2, x3, x4;

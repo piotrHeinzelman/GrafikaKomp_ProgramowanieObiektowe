@@ -37,8 +37,7 @@ public class ChartStrategy implements ProjectionStrategy {
                 //     (.)--(x-min)--(max-min)
                 //        (x-min) * 1200/(max-min)
 
-
-                System.out.println( minX+" : "+maxX+" - "+mull+" ? "+(p.getX()-minX) + " = " + (p.getX()-minX)*mull );
+                // System.out.println( minX+" : "+maxX+" - "+mull+" ? "+(p.getX()-minX) + " = " + (p.getX()-minX)*mull );
 
                 int ix = (int) ( 20+(p.getX()-minX) *mull );
                 int iy =(int) (  20+(p.getY()-minY) *mull );
@@ -59,6 +58,37 @@ public class ChartStrategy implements ProjectionStrategy {
             edges.add( new Edge( tmp , pix ) ); tmp=pix;
         }
         return edges;
+    }
+
+
+
+    public List<Point> translatePoints( List<Point> points , Translate translate ){
+        System.out.println( translate  );
+    List<Point> translated = new ArrayList<>();
+        // TODO
+        Point vector = new Point( 0.0 ,0.0 );
+        Double mul = 1.0;
+
+        Boolean mustMul=false;
+        Boolean mustMove=false;
+
+        switch (translate){
+            case LEFT  -> { vector.setX(  0.1 ); mustMove=true; }
+            case RIGHT -> { vector.setX( -0.1 ); mustMove=true; }
+            case UP    -> { vector.setY(  0.1 ); mustMove=true; }
+            case DOWN  -> { vector.setY( -0.1 ); mustMove=true; }
+            case IN    -> { mul = 1.1;           mustMul =true;  }
+            case OUT   -> { mul = 0.9;           mustMul =true; }
+        }
+
+        for ( Point p : points ){
+            new Point( p.getX(),p.getY() );
+            if ( mustMove ) p=p.move( vector );
+            if ( mustMul  ) p=p.scale( mul );
+            translated.add( p );
+        }
+
+    return translated;
     }
 }
 

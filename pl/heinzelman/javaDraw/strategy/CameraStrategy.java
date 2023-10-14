@@ -15,7 +15,7 @@ public class CameraStrategy implements ProjectionStrategy {
         this.model = model;
     }
 
-    public List<Pixel> getPixels_of_ProjectedPoints(List<Point> points ){
+    public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points ){
         // TODO
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
@@ -62,7 +62,19 @@ public class CameraStrategy implements ProjectionStrategy {
         }
         return edges;
     }
-}
+
+
+
+
+    public List<Point> translatePoints( List<Point> points , Translate translate ) {
+    // TODO
+        return points;
+    }
+
+
+
+
+    }
 
 /*
 

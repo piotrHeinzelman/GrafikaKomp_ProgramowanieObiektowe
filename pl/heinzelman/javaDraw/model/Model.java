@@ -1,6 +1,7 @@
 package pl.heinzelman.javaDraw.model;
 
 import pl.heinzelman.javaDraw.strategy.ProjectionStrategy;
+import pl.heinzelman.javaDraw.strategy.Translate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,30 @@ public class Model {
     private Point Pmax = null;
     private Point Pmin = null;                                                                                                        /* G&S */   public Point getPmax() { return Pmax; } public void setPmax(Point pmax) { Pmax = pmax; } public Point getPmin() { return Pmin; } public void setPmin(Point pmin) { Pmin = pmin; }
 
+
+    private List<Point> axisPoints = new ArrayList<>();
+
+    // --
+    public void clearAll(){
+        clearPixels();
+        clearPoints();
+    };
+
+    public void refreshPixels(){
+        pixels = strategy.getPixels_of_ProjectedPoints( points );
+         edges = strategy.getEdgesOfPixels( pixels );
+    }
+
+    public void translatePoints( Translate translate ){
+        points = strategy.translatePoints( points , translate );
+        axisPoints = strategy.translatePoints( axisPoints, translate );
+    }
+
+
+
     // Points
-    public void         clearPoints() { points = new ArrayList<>(); }
-    public List<Point>  getPoints()   { return points;              }
+    private void         clearPoints() { points = new ArrayList<>(); }
+    private List<Point>  getPoints()   { return points;              }
     public void addPoint(String[] split ){
         Point p = Point.PointFromFile( split );
         if (p!=null) {
@@ -53,7 +75,7 @@ public class Model {
     public void       setWalls(List<Wall> walls) { this.walls = walls;        }
 
 
-    public void resetModelScale(){
+    public void calculateModelScale(){
         getRangeOfPoint();
     }
 
@@ -78,6 +100,42 @@ public class Model {
         Pmax = new Point ( maxX, maxY );
     }
 
+    public void createAxisEdge() {
+        axisPoints = new ArrayList<>();
+
+        axisPoints.add(new Point(Pmin.getX() * 1.2, 0.0));
+        axisPoints.add(new Point(Pmax.getX() * 1.2, 0.0));
+        axisPoints.add(new Point(0.0, 0.0));
+        axisPoints.add(new Point(0.0, Pmin.getY() * 1.2));
+        axisPoints.add(new Point(0.0, Pmax.getY() * 1.2));
+        axisPoints.add(new Point(0.0, 0.0));
+        axisPoints.add(new Point(1.0, 0.0));
+        axisPoints.add(new Point(1.0, -0.1));
+        axisPoints.add(new Point(1.0, 0.0));
+        axisPoints.add(new Point(2.0, 0.0));
+        axisPoints.add(new Point(2.0, -0.1));
+        axisPoints.add(new Point(2.0, 0.0));
+        axisPoints.add(new Point(3.0, 0.0));
+        axisPoints.add(new Point(3.0, -0.1));
+        axisPoints.add(new Point(3.0, 0.0));
+        axisPoints.add(new Point(0.0, 0.0));
+        axisPoints.add(new Point(0.0, 1.0));
+        axisPoints.add(new Point(-0.1, 1.0));
+        axisPoints.add(new Point(0.0, 1.0));
+        axisPoints.add(new Point(0.0, -1.0));
+        axisPoints.add(new Point(-0.1, -1.0));
+        axisPoints.add(new Point(0.0, -1.0));
+        axisPoints.add(new Point(0.0, 0.0));
+        axisPoints.add(new Point(-1.0, -0.0));
+        axisPoints.add(new Point(-1.0, -0.1));
+        axisPoints.add(new Point(-1.0, -0.0));
+    }
+
+    public List<Edge> getAxisEdge() {
+        List<Pixel> axisPixel = getPixels_of_ProjectedPoints( axisPoints );
+        List<Edge>  listEdges = getEdgesOfPixels( axisPixel );
+        return listEdges;
+    }
 
 
 }
