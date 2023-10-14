@@ -44,6 +44,7 @@ public class Model {
     private void         clearPoints() { points = new ArrayList<>(); }
     private List<Point>  getPoints()   { return points;              }
     public void addPoint(String[] split ){
+        if (split.length==0) return;
         Point p = Point.PointFromFile( split );
         if (p!=null) {
             points.add( p );

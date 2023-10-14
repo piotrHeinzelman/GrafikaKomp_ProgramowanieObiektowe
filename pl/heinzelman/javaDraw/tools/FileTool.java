@@ -19,6 +19,7 @@ public class FileTool {
                 while ( scanner.hasNextLine() ){
                     lines.add( ( scanner.nextLine().toString()) );
                 }
+                scanner.close();
             }
         } catch( FileNotFoundException e ){
             System.out.println( "FileNotFoundException"+e ); }

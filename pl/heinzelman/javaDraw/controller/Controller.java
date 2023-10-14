@@ -22,8 +22,8 @@ public class Controller {
         model.setStrategy( new ChartStrategy( model ) );
     }
 
-    public void setChartStrategy() { view.turnOnAxis();  model.setStrategy( new ChartStrategy ( model ) ); }
-    public void setCameraStrategy(){ view.turnOffAxis(); model.setStrategy( new CameraStrategy( model ) ); }
+    public void setChartStrategy() { view.turnOnAxis();  model.setStrategy( new ChartStrategy ( model ) ); view.repaint(); }
+    public void setCameraStrategy(){ view.turnOffAxis(); model.setStrategy( new CameraStrategy( model ) ); view.repaint();}
 
 
     // *****  ACTIONS CALL **********
@@ -48,12 +48,22 @@ public class Controller {
 
     public void loadPointsFromFile( String fileName ){
         model.clearAll();
+        Boolean chart=null;
         FileTool ft = new FileTool();
         for ( String s : ft.getListOfString( fileName )){
             model.addPoint( s.split(","));
+            if ( chart==null && s.length()>2){ chart=false; }
+            if ( chart==null && s.length()==2){ chart=true; }
         }
-        model.calculateModelScale();
-        model.createAxisEdge();
+        if (chart) {
+            model.setStrategy( new ChartStrategy( model ));
+            model.calculateModelScale();
+            model.createAxisEdge();
+            view.turnOnAxis();
+        } else {
+            model.setStrategy( new CameraStrategy( model ) );
+            view.turnOffAxis();
+        }
         model.refreshPixels();
         view.repaint();
     }

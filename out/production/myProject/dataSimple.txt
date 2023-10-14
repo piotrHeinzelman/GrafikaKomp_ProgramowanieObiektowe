@@ -1,4 +1,5 @@
 #x,y,colorCode=R White|Black|Red|Green|Blue|Cyan|Magenta|grAy    # pierwsza linia nie jest brana pod uwage. sin(x) -1 do 3.8 liczona przez excel wiec 3.14 to moze byc 180st.
--1.0,-1,0
+-1.0,-1.0
 0.0,0.0
-1.0,-1.0
+0.1,0.1
+2.0,2.0
