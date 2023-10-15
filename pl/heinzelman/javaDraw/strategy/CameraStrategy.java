@@ -13,7 +13,6 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
     public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points ){
-        // TODO
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
         List<Pixel> pixels = new ArrayList<>();
@@ -82,7 +81,7 @@ public class CameraStrategy implements ProjectionStrategy {
                 i = 0;
             }
         }
-        return walls;
+        return SortWall( walls );
     }
 
 
@@ -122,4 +121,9 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
 
+    public List<Wall> SortWall( List<Wall> walls ){
+        // TODO Sort wall !
+        // must translated from Points, PIXELS is Flat :- (
+    return null;
+    }
 }
