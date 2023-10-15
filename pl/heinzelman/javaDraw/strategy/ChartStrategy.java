@@ -1,9 +1,6 @@
 package pl.heinzelman.javaDraw.strategy;
 
-import pl.heinzelman.javaDraw.model.Edge;
-import pl.heinzelman.javaDraw.model.Model;
-import pl.heinzelman.javaDraw.model.Pixel;
-import pl.heinzelman.javaDraw.model.Point;
+import pl.heinzelman.javaDraw.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +56,10 @@ public class ChartStrategy implements ProjectionStrategy {
         return edges;
     }
 
+    @Override
+    public List<Wall> getWallsOfPixels(List<Pixel> pixels) {
+        return null;
+    }
 
 
     public List<Point> translatePoints( List<Point> points , Translate translate ){

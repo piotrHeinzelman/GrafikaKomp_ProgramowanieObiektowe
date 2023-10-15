@@ -1,18 +1,20 @@
 package pl.heinzelman.javaDraw.model;
 
 
+import pl.heinzelman.javaDraw.strategy.Matrix;
+
 public class Point {
     protected Double x;
     protected Double y;
 
-    public Point( Double x, Double y ) {
+
+    public Point() {}
+    public Point(Double x, Double y ) {
         this.setX(x);
         this.setY(y);
     }
 
 
-    //public static Point Point3D( String str ) {
-    //    String[] split = str.split(",");
     public static Point PointFromFile( String[] split ) {
         Double tmp=null;
         Double x=null;
@@ -23,8 +25,11 @@ public class Point {
             if (split.length>1) { tmp = Double.parseDouble( split[1] ); if (tmp!=null) { y=tmp; }
                if ( split.length==2 ){ return new Point(x,y); } // Point
             }
-            if (split.length>2) { tmp = Double.parseDouble( split[2] ); if (tmp!=null) { z=tmp; }}
-            return new Point3D( x,y,z );                       // Point3D
+            if (split.length>2) {
+                tmp = Double.parseDouble( split[2] );
+                if (tmp!=null) {  return new Point3D( x,y,tmp ); }
+            }
+
         }
         catch( Throwable e ){}
         return null;
@@ -40,5 +45,8 @@ public class Point {
     public Point scale ( Double mul ){
         return new Point( x*mul , y*mul );
     }
+    public Point mul( Matrix matrix ){ return null; }
 
+    @Override
+    public String toString() { return "{x=" + x + ", y=" + y + '}'; }
 }

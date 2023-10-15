@@ -1,9 +1,6 @@
 package pl.heinzelman.javaDraw.strategy;
 
-import pl.heinzelman.javaDraw.model.Edge;
-import pl.heinzelman.javaDraw.model.Model;
-import pl.heinzelman.javaDraw.model.Pixel;
-import pl.heinzelman.javaDraw.model.Point;
+import pl.heinzelman.javaDraw.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,83 +8,118 @@ import java.util.List;
 public class CameraStrategy implements ProjectionStrategy {
     private final Model model;
 
-    public CameraStrategy(Model model ) {
+    public CameraStrategy( Model model ) {
         this.model = model;
     }
 
     public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points ){
-
-        myFirstTest();
-
-
         // TODO
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
         List<Pixel> pixels = new ArrayList<>();
 
-        System.out.println( "CameraStrategy: getPixels_of_ProjectedPoints" );
-        pixels.add(new Pixel(1,1));
+        Matrix screenMatrix = new Matrix(); /* set d */ Double[][] sm=screenMatrix.getM();sm[2][3]=(1/model.getD()); sm[3][3]=0.0;
+        Double d = model.getD();
+        for ( Point p : points ){
+            Point3D p3 = (Point3D) p;
+            Double x=p3.getX();
+            Double y=p3.getY();
+            Double z=p3.getZ();
+            Double w=p3.getW();
 
-/*
-        Double minX = model.getPmin().getX();
-        Double maxX = model.getPmax().getX();
-        Double minY = model.getPmin().getY();
-        Double maxY = model.getPmax().getY();
-        Double aX = (deltaX+deltaX)/(maxX-minX);
-        Double aY = (deltaY+deltaY)/(maxY-minY);
-        Double mull = aX<aY ? aX : aY;
-
-
-
-            for ( Point p : points ){
-
-                //  min,max
-                //        min--x--max
-                //     0-------------------------1200
-                //     (.)--(x-min)--(max-min)
-                //        (x-min) * 1200/(max-min)
-
-
-                System.out.println( minX+" : "+maxX+" - "+mull+" ? "+(p.getX()-minX) + " = " + (p.getX()-minX)*mull );
-
-                int ix = (int) ( 20+(p.getX()-minX) *mull );
-                int iy =(int) (  20+(p.getY()-minY) *mull );
-                if ( true || ix > 0 && ix < maxX && iy > 0 && iy < maxY ) {
-                    pixels.add( new Pixel( ix, iy ) ); // LeftTop = 00
-                }
-            }
-            */
+            Point3D proj = screenMatrix.mul( p3 );
+            Pixel pix = new Pixel( deltaX+proj.getX().intValue(), deltaY-proj.getY().intValue() );
+            pixels.add( pix );
+        }
         return pixels;
     }
 
 
     public List<Edge> getEdgesOfPixels( List<Pixel> pixels ){
-        // TODO
-        // Join one-two two-three ...
-        Pixel tmp = null;
+        Pixel corners[] = new Pixel[9];
+        int i=0;
         List<Edge> edges = new ArrayList<>();
         for ( Pixel pix : pixels ){
-            if ( tmp==null ){ tmp=pix; continue; }
-            edges.add( new Edge( tmp , pix ) ); tmp=pix;
+            corners[i] = pix;
+            i++;
+            if (i==8) {
+                edges.add(new Edge(corners[0], corners[1]));
+                edges.add(new Edge(corners[1], corners[2]));
+                edges.add(new Edge(corners[2], corners[3]));
+                edges.add(new Edge(corners[3], corners[0]));
+
+                edges.add(new Edge(corners[0], corners[4]));
+                edges.add(new Edge(corners[1], corners[5]));
+                edges.add(new Edge(corners[2], corners[6]));
+                edges.add(new Edge(corners[3], corners[7]));
+
+                edges.add(new Edge(corners[4], corners[5]));
+                edges.add(new Edge(corners[5], corners[6]));
+                edges.add(new Edge(corners[6], corners[7]));
+                edges.add(new Edge(corners[7], corners[4]));
+                i = 0;
+            }
         }
         return edges;
     }
 
 
 
+    public List<Wall> getWallsOfPixels( List<Pixel> pixels ){
+        Pixel corners[] = new Pixel[9];
+        int i=0;
+        List<Wall> walls = new ArrayList<>();
+        for ( Pixel pix : pixels ){
+            corners[i] = pix;
+            i++;
+            if (i==8) {
+                walls.add( new Wall( corners[0], corners[1], corners[2], corners[3] ));
+                walls.add( new Wall( corners[4], corners[5], corners[6], corners[7] ));
+                walls.add( new Wall( corners[0], corners[1], corners[5], corners[4] ));
+                walls.add( new Wall( corners[3], corners[2], corners[6], corners[7] ));
+                walls.add( new Wall( corners[0], corners[3], corners[7], corners[4] ));
+                walls.add( new Wall( corners[1], corners[2], corners[6], corners[5] ));
+                i = 0;
+            }
+        }
+        return walls;
+    }
+
+
+
+
+
+
+
+
+
 
     public List<Point> translatePoints( List<Point> points , Translate translate ) {
-    // TODO
-        return points;
+        List<Point> translated = new ArrayList<>();
+        Matrix translatedMatrix = new Matrix();
+        Double phi=30*(3.14/360);//0.0314;
+        Double step=10.0;
+
+        switch (translate){
+            case LEFT  -> { translatedMatrix = Matrix.getMoveMatrix( -step,0.0,0.0 ); }
+            case RIGHT -> { translatedMatrix = Matrix.getMoveMatrix(  step,0.0,0.0 ); }
+            case UP    -> { translatedMatrix = Matrix.getMoveMatrix(   0.0, step,0.0 ); }
+            case DOWN  -> { translatedMatrix = Matrix.getMoveMatrix(   0.0,-step,0.0 ); }
+            case IN    -> {  model.setD( model.getD()*1.1 ); }
+            case OUT   -> {  model.setD( model.getD()*(1.0/1.1) ); }
+            case ROT_CCW -> { translatedMatrix = Matrix.getRotateZMatrix( -phi ); }
+            case ROT_CW  -> { translatedMatrix = Matrix.getRotateZMatrix(  phi ); }
+            case ROT_DOWN ->{ translatedMatrix = Matrix.getRotateXMatrix(  phi ); }
+            case ROT_UP  -> { translatedMatrix = Matrix.getRotateXMatrix( -phi ); }
+            case ROT_LEFT ->{ translatedMatrix = Matrix.getRotateYMatrix( -phi ); }
+            case ROT_RIGHT->{ translatedMatrix = Matrix.getRotateYMatrix(  phi ); }
+        }
+
+        for ( Point p : points ){
+            translated.add( translatedMatrix.mul( (Point3D)p ));
+        }
+        return translated;
     }
 
 
-
-
-    public void myFirstTest(){
-        Matrix m = new Matrix();
-        System.out.println( m );
-    }
-
-
-    }
+}

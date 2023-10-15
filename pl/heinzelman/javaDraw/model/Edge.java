@@ -12,4 +12,9 @@ public class Edge {
 
     public Pixel getStart() { return start; }
     public Pixel getEnd()   { return end;   }
+
+    @Override
+    public String toString() {
+        return "{ "+start.toString() + ", " + end.toString() + '}';
+    }
 }

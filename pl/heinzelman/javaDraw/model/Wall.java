@@ -18,14 +18,11 @@ public class Wall  { /* WALL in projection ! 2D quadrangle ! */
         this.two = two;
         this.three = three;
         this.four = four;
-
     }
 
-    public java.util.List<Pixel> getPixelsOfWall(){
-        List<Pixel> pixels = new ArrayList<>();
-        // generate wall
-        return pixels;
-    }
-
+    public Pixel getOne() { return one; }
+    public Pixel getTwo() { return two; }
+    public Pixel getThree() { return three; }
+    public Pixel getFour() { return four; }
 
 }

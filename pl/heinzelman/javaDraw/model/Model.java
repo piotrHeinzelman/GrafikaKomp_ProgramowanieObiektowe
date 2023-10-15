@@ -14,7 +14,7 @@ public class Model {
     private List<Wall>  walls  = new ArrayList<>();
 
     private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy( ProjectionStrategy strategy ) { this.strategy = strategy; } public Boolean isChartStrategy() { return ( strategy.getClass()==ChartStrategy.class ); }
-    private Double d = 100.0;                                                                                                         /* G&S */   public Double getD() { return d; } public void setD(Double d) { this.d = d; }
+    private Double d = 220.0;                                                                                                         /* G&S */   public Double getD() { return d; } public void setD(Double d) { this.d = d; }
     private Pixel viewTopLeft;                                                                                                        /* G&S */   public void setViewTopLeft    (Pixel viewTopLeft)     { this.viewTopLeft = viewTopLeft; }         public Pixel getViewTopLeft() { return viewTopLeft; }
     private Pixel viewBottomRight;                                                                                                    /* G&S */   public void setViewBottomRight(Pixel viewBottomRight) { this.viewBottomRight = viewBottomRight; } public Pixel getViewBottomRight() { return viewBottomRight; }
     private Point Pmax = null;
@@ -32,6 +32,9 @@ public class Model {
     public void refreshPixels(){
         pixels = strategy.getPixels_of_ProjectedPoints( points );
          edges = strategy.getEdgesOfPixels( pixels );
+         if ( !isChartStrategy() ) {
+             walls = strategy.getWallsOfPixels(pixels);
+         }
     }
 
     public void translatePoints( Translate translate ){

@@ -3,8 +3,10 @@ package pl.heinzelman.javaDraw.view;
 import pl.heinzelman.javaDraw.model.Edge;
 import pl.heinzelman.javaDraw.model.Model;
 import pl.heinzelman.javaDraw.model.Pixel;
+import pl.heinzelman.javaDraw.model.Wall;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.util.List;
 
 public class View extends Canvas {
@@ -14,7 +16,8 @@ public class View extends Canvas {
 
     private Color bgcolor    = new Color( 0x20,0x20,0x20 );
     private Color axisColor  = new Color( 0x00,0x50,0x00 );
-    private Color color = new Color( 0x00,0xa0,0xf0 );
+    private Color color      = new Color( 0x00,0xa0,0xf0 );
+    private Color wallColor = new Color( 0xA0,0x00, 0x20 );
     private Graphics2D g2d   = null;
     private int strokeWidth = 1;
 
@@ -58,6 +61,7 @@ public class View extends Canvas {
             drawAxis( g2d );
         }
 
+
         // points ? !
         if ( true ) {
             g2d.setStroke(new BasicStroke( strokeWidth +1 ));
@@ -73,12 +77,11 @@ public class View extends Canvas {
         }
 
         // walls ?
-        if ( false ){
+        if ( !model.isChartStrategy() ){
             g2d.setStroke( new BasicStroke(strokeWidth) );
             g2d.setColor( color );
-            // TODO draw walls
+            drawListOfWall( model.getWalls() );
         }
-
     }
 
 
@@ -109,6 +112,30 @@ public class View extends Canvas {
         }
     }
 
+    public void drawWall( Wall w, Color color ){
+        g2d.setColor(color);
+
+        GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
+        polyline.moveTo( w.getOne().getX(), w.getOne().getY() );
+        polyline.lineTo( w.getTwo().getX(), w.getTwo().getY() );
+        polyline.lineTo( w.getThree().getX(), w.getThree().getY() );
+        polyline.lineTo( w.getFour().getX(), w.getFour().getY() );
+        polyline.closePath();
+        g2d.fill( polyline );
+        //g2d.draw( polyline );
+    }
+
+    public void drawListOfWall( List<Wall> list ){
+        Color tmp = color;
+        int i=0;
+        for ( Wall w : list ){
+            Color c = new Color( 0xA0, 0x0+i*8, 0x0+i*8 );
+            i++;
+            //List<Pixel> pixelsOfWall = w.getPixelsOfWall();
+            drawWall( w , c );
+        }
+      color=tmp;
+    }
 
 
 
