@@ -70,4 +70,6 @@ public class Controller {
     public void colSetRed()  { view.setColor( new Color(255,0,0)); view.repaint(); }
     public void colSetGreen(){ view.setColor( new Color(0,255,0)); view.repaint(); }
     public void colSetBlue() { view.setColor( new Color(0,0,255)); view.repaint(); }
+
+    @Deprecated  public View getView() { return view; }
 }

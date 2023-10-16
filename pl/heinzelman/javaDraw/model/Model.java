@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Model {
     private List<Point> points = new ArrayList<>();
+
     private List<Pixel> pixels = new ArrayList<>();
     private List<Edge>  edges  = new ArrayList<>();
     private List<Wall>  walls  = new ArrayList<>();
@@ -46,7 +47,7 @@ public class Model {
 
     // Points
     private void         clearPoints() { points = new ArrayList<>(); }
-    private List<Point>  getPoints()   { return points;              }
+    private List<Point>  getPoints()   { return points;              } @Deprecated public List<Point> TEST_ONLY_getPoints(){ return points;}
     public void addPoint( String[] split ){
         if (split.length==0) return;
         Point p = Point.PointFromFile( split );

@@ -122,8 +122,9 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
     public List<Wall> SortWall( List<Wall> walls ){
+        List<Wall> sortedWall = new ArrayList<>();
         // TODO Sort wall !
         // must translated from Points, PIXELS is Flat :- (
-    return null;
+    return sortedWall;
     }
 }
