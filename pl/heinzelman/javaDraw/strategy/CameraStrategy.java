@@ -79,7 +79,7 @@ public class CameraStrategy implements ProjectionStrategy {
                 Point3D c0=(Point3D) points.get(0); Point3D c1=(Point3D) points.get(1); Point3D c2=(Point3D) points.get(2); Point3D c3=(Point3D) points.get(3);
 
                 Vector3D normal = Vector3D.getNormal(new Vector3D(c1, c0), new Vector3D(c1, c2));
-                Point3D pCenter = new Point3D( (c0.getX()-c2.getX())/2, (c0.getY()-c2.getY())/2 , (c0.getZ()-c2.getZ())/2 );
+                Point3D pCenter = c0; // new Point3D( (c0.getX()-c2.getX())/2, (c0.getY()-c2.getY())/2 , (c0.getZ()-c2.getZ())/2 );
                 for (int j=0;j<5;j++){
                     points.add( new Point3D( pCenter.getX()+j* normal.getX() , pCenter.getY()+j* normal.getY(), pCenter.getZ()+j* normal.getZ() ));
                 }
