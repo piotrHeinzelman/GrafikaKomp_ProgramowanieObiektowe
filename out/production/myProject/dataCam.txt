@@ -1,9 +1,10 @@
 #x,y,z=0.0,colorCode=R White|Black|Red|Green|Blue|Cyan|Magenta|grAy    # pierwsza linia nie jest brana pod uwage. pomiedzy danymi Tabulator, kolejnosc prostopadloscianu: 1. d�l-lewy-prz�d, 2. d�l-prawy-prz�d 3. d�l-prawy-tyl 4. d�l-lewy-tyl 5.g�ra...
-10.0,0.0,100,0
-30.0,0.0,100,0
-30.0,0.0,80,0
-10.0,0.0,80,0
-10.0,20.0,100,0
-30.0,20.0,100,0
+10.0, 0.0,80,0
+30.0, 0.0,80,0
 30.0,20.0,80,0
 10.0,20.0,80,0
+10.0, 0.0,100,0
+30.0, 0.0,100,0
+30.0,20.0,100,0
+10.0,20.0,100,0
+

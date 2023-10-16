@@ -27,9 +27,9 @@ public class TestClass {
 	public void Two(){
 
 		List<Point> points = model.TEST_ONLY_getPoints();
-		Point3D p0 = (Point3D) points.get(4);
-		Point3D p1 = (Point3D) points.get(5);
-		Point3D p2 = (Point3D) points.get(6);
+		Point3D p0 = (Point3D) points.get(0);
+		Point3D p1 = (Point3D) points.get(1);
+		Point3D p2 = (Point3D) points.get(4);
 
 
 
@@ -41,7 +41,7 @@ public class TestClass {
 
 
 		Plane Pi = new Plane (p0, p1, p2);
-		Vector3D.getNormal(new Vector3D(p1, p0), new Vector3D(p1, p2))
+		Vector3D.getNormal(new Vector3D(p1, p0), new Vector3D(p1, p2));
 
 		System.out.println( Pi );
 

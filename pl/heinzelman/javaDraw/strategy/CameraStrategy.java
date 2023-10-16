@@ -66,6 +66,7 @@ public class CameraStrategy implements ProjectionStrategy {
 
     public List<Wall> getWallsOfPixels( List<Pixel> pixels ){
         Pixel corners[] = new Pixel[9];
+        List<Point> points = model.TEST_ONLY_getPoints();
         int i=0;
         List<Wall> walls = new ArrayList<>();
         for ( Pixel pix : pixels ){
@@ -73,11 +74,22 @@ public class CameraStrategy implements ProjectionStrategy {
             i++;
             if (i==8) {
                 walls.add( new Wall( corners[0], corners[1], corners[2], corners[3] ));
-                walls.add( new Wall( corners[4], corners[5], corners[6], corners[7] ));
-                walls.add( new Wall( corners[0], corners[1], corners[5], corners[4] ));
-                walls.add( new Wall( corners[3], corners[2], corners[6], corners[7] ));
-                walls.add( new Wall( corners[0], corners[3], corners[7], corners[4] ));
-                walls.add( new Wall( corners[1], corners[2], corners[6], corners[5] ));
+                // add NormalVector ... :-)
+                // 3D corner
+                Point3D c0=(Point3D) points.get(0); Point3D c1=(Point3D) points.get(1); Point3D c2=(Point3D) points.get(2); Point3D c3=(Point3D) points.get(3);
+
+                Vector3D normal = Vector3D.getNormal(new Vector3D(c1, c0), new Vector3D(c1, c2));
+                Point3D pCenter = new Point3D( (c0.getX()-c2.getX())/2, (c0.getY()-c2.getY())/2 , (c0.getZ()-c2.getZ())/2 );
+                for (int j=0;j<5;j++){
+                    points.add( new Point3D( pCenter.getX()+j* normal.getX() , pCenter.getY()+j* normal.getY(), pCenter.getZ()+j* normal.getZ() ));
+                }
+
+
+           //     walls.add( new Wall( corners[4], corners[5], corners[6], corners[7] ));
+           //     walls.add( new Wall( corners[0], corners[1], corners[5], corners[4] ));
+           //     walls.add( new Wall( corners[3], corners[2], corners[6], corners[7] ));
+           //     walls.add( new Wall( corners[0], corners[3], corners[7], corners[4] ));
+           //     walls.add( new Wall( corners[1], corners[2], corners[6], corners[5] ));
                 i = 0;
             }
         }
@@ -122,6 +134,7 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
     public List<Wall> SortWall( List<Wall> walls ){
+        if ( true ) return walls;
         List<Wall> sortedWall = new ArrayList<>();
         // TODO Sort wall !
         // must translated from Points, PIXELS is Flat :- (

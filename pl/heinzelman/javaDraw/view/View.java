@@ -64,20 +64,20 @@ public class View extends Canvas {
 
         // points ? !
         if ( true ) {
-            g2d.setStroke(new BasicStroke( strokeWidth +1 ));
+            g2d.setStroke(new BasicStroke( strokeWidth +2 ));
             g2d.setColor( color );
             drawListOfPixel( model.getPixels() );
         }
 
         // edge ? !
-        if ( true ) {
+        if ( false ) {
             g2d.setStroke( new BasicStroke(strokeWidth) );
             g2d.setColor( color );
             drawListOfEdge( model.getEdges() );
         }
 
         // walls ?
-        if ( !model.isChartStrategy() ){
+        if ( true || !model.isChartStrategy() ){
             g2d.setStroke( new BasicStroke(strokeWidth) );
             g2d.setColor( color );
             drawListOfWall( model.getWalls() );
@@ -129,7 +129,8 @@ public class View extends Canvas {
         Color tmp = color;
         int i=0;
         for ( Wall w : list ){
-            Color c = new Color( 0xA0, 0x0+i*8, 0x0+i*8 );
+            //Color c = new Color( 0xA0, (0x0+i*8)%0xff, (0x0+i*8)%0xff );
+            Color c = new Color( 0xa0 , 0xf0 , 0x00, 15 );
             i++;
             //List<Pixel> pixelsOfWall = w.getPixelsOfWall();
             drawWall( w , c );

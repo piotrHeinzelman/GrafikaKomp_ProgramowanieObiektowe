@@ -57,7 +57,7 @@ public class Plane {
         return p;
     }
 
-    public int checkSide( Point3D p2 ){
+    public boolean checkSideIsAtRightSide( Point3D p2 ){
         /* P2 o
               |  l= x=x0+ta / y=y0+tb / z=zo+tc  po - punkt prostej  wektor wzd. v=(a,b,c)
         ------|------
@@ -68,7 +68,7 @@ public class Plane {
                        t= D-Ax2-By2-Cy2 / (A²+B²+C²);
                        nie muszę liczyć / (A²+B²+C²) bo szukam tylko kierunku a / (A²+B²+C²) zawsze jest dodatnie.
      */
-        if (( D -A*p2.getX() -B*p2.getY() -C*p2.getZ() ) > 0 ) { return 1; } else { return -1;}
+        if ((  A*p2.getX() +B*p2.getY() +C*p2.getZ() ) < D ) { return false; } else { return true; }
     }
 
     @Override
