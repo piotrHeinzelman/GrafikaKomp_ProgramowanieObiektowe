@@ -1,7 +1,9 @@
 package pl.heinzelman.javaDraw.strategy;
 
 import pl.heinzelman.javaDraw.model.*;
+import pl.heinzelman.javaDraw.model.Point;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,23 +75,26 @@ public class CameraStrategy implements ProjectionStrategy {
             corners[i] = pix;
             i++;
             if (i==8) {
-                walls.add( new Wall( corners[0], corners[1], corners[2], corners[3] ));
+                walls.add( new Wall( corners[0], corners[1], corners[2], corners[3] , new Color(  255,8*walls.size(),255 ))); //8*4=32=16*2 8 steps
+                walls.add( new Wall( corners[7], corners[6], corners[5], corners[4] , new Color(  205,8*walls.size(),205 )));
+                walls.add( new Wall( corners[2], corners[1], corners[5], corners[6] , new Color(  155,8*walls.size(),155 )));
+                walls.add( new Wall( corners[0], corners[3], corners[7], corners[4] , new Color(  105,8*walls.size(),105 )));
+                walls.add( new Wall( corners[0], corners[4], corners[5], corners[1] , new Color(  55,8*walls.size(),55 )));
+                walls.add( new Wall( corners[7], corners[3], corners[2], corners[6] , new Color(  5,8*walls.size(),5 )));
                 // add NormalVector ... :-)
                 // 3D corner
-                Point3D c0=(Point3D) points.get(0); Point3D c1=(Point3D) points.get(1); Point3D c2=(Point3D) points.get(2); Point3D c3=(Point3D) points.get(3);
+                //Point3D c0=(Point3D) points.get(7);
+                //Point3D c1=(Point3D) points.get(3);
+                //Point3D c2=(Point3D) points.get(2);
+                //Point3D c3=(Point3D) points.get(6);
 
-                Vector3D normal = Vector3D.getNormal(new Vector3D(c1, c0), new Vector3D(c1, c2));
-                Point3D pCenter = c0; // new Point3D( (c0.getX()-c2.getX())/2, (c0.getY()-c2.getY())/2 , (c0.getZ()-c2.getZ())/2 );
-                for (int j=0;j<5;j++){
-                    points.add( new Point3D( pCenter.getX()+j* normal.getX() , pCenter.getY()+j* normal.getY(), pCenter.getZ()+j* normal.getZ() ));
-                }
-
-
-           //     walls.add( new Wall( corners[4], corners[5], corners[6], corners[7] ));
-           //     walls.add( new Wall( corners[0], corners[1], corners[5], corners[4] ));
-           //     walls.add( new Wall( corners[3], corners[2], corners[6], corners[7] ));
-           //     walls.add( new Wall( corners[0], corners[3], corners[7], corners[4] ));
-           //     walls.add( new Wall( corners[1], corners[2], corners[6], corners[5] ));
+                //if (pixels.size()<20) {
+                //    Vector3D normal = Vector3D.getNormal(new Vector3D(c1, c0), new Vector3D(c1, c2));
+                //    Point3D pCenter = c1; //new Point3D( (c0.getX()-c2.getX())/2, (c0.getY()-c2.getY())/2 , (c0.getZ()-c2.getZ())/2 );
+                //    for (int j = 0; j < 4; j++) {
+                //        points.add(new Point3D(pCenter.getX() + j * normal.getX() * 0.01, pCenter.getY() + j * normal.getY() * 0.01, pCenter.getZ() + j * normal.getZ() * 0.01));
+                //    }
+                //}
                 i = 0;
             }
         }

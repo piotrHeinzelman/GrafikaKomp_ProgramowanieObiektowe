@@ -20,6 +20,15 @@ public class Wall  { /* WALL in projection ! 2D quadrangle ! */
         this.four = four;
     }
 
+    public Wall( Pixel one, Pixel two, Pixel three, Pixel four , Color color) {
+        // sort by x & y
+        this.one = one;
+        this.two = two;
+        this.three = three;
+        this.four = four;
+        this.color = color;
+    }
+
     public Pixel getOne() { return one; }
     public Pixel getTwo() { return two; }
     public Pixel getThree() { return three; }

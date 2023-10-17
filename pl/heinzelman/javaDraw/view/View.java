@@ -112,9 +112,7 @@ public class View extends Canvas {
         }
     }
 
-    public void drawWall( Wall w, Color color ){
-        g2d.setColor(color);
-
+    public void drawWall( Wall w ){
         GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
         polyline.moveTo( w.getOne().getX(), w.getOne().getY() );
         polyline.lineTo( w.getTwo().getX(), w.getTwo().getY() );
@@ -122,18 +120,18 @@ public class View extends Canvas {
         polyline.lineTo( w.getFour().getX(), w.getFour().getY() );
         polyline.closePath();
         g2d.fill( polyline );
-        //g2d.draw( polyline );
     }
 
     public void drawListOfWall( List<Wall> list ){
         Color tmp = color;
         int i=0;
         for ( Wall w : list ){
-            //Color c = new Color( 0xA0, (0x0+i*8)%0xff, (0x0+i*8)%0xff );
-            Color c = new Color( 0xa0 , 0xf0 , 0x00, 15 );
+            if ( w.getColor()!=null ) {
+                g2d.setColor( w.getColor() );
+            }
             i++;
             //List<Pixel> pixelsOfWall = w.getPixelsOfWall();
-            drawWall( w , c );
+            drawWall( w );
         }
       color=tmp;
     }
