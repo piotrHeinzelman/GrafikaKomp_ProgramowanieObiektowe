@@ -35,7 +35,7 @@ public class Model {
         pixels = strategy.getPixels_of_ProjectedPoints( points );
          edges = strategy.getEdgesOfPixels( pixels );
          if ( !isChartStrategy() ) {
-             walls = strategy.SortAndFlatWall3D( strategy.getWallsOfPixels( pixels ));
+             walls = strategy.SortAndFlatWall3D( strategy.getWallsOfPoints3D( points ));
          }
     }
 

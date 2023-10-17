@@ -3,10 +3,14 @@ package pl.heinzelman.javaDraw.tools;
 import pl.heinzelman.javaDraw.controller.Controller;
 import pl.heinzelman.javaDraw.model.*;
 import pl.heinzelman.javaDraw.model.Point;
+import pl.heinzelman.javaDraw.strategy.CameraStrategy;
 import pl.heinzelman.javaDraw.strategy.Matrix;
+import pl.heinzelman.javaDraw.strategy.ProjectionStrategy;
+import pl.heinzelman.javaDraw.view.View;
 import pl.heinzelman.javaDraw.view.Window;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestClass {
@@ -15,11 +19,13 @@ public class TestClass {
 	private final Window win;
 	private final Model model;
 	private final Controller controller;
+	private final View view;
 
-	public TestClass(Window win, Model model, Controller controller) {
+	public TestClass(Window win, Model model, Controller controller, View view) {
 		this.win = win;
 		this.model = model;
 		this.controller = controller;
+		this.view = view;
 
 		//One();
 		//Two();
@@ -29,17 +35,61 @@ public class TestClass {
 
 
 	public void Three() {
-		//Wall3D wall3D   = new Wall3D(new Point3D(-20.0, -20.0, 80.0), new Point3D(20.0, -20.0, 80.0), new Point3D(20.0, 20.0, 80.0), new Point3D(-20.0, 20.0, 80.0), new Color(0, 128, 255));
-		Wall3D wall3D = new Wall3D(new Point3D(-20.0,  -0.01, 80.0), new Point3D(20.0, -0.01, 80.0), new Point3D(20.0, 20.0, 80.0), new Point3D(-20.0, 20.0, 80.0), new Color( 255, 0, 255 ));
-		Plane plane = new Plane( new Point3D (30.0,0.0,80.0), new Point3D (10.0,0.0,80.0), new Point3D (10.0,0.0,100.0) );
+
+		Wall3D wall3D   = new Wall3D(new Point3D(-20.0, -20.0, 180.0), new Point3D(20.0, -20.0, 180.0), new Point3D(20.0, 20.0, 180.0), new Point3D(-20.0, 20.0, 180.0), new Color(0, 128, 255));
+		//Wall3D wall3D = new Wall3D(new Point3D(-20.0, -0.01, 80.0), new Point3D( 20.0, -0.01, 80.0), new Point3D( 20.0, 20.0, 80.0 ), new Point3D(-20.0, 20.0, 80.0), new Color( 255, 0, 255 ));
+		//Plane plane   = new Plane( new Point3D( 30.0,  3.0,  80.0),  new Point3D( 10.0, 3.0, 100.0 ),new Point3D( 10.0,  3.0,  80.0));
+		Plane plane   = new Plane( new Point3D( 0.0,  10.0,  80.0), new Point3D( 0.0,  0.0,  80.0), new Point3D( 0.0, 0.0, 100.0 ));
 
 		System.out.println( plane.checkSideIsAtRightSide( wall3D.getOne()   ) );
 		System.out.println( plane.checkSideIsAtRightSide( wall3D.getTwo()   ) );
 		System.out.println( plane.checkSideIsAtRightSide( wall3D.getThree() ) );
 		System.out.println( plane.checkSideIsAtRightSide( wall3D.getFour()  ) );
 
-		System.out.println( wall3D );
+		Wall3D[] splittedWallUp = wall3D.split_andGetUp(plane);
 
+		System.out.println( wall3D );
+		System.out.println( "Split1"+splittedWallUp[0] );
+		System.out.println( "Split2"+splittedWallUp[1] );
+
+		model.getWalls3D().add(splittedWallUp[0]);
+		model.getWalls3D().add(splittedWallUp[1]);
+		List<Wall3D> listWall3D = new ArrayList<>();
+		listWall3D.add(splittedWallUp[0]);
+		listWall3D.add(splittedWallUp[1]);
+
+		ProjectionStrategy str =new CameraStrategy( model );
+
+		System.out.println( "listWall3D: "+listWall3D );
+		List<Wall> walls = str.SortAndFlatWall3D(listWall3D);
+
+		model.clearAll();
+		model.TEST_ONLY_getPoints().add( splittedWallUp[0].getOne() );
+		model.TEST_ONLY_getPoints().add( splittedWallUp[0].getTwo() );
+		model.TEST_ONLY_getPoints().add( splittedWallUp[0].getThree() );
+		model.TEST_ONLY_getPoints().add( splittedWallUp[0].getFour() );
+
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[0].getOne()   ) );
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[0].getTwo()   ) );
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[0].getThree() ) );
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[0].getFour()  ) );
+
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[1].getOne()   ) );
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[1].getTwo()   ) );
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[1].getThree() ) );
+		System.out.println( plane.checkSideIsAtRightSide( splittedWallUp[1].getFour()  ) );
+
+		model.TEST_ONLY_getPoints().add( splittedWallUp[1].getOne() );
+		model.TEST_ONLY_getPoints().add( splittedWallUp[1].getTwo() );
+		model.TEST_ONLY_getPoints().add( splittedWallUp[1].getThree() );
+		model.TEST_ONLY_getPoints().add( splittedWallUp[1].getFour() );
+
+		model.refreshPixels();
+
+		//System.out.println( "List<Wall>: "+walls );
+		//view.drawListOfWall( walls );
+		view.repaint();
+		//win.setVisible(true);
 
 	}
 

@@ -25,11 +25,14 @@ public class JavaDraw{
 		win.setJMenuBar( menuBar );
 		win.add(view);
 
+
+
 		/*  setup first screen  */
 		//if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else  controller.loadPointsFromFile( "G:\\JavaDraw\\dataWykres.txt" );
 		if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else { controller.setCameraStrategy(); controller.loadPointsFromFile( "G:\\JavaDraw\\dataCam.txt" ); }
 
-		TestClass test = new TestClass( win, model, controller );
+
+		TestClass test = new TestClass( win, model, controller , view);
 
 		win.setVisible(true);
 

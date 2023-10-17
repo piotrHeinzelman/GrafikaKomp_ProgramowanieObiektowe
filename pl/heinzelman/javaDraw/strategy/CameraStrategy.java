@@ -106,8 +106,8 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
 
-    public List<Wall3D> getWallsOfPixels( List<Pixel> pixels ){
-
+    public List<Wall3D> getWallsOfPoints3D(List<Point> PS ){
+/*
         // ONE
         if ( true ) {
             List<Wall> listWall = new ArrayList<>();
@@ -118,8 +118,8 @@ if (true) return listWall3D;
             if (true) return listWall3D;
         }
         // ********** END !
-
-        List<Point> PS = model.TEST_ONLY_getPoints();
+*/
+        //List<Point> PS = model.TEST_ONLY_getPoints();
         List<Wall3D> walls3D = new ArrayList<>();
 
         int i=0; int j=1;

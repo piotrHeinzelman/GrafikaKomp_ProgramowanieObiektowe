@@ -26,17 +26,11 @@ public class Wall  { /* WALL in projection ! 2D quadrangle ! */
         this.color = color;
     }
 
-    public Wall getOver( Wall wall , Plane plane ){
-        return null;
-    }
-
-    public Wall getUnder( Wall wall , Plane plane ){
-        return null;
-    }
 
     public Pixel getOne() { return one; }
     public Pixel getTwo() { return two; }
     public Pixel getThree() { return three; }
     public Pixel getFour() { return four; }
 
+    @Override  public String toString() { return "Wall{one=" + one + ", two=" + two + ", three=" + three + ", four=" + four + ", color=" + color + '}'; }
 }

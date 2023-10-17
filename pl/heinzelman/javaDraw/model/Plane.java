@@ -79,6 +79,18 @@ public class Plane {
 
     }
 
+
+    public Point3D getPointOfPlane( Point3D p0, Point3D p1  ) {
+        Double dx=p1.getX()-p0.getX();
+        Double dy=p1.getY()-p0.getY();
+        Double dz=p1.getZ()-p0.getZ();
+
+        Double t= ( -A*p0.getX() -B*p0.getY() -C* p0.getZ() -D )/( A*dx+B*dy+C*dz );
+        return new Point3D( p0.getX()+t*dx, p0.getY()+t*dy,p0.getZ()+t*dz );
+    }
+
+
+
     @Override
     public String toString() {
         return "Plane{A=" + A + ", B=" + B +  ", C=" + C + ", D=" + D +  '}';
