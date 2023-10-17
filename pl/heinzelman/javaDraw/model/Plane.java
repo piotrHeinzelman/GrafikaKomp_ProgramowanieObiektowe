@@ -57,7 +57,7 @@ public class Plane {
         return p;
     }
 
-    public boolean checkSideIsAtRightSide( Point3D p2 ){
+    public int checkSideIsAtRightSide( Point3D p2 ){
         /* P2 o
               |  l= x=x0+ta / y=y0+tb / z=zo+tc  po - punkt prostej  wektor wzd. v=(a,b,c)
         ------|------
@@ -66,9 +66,17 @@ public class Plane {
                        zatem A(x2+tA) +B(y2+tB) +C(z2+tC) +D =0  nie znamy tylko t więc...
                        t*(A²+B²+C²)=D-Ax2-By2-Cy2
                        t= D-Ax2-By2-Cy2 / (A²+B²+C²);
-                       nie muszę liczyć / (A²+B²+C²) bo szukam tylko kierunku a / (A²+B²+C²) zawsze jest dodatnie.
      */
-        if ((  A*p2.getX() +B*p2.getY() +C*p2.getZ() ) < D ) { return false; } else { return true; }
+
+        Double ABC=A*p2.getX() +B*p2.getY() +C*p2.getZ();
+        Double D_ABC = (D-ABC)/(A*A+B*B+C*C);
+        //System.out.println( "ABC: "+ABC+", D: "+D+", D-ABC: "+(D-ABC)+ ", wynik: "+ D_ABC );
+        if ( D_ABC  >  0.0001 ) return +1;  // ponad plaszczyzna
+        if ( D_ABC  < -0.0001 ) return -1;  // pod plaszczyzna
+        return 0;  // na tej samej plaszczyznie, uwzgledniajac bledy notacji zmiennoprzecinkowej
+        // dokladnosc do 0.1
+     //   if ((  A*p2.getX() +B*p2.getY() +C*p2.getZ() ) < D ) { return -1; } else { return +1; }
+
     }
 
     @Override

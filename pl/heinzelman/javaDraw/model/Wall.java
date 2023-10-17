@@ -1,9 +1,6 @@
 package pl.heinzelman.javaDraw.model;
 
-
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Wall  { /* WALL in projection ! 2D quadrangle ! */
     private Pixel one;
@@ -27,6 +24,14 @@ public class Wall  { /* WALL in projection ! 2D quadrangle ! */
         this.three = three;
         this.four = four;
         this.color = color;
+    }
+
+    public Wall getOver( Wall wall , Plane plane ){
+        return null;
+    }
+
+    public Wall getUnder( Wall wall , Plane plane ){
+        return null;
     }
 
     public Pixel getOne() { return one; }

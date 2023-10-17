@@ -6,13 +6,13 @@ public class Vector3D {
     private Double z;
 
 
-    public Vector3D(Double x, Double y, Double z) {
+    public Vector3D( Double x, Double y, Double z ) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector3D(Point3D start, Point3D end ) {
+    public Vector3D( Point3D start, Point3D end ) {
         x=end.getX()-start.getX();
         y=end.getY()-start.getY();
         z=end.getZ()-start.getZ();
@@ -27,9 +27,6 @@ public class Vector3D {
 
 
 
-    @Override
-    public String toString() { return "{x=" + x + ", y=" + y + ", z=" + z + '}'; }
-    public Double getX() { return x; }
-    public Double getY() { return y; }
-    public Double getZ() { return z; }
+    @Override public String toString() { return "{x=" + x + ", y=" + y + ", z=" + z + '}'; }
+    public Double getX() { return x; } public Double getY() { return y; } public Double getZ() { return z; }
 }

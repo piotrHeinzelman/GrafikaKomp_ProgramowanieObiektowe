@@ -10,6 +10,46 @@ import java.util.List;
 public class CameraStrategy implements ProjectionStrategy {
     private final Model model;
 
+    private final Color[] colorTab= {
+        new Color(0x0077C7),
+        new Color(0x004675),
+        new Color(0x002E4D),
+        new Color(0x6301EA),
+        new Color(0x310075),
+        new Color(0x20004D),
+            null,
+            null,
+
+        new Color(0xC701EA),
+        new Color(0x640075),
+        new Color(0x41004D),
+        new Color(0xEB0056),
+        new Color(0x9E003A),
+        new Color(0x570120),
+            null,
+            null,
+
+        new Color(0xEB4E00),
+        new Color(0x9E3500),
+        new Color(0x571D00),
+        new Color(0xEB9100),
+        new Color(0x9E6100),
+        new Color(0x573500),
+            null,
+            null,
+
+        new Color(0xC4EB00),
+        new Color(0x849E00),
+        new Color(0x485600),
+        new Color(0x00EB08),
+        new Color(0x007304),
+        new Color(0x005703),
+            null,
+            null,
+    };
+
+
+
     public CameraStrategy( Model model ) {
         this.model = model;
     }
@@ -66,39 +106,32 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
 
-    public List<Wall> getWallsOfPixels( List<Pixel> pixels ){
-        Pixel corners[] = new Pixel[9];
-        List<Point> points = model.TEST_ONLY_getPoints();
-        int i=0;
-        List<Wall> walls = new ArrayList<>();
-        for ( Pixel pix : pixels ){
-            corners[i] = pix;
-            i++;
-            if (i==8) {
-                walls.add( new Wall( corners[0], corners[1], corners[2], corners[3] , new Color(  255,8*walls.size(),255 ))); //8*4=32=16*2 8 steps
-                walls.add( new Wall( corners[7], corners[6], corners[5], corners[4] , new Color(  205,8*walls.size(),205 )));
-                walls.add( new Wall( corners[2], corners[1], corners[5], corners[6] , new Color(  155,8*walls.size(),155 )));
-                walls.add( new Wall( corners[0], corners[3], corners[7], corners[4] , new Color(  105,8*walls.size(),105 )));
-                walls.add( new Wall( corners[0], corners[4], corners[5], corners[1] , new Color(  55,8*walls.size(),55 )));
-                walls.add( new Wall( corners[7], corners[3], corners[2], corners[6] , new Color(  5,8*walls.size(),5 )));
-                // add NormalVector ... :-)
-                // 3D corner
-                //Point3D c0=(Point3D) points.get(7);
-                //Point3D c1=(Point3D) points.get(3);
-                //Point3D c2=(Point3D) points.get(2);
-                //Point3D c3=(Point3D) points.get(6);
+    public List<Wall3D> getWallsOfPixels( List<Pixel> pixels ){
 
-                //if (pixels.size()<20) {
-                //    Vector3D normal = Vector3D.getNormal(new Vector3D(c1, c0), new Vector3D(c1, c2));
-                //    Point3D pCenter = c1; //new Point3D( (c0.getX()-c2.getX())/2, (c0.getY()-c2.getY())/2 , (c0.getZ()-c2.getZ())/2 );
-                //    for (int j = 0; j < 4; j++) {
-                //        points.add(new Point3D(pCenter.getX() + j * normal.getX() * 0.01, pCenter.getY() + j * normal.getY() * 0.01, pCenter.getZ() + j * normal.getZ() * 0.01));
-                //    }
-                //}
-                i = 0;
-            }
+        // ONE
+        if ( true ) {
+            List<Wall> listWall = new ArrayList<>();
+            Wall3D wall3D = new Wall3D(new Point3D(-20.0, -20.0, 80.0), new Point3D(20.0, -20.0, 80.0), new Point3D(20.0, 20.0, 80.0), new Point3D(-20.0, 20.0, 80.0), new Color(0, 128, 255));
+            List<Wall3D> listWall3D = new ArrayList<>();
+if (true) return listWall3D;
+            listWall3D.add(wall3D);
+            if (true) return listWall3D;
         }
-        return SortWall( walls );
+        // ********** END !
+
+        List<Point> PS = model.TEST_ONLY_getPoints();
+        List<Wall3D> walls3D = new ArrayList<>();
+
+        int i=0; int j=1;
+        for (int k=0;k<PS.size()/8;k++){
+            walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+3), colorTab[8*k]));
+            walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+1]));
+            walls3D.add( new Wall3D( (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+6), colorTab[8*k+2]));
+            walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+4), colorTab[8*k+3]));
+            walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+1), colorTab[8*k+4]));
+            walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+6), colorTab[8*k+5]));
+        }
+        return walls3D;
     }
 
 
@@ -138,11 +171,23 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
 
-    public List<Wall> SortWall( List<Wall> walls ){
-        if ( true ) return walls;
-        List<Wall> sortedWall = new ArrayList<>();
-        // TODO Sort wall !
-        // must translated from Points, PIXELS is Flat :- (
-    return sortedWall;
+    public List<Wall> SortAndFlatWall3D(List<Wall3D> unsorted ){
+
+        // **********************
+        //    TODO SORT
+        // **********************
+        List<Wall3D> sorted = unsorted;
+
+
+
+        // *** FLAT WALL3D *** -> Wall ( 4xPIXEL )
+        List<Wall> listWall = new ArrayList<>();
+        for ( Wall3D wall3D : sorted ){
+
+            List<Pixel> corners = getPixels_of_ProjectedPoints(wall3D.getPoints());
+            listWall.add( new Wall ( corners.get(0),corners.get(1),corners.get(2),corners.get(3), wall3D.getColor() ));
+        }
+
+    return listWall;
     }
 }

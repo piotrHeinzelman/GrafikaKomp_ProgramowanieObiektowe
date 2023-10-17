@@ -13,8 +13,9 @@ public class Model {
     private List<Pixel> pixels = new ArrayList<>();
     private List<Edge>  edges  = new ArrayList<>();
     private List<Wall>  walls  = new ArrayList<>();
+    private List<Wall3D>  walls3D  = new ArrayList<>();                                                                               /* G&S */  public List<Wall3D> getWalls3D() { return walls3D; }
 
-    private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy( ProjectionStrategy strategy ) { this.strategy = strategy; } public Boolean isChartStrategy() { return ( strategy.getClass()==ChartStrategy.class ); }
+    private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy(ProjectionStrategy strategy ) { this.strategy = strategy; } public Boolean isChartStrategy() { return ( strategy.getClass()==ChartStrategy.class ); }
     private Double d = 220.0;                                                                                                         /* G&S */   public Double getD() { return d; } public void setD(Double d) { this.d = d; }
     private Pixel viewTopLeft;                                                                                                        /* G&S */   public void setViewTopLeft    (Pixel viewTopLeft)     { this.viewTopLeft = viewTopLeft; }         public Pixel getViewTopLeft() { return viewTopLeft; }
     private Pixel viewBottomRight;                                                                                                    /* G&S */   public void setViewBottomRight(Pixel viewBottomRight) { this.viewBottomRight = viewBottomRight; } public Pixel getViewBottomRight() { return viewBottomRight; }
@@ -34,7 +35,7 @@ public class Model {
         pixels = strategy.getPixels_of_ProjectedPoints( points );
          edges = strategy.getEdgesOfPixels( pixels );
          if ( !isChartStrategy() ) {
-             walls = strategy.getWallsOfPixels(pixels);
+             walls = strategy.SortAndFlatWall3D( strategy.getWallsOfPixels( pixels ));
          }
     }
 

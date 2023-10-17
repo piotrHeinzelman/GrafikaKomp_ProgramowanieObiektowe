@@ -39,7 +39,7 @@ public class Point3D extends Point {
         Double _y = x*m[1][0] + y*m[1][1] + z*m[1][2] + w *m[1][3];
         Double _z = x*m[2][0] + y*m[2][1] + z*m[2][2] + w *m[2][3];
         Double _w = x*m[3][0] + y*m[3][1] + z*m[3][2] + w *m[3][3];
-        System.out.println( _w );
+        //System.out.println( _w );
         return new Point3D( _x, _y, _z, _w );
     }
 

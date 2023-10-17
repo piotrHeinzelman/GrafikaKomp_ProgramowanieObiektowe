@@ -2,9 +2,11 @@ package pl.heinzelman.javaDraw.tools;
 
 import pl.heinzelman.javaDraw.controller.Controller;
 import pl.heinzelman.javaDraw.model.*;
+import pl.heinzelman.javaDraw.model.Point;
 import pl.heinzelman.javaDraw.strategy.Matrix;
 import pl.heinzelman.javaDraw.view.Window;
 
+import java.awt.*;
 import java.util.List;
 
 public class TestClass {
@@ -20,7 +22,24 @@ public class TestClass {
 		this.controller = controller;
 
 		//One();
-		Two();
+		//Two();
+		Three();
+	}
+
+
+
+	public void Three() {
+		//Wall3D wall3D   = new Wall3D(new Point3D(-20.0, -20.0, 80.0), new Point3D(20.0, -20.0, 80.0), new Point3D(20.0, 20.0, 80.0), new Point3D(-20.0, 20.0, 80.0), new Color(0, 128, 255));
+		Wall3D wall3D = new Wall3D(new Point3D(-20.0,  -0.01, 80.0), new Point3D(20.0, -0.01, 80.0), new Point3D(20.0, 20.0, 80.0), new Point3D(-20.0, 20.0, 80.0), new Color( 255, 0, 255 ));
+		Plane plane = new Plane( new Point3D (30.0,0.0,80.0), new Point3D (10.0,0.0,80.0), new Point3D (10.0,0.0,100.0) );
+
+		System.out.println( plane.checkSideIsAtRightSide( wall3D.getOne()   ) );
+		System.out.println( plane.checkSideIsAtRightSide( wall3D.getTwo()   ) );
+		System.out.println( plane.checkSideIsAtRightSide( wall3D.getThree() ) );
+		System.out.println( plane.checkSideIsAtRightSide( wall3D.getFour()  ) );
+
+		System.out.println( wall3D );
+
 
 	}
 

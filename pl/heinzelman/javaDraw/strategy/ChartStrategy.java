@@ -56,10 +56,8 @@ public class ChartStrategy implements ProjectionStrategy {
         return edges;
     }
 
-    @Override
-    public List<Wall> getWallsOfPixels(List<Pixel> pixels) {
-        return null;
-    }
+    @Override  public List<Wall3D> getWallsOfPixels(List<Pixel> pixels   ){ return null; }
+    @Override  public List<Wall> SortAndFlatWall3D(List<Wall3D> unsorted ){ return null; }
 
 
     public List<Point> translatePoints( List<Point> points , Translate translate ){
