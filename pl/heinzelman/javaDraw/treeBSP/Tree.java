@@ -90,8 +90,12 @@ public class Tree {
     }
 
     public List<Wall3D> getInOrder(){
-        System.out.println( "inorder" );
+        //System.out.println( "** inorder" );
         List<Wall3D> list=new ArrayList<>();
+
+        //CENTER
+        addListoList( list , centerWall );
+
         //LEFT
         if (left!=null) {
             addListoList( list , left.getInOrder() );
@@ -100,14 +104,16 @@ public class Tree {
         if (right!=null) {
             addListoList( list , right.getInOrder() );
         }
-        //CENTER
-        addListoList( list , centerWall );
+
+
+
+        List<Wall3D> rev = new ArrayList<>();
+        addListoListReverse( rev, list );
         return list;
     }
 
     public List<Wall3D> getPreOrder(){
-        System.out.println( "preorder" );
-
+        //System.out.println( "** preorder" );
         List<Wall3D> list=new ArrayList<>();
 
         // RIGHT

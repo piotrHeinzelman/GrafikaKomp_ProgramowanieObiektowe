@@ -140,29 +140,16 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
     public List<Wall3D> getWallsOfPoints3D(List<Point> PS ){
-/*
-        // ONE
-        if ( true ) {
-            List<Wall> listWall = new ArrayList<>();
-            Wall3D wall3D = new Wall3D(new Point3D(-20.0, -20.0, 80.0), new Point3D(20.0, -20.0, 80.0), new Point3D(20.0, 20.0, 80.0), new Point3D(-20.0, 20.0, 80.0), new Color(0, 128, 255));
-            List<Wall3D> listWall3D = new ArrayList<>();
-if (true) return listWall3D;
-            listWall3D.add(wall3D);
-            if (true) return listWall3D;
-        }
-        // ********** END !
-*/
-        //List<Point> PS = model.TEST_ONLY_getPoints();
-        List<Wall3D> walls3D = new ArrayList<>();
 
+        List<Wall3D> walls3D = new ArrayList<>();
         int i=0; int j=1;
         for (int k=0;k<PS.size()/8;k++){
 /* FronT*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+3), colorTab[8*k]));
+/* TOP */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+6), colorTab[8*k+5]));//7326
 /* Right*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+6), colorTab[8*k+1])); //2156
-/* Back */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+2]));
 /* Left */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+0), colorTab[8*k+3])); //0374
 /*Bottom*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+1), colorTab[8*k+4]));
- /* TOP */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+6), colorTab[8*k+5]));//7326
+/* Back */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+2]));
         }
         return walls3D;
     }
@@ -170,27 +157,22 @@ if (true) return listWall3D;
 
 
 
-
-
-
-
-
-
-    public List<Wall> SortAndFlatWall3D(List<Wall3D> unsorted ){
-
-        // **********************
-        //    TODO SORT
-        // **********************
-
+    public void prepareTree( List<Wall3D> unsorted ) {
         Tree tree = new Tree();
-             tree.buildTreeFromListWall3D( unsorted );
-             Wall3D frontWall = tree.getCenterWall().get(0);
-             Plane plane = new Plane( frontWall.getOne(), frontWall.getTwo(), frontWall.getThree());
-                int i = plane.checkSideIsAtRightSide(new Point3D(0.0, 0.0, model.getD()));
+        tree.buildTreeFromListWall3D( unsorted );
+        model.setTree( tree );
+    }
+
+    public List<Wall> getTreeAsFlatWall(){
+        Tree tree = model.getTree();
+        if (tree==null) { model.refreshPixels();}
+        Wall3D frontWall = tree.getCenterWall().get(0);
+        Plane plane = new Plane( frontWall.getOne(), frontWall.getTwo(), frontWall.getThree());
+        int i = plane.checkSideIsAtRightSide(new Point3D(0.0, 0.0, model.getD()));
 
         List<Wall3D> sorted;
-                if (i>0.1) { sorted=tree.getInOrder(); }
-                else     { sorted=tree.getPreOrder(); }
+        if ( i < 0.1 ) { sorted=tree.getInOrder(); System.out.println("InOrder" );}
+        else     { sorted=tree.getPreOrder(); System.out.println("PreOrder" ); }
 
         // *** FLAT WALL3D *** -> Wall ( 4xPIXEL )
         List<Wall> listWall = new ArrayList<>();
@@ -199,9 +181,12 @@ if (true) return listWall3D;
             List<Pixel> corners = getPixels_of_ProjectedPoints(wall3D.getPoints());
             listWall.add( new Wall ( corners.get(0),corners.get(1),corners.get(2),corners.get(3), wall3D.getColor() ));
         }
-
-    return listWall;
+        return listWall;
+        //model.setWalls( listWall );
     }
+
+
+
 
 
 

@@ -61,7 +61,7 @@ public class TestClass {
 		ProjectionStrategy str =new CameraStrategy( model );
 
 		System.out.println( "listWall3D: "+listWall3D );
-		List<Wall> walls = str.SortAndFlatWall3D(listWall3D);
+		//List<Wall> walls = str.SortAndFlatWall3D(listWall3D);
 
 		model.clearAll();
 		model.TEST_ONLY_getPoints().add( splittedWallUp[0].getOne() );

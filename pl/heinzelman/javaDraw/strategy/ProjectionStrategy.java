@@ -9,5 +9,6 @@ public interface ProjectionStrategy {
     public List<Edge>  getEdgesOfPixels( List<Pixel> pixels );
     public List<Wall3D> getWallsOfPoints3D(List<Point> points);
     public List<Point> translatePoints(  List<Point> points , Translate translate );
-    public List<Wall> SortAndFlatWall3D( List<Wall3D> unsorted );
+    public void prepareTree( List<Wall3D> unsorted );
+    public List<Wall> getTreeAsFlatWall();
 }

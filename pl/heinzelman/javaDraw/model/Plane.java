@@ -71,8 +71,8 @@ public class Plane {
         Double ABC=A*p2.getX() +B*p2.getY() +C*p2.getZ();
         Double D_ABC = (D-ABC)/(A*A+B*B+C*C);
         //System.out.println( "ABC: "+ABC+", D: "+D+", D-ABC: "+(D-ABC)+ ", wynik: "+ D_ABC );
-        if ( D_ABC  >  0.000001 ) return +1;  // ponad plaszczyzna
-        if ( D_ABC  < -0.000001 ) return -1;  // pod plaszczyzna
+        if ( D_ABC  >  0.0001 ) return +1;  // ponad plaszczyzna
+        if ( D_ABC  < -0.0001 ) return -1;  // pod plaszczyzna
         return 0;  // na tej samej plaszczyznie, uwzgledniajac bledy notacji zmiennoprzecinkowej
         // dokladnosc do 0.1
      //   if ((  A*p2.getX() +B*p2.getY() +C*p2.getZ() ) < D ) { return -1; } else { return +1; }
