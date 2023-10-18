@@ -28,7 +28,7 @@ public class Wall3D {
         return asList;
     }
 
-    public Wall3D[] split_andGetUp( Plane plane ){
+    public Wall3D[] splitByPlane(Plane plane ){
         int[] signs=new int[4];
         signs[0]= plane.checkSideIsAtRightSide(one);
         signs[1]= plane.checkSideIsAtRightSide(two);

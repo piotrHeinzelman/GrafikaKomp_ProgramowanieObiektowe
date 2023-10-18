@@ -46,7 +46,7 @@ public class TestClass {
 		System.out.println( plane.checkSideIsAtRightSide( wall3D.getThree() ) );
 		System.out.println( plane.checkSideIsAtRightSide( wall3D.getFour()  ) );
 
-		Wall3D[] splittedWallUp = wall3D.split_andGetUp(plane);
+		Wall3D[] splittedWallUp = wall3D.splitByPlane(plane);
 
 		System.out.println( wall3D );
 		System.out.println( "Split1"+splittedWallUp[0] );
