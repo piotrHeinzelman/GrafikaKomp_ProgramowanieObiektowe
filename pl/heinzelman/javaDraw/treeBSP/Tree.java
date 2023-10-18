@@ -90,32 +90,37 @@ public class Tree {
     }
 
     public List<Wall3D> getInOrder(){
+        System.out.println( "inorder" );
         List<Wall3D> list=new ArrayList<>();
         //LEFT
         if (left!=null) {
             addListoList( list , left.getInOrder() );
         }
-        //CENTER
-        addListoList( list , centerWall );
         // RIGHT
         if (right!=null) {
             addListoList( list , right.getInOrder() );
         }
+        //CENTER
+        addListoList( list , centerWall );
         return list;
     }
 
     public List<Wall3D> getPreOrder(){
+        System.out.println( "preorder" );
+
         List<Wall3D> list=new ArrayList<>();
+
         // RIGHT
         if (right!=null) {
-            addListoList( list , right.getInOrder() );
+            addListoList( list , right.getPreOrder() );
         }
         //CENTER
         addListoList( list , centerWall );
         //LEFT
         if (left!=null) {
-            addListoList( list , left.getInOrder() );
+            addListoList( list , left.getPreOrder() );
         }
+
         return list;
     }
 
@@ -126,6 +131,12 @@ public class Tree {
         }
     }
 
+    private void addListoListReverse(List<Wall3D> target , List<Wall3D> source ){
+        if (source==null) return;
+        for ( int i=source.size()-1; i>-1; i--){
+            target.add ( source.get(i) );
+        }
+    }
 
 }
 
