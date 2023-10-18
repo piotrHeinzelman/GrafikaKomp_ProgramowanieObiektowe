@@ -36,27 +36,34 @@ public class Tree {
 
 
 
-    public static Tree buildTreeFromListWall3D( List<Wall3D> unsorted ){
+    public  Tree buildTreeFromListWall3D( List<Wall3D> unsorted ){
         Tree tree = new Tree();
         Plane plane=null;
         for ( Wall3D w : unsorted ){
             Integer det=null;
             if ( plane==null ) { tree.getCenterWall().add(w); plane = new Plane( w.getOne(), w.getTwo(), w.getThree() ); }
             else {
-                det= ( 2+plane.checkSideIsAtRightSide( w.getOne()  ))*1000+
-                        ( 2+plane.checkSideIsAtRightSide( w.getTwo()  ))*100 +
-                        ( 2+plane.checkSideIsAtRightSide( w.getThree()))*10  +
-                        ( 2+plane.checkSideIsAtRightSide( w.getFour() ))*1 ;
-                System.out.println( det );
+                det=( 2+plane.checkSideIsAtRightSide( w.getOne()  )) *1000+
+                    ( 2+plane.checkSideIsAtRightSide( w.getTwo()  )) *100 +
+                    ( 2+plane.checkSideIsAtRightSide( w.getThree())) *10  +
+                    ( 2+plane.checkSideIsAtRightSide( w.getFour() )) *1 ;
             }
             switch ( det ){
                 case 3333: tree.getRightList() .add( w ); break; // over
-                case 2222: tree.getCenterWall().add( w );break; // the same
-                case 1111: tree.getLeftList()  .add( w );  break; // under
+                case 2222: tree.getCenterWall().add( w ); break; // the same
+                case 1111: tree.getLeftList()  .add( w ); break; // under
                 default:
                     System.out.println( det );
             }
-            //tree.putOnTree( w );
+
+            if ( leftList.size()>0 ){ // recurrention built left tree
+                if ( left==null ) { left = new Tree(); }
+                left.buildTreeFromListWall3D( leftList );
+            }
+            if ( rightList.size()>0 ){ // recurrention built left tree
+                if ( right==null ) { right = new Tree(); }
+                right.buildTreeFromListWall3D( rightList );
+            }
         }
         return tree;
     }

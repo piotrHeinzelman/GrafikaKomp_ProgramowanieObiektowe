@@ -182,7 +182,8 @@ if (true) return listWall3D;
         //    TODO SORT
         // **********************
 
-        Tree tree=Tree.buildTreeFromListWall3D( unsorted );
+        Tree tree = new Tree();
+             tree.buildTreeFromListWall3D( unsorted );
 
         List<Wall3D> sorted = unsorted;
 
