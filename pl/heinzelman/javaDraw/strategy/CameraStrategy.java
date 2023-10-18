@@ -2,6 +2,7 @@ package pl.heinzelman.javaDraw.strategy;
 
 import pl.heinzelman.javaDraw.model.*;
 import pl.heinzelman.javaDraw.model.Point;
+import pl.heinzelman.javaDraw.treeBSP.Tree;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -53,6 +54,38 @@ public class CameraStrategy implements ProjectionStrategy {
     public CameraStrategy( Model model ) {
         this.model = model;
     }
+
+
+
+
+    public List<Point> translatePoints( List<Point> points , Translate translate ) {
+        List<Point> translated = new ArrayList<>();
+        Matrix translatedMatrix = new Matrix();
+        Double phi=30*(3.14/360);//0.0314;
+        Double step=10.0;
+
+        switch (translate){
+            case LEFT  -> { translatedMatrix = Matrix.getMoveMatrix( -step,0.0,0.0 ); }
+            case RIGHT -> { translatedMatrix = Matrix.getMoveMatrix(  step,0.0,0.0 ); }
+            case UP    -> { translatedMatrix = Matrix.getMoveMatrix(   0.0, step,0.0 ); }
+            case DOWN  -> { translatedMatrix = Matrix.getMoveMatrix(   0.0,-step,0.0 ); }
+            case IN    -> {  model.setD( model.getD()*1.1 ); }
+            case OUT   -> {  model.setD( model.getD()*(1.0/1.1) ); }
+            case ROT_CCW -> { translatedMatrix = Matrix.getRotateZMatrix( -phi ); }
+            case ROT_CW  -> { translatedMatrix = Matrix.getRotateZMatrix(  phi ); }
+            case ROT_DOWN ->{ translatedMatrix = Matrix.getRotateXMatrix(  phi ); }
+            case ROT_UP  -> { translatedMatrix = Matrix.getRotateXMatrix( -phi ); }
+            case ROT_LEFT ->{ translatedMatrix = Matrix.getRotateYMatrix( -phi ); }
+            case ROT_RIGHT->{ translatedMatrix = Matrix.getRotateYMatrix(  phi ); }
+        }
+
+        for ( Point p : points ){
+            translated.add( translatedMatrix.mul( (Point3D)p ));
+        }
+        return translated;
+    }
+
+
 
     public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points ){
         int deltaX=560; // screenWidth=1200;
@@ -143,42 +176,15 @@ if (true) return listWall3D;
 
 
 
-    public List<Point> translatePoints( List<Point> points , Translate translate ) {
-        List<Point> translated = new ArrayList<>();
-        Matrix translatedMatrix = new Matrix();
-        Double phi=30*(3.14/360);//0.0314;
-        Double step=10.0;
-
-        switch (translate){
-            case LEFT  -> { translatedMatrix = Matrix.getMoveMatrix( -step,0.0,0.0 ); }
-            case RIGHT -> { translatedMatrix = Matrix.getMoveMatrix(  step,0.0,0.0 ); }
-            case UP    -> { translatedMatrix = Matrix.getMoveMatrix(   0.0, step,0.0 ); }
-            case DOWN  -> { translatedMatrix = Matrix.getMoveMatrix(   0.0,-step,0.0 ); }
-            case IN    -> {  model.setD( model.getD()*1.1 ); }
-            case OUT   -> {  model.setD( model.getD()*(1.0/1.1) ); }
-            case ROT_CCW -> { translatedMatrix = Matrix.getRotateZMatrix( -phi ); }
-            case ROT_CW  -> { translatedMatrix = Matrix.getRotateZMatrix(  phi ); }
-            case ROT_DOWN ->{ translatedMatrix = Matrix.getRotateXMatrix(  phi ); }
-            case ROT_UP  -> { translatedMatrix = Matrix.getRotateXMatrix( -phi ); }
-            case ROT_LEFT ->{ translatedMatrix = Matrix.getRotateYMatrix( -phi ); }
-            case ROT_RIGHT->{ translatedMatrix = Matrix.getRotateYMatrix(  phi ); }
-        }
-
-        for ( Point p : points ){
-            translated.add( translatedMatrix.mul( (Point3D)p ));
-        }
-        return translated;
-    }
-
-
     public List<Wall> SortAndFlatWall3D(List<Wall3D> unsorted ){
 
         // **********************
         //    TODO SORT
         // **********************
+
+        Tree tree=Tree.buildTreeFromListWall3D( unsorted );
+
         List<Wall3D> sorted = unsorted;
-
-
 
         // *** FLAT WALL3D *** -> Wall ( 4xPIXEL )
         List<Wall> listWall = new ArrayList<>();
@@ -190,4 +196,10 @@ if (true) return listWall3D;
 
     return listWall;
     }
+
+
+
+
+
+
 }

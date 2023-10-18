@@ -34,7 +34,7 @@ public class Wall3D {
         signs[1]= plane.checkSideIsAtRightSide(two);
         signs[2]= plane.checkSideIsAtRightSide(three);
         signs[3]= plane.checkSideIsAtRightSide(four);
-        System.out.println( "signs: "+signs[0]+","+signs[1]+","+signs[2]+","+signs[3] );
+        //System.out.println( "signs: "+signs[0]+","+signs[1]+","+signs[2]+","+signs[3] );
 
         Wall3D over = new Wall3D( this.one,this.two,this.three,this.four,this.color );
         Wall3D under = new Wall3D( this.one,this.two,this.three,this.four,this.color );

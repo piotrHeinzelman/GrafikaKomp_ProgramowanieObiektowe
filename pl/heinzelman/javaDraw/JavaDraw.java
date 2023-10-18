@@ -32,7 +32,7 @@ public class JavaDraw{
 		if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else { controller.setCameraStrategy(); controller.loadPointsFromFile( "G:\\JavaDraw\\dataCam.txt" ); }
 
 
-		TestClass test = new TestClass( win, model, controller , view);
+		//TestClass test = new TestClass( win, model, controller , view);
 
 		win.setVisible(true);
 
