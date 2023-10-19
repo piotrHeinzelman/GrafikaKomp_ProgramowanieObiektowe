@@ -23,6 +23,10 @@ public class View extends Canvas {
 
     private BasicStroke stroke = new BasicStroke( 2 );
     private Boolean isAxis=true;                                                                                                    /* G&S */ public void turnOffAxis() { isAxis = false; } public void turnOnAxis()  { isAxis = true; }
+    private Boolean isPoint=true;
+    private Boolean isEdge=true;
+    private Boolean isWall=true;
+
 
     private void setMySize(){
         setSize( 1200, 800 );
@@ -63,21 +67,21 @@ public class View extends Canvas {
 
 
         // points ? !
-        if ( true ) {
+        if ( isPoint ) {
             g2d.setStroke(new BasicStroke( strokeWidth +2 ));
             g2d.setColor( color );
             drawListOfPixel( model.getPixels() );
         }
 
         // edge ? !
-        if ( false ) {
+        if ( isEdge ) {
             g2d.setStroke( new BasicStroke(strokeWidth) );
             g2d.setColor( color );
             drawListOfEdge( model.getEdges() );
         }
 
         // walls ?
-        if ( true || !model.isChartStrategy() ){
+        if ( isWall ){
             g2d.setStroke( new BasicStroke( strokeWidth ) );
             g2d.setColor( color );
             drawListOfWall( model.getWalls() );
@@ -139,4 +143,7 @@ public class View extends Canvas {
     private void setStroke( int stroke ) { this.stroke = new BasicStroke( stroke ); }
     public  void incStroke() { this.strokeWidth++; }
     public  void decStroke() { this.strokeWidth--; }
+    public void togglePoint(){ isPoint=!isPoint; }
+    public void toggleEdge() { isEdge=!isEdge;   }
+    public void toggleWall() { isWall=!isWall; }
 }

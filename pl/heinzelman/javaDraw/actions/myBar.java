@@ -68,6 +68,10 @@ public class myBar extends JMenuBar {
         menuColor.add ( new myAction( "czerwony" , controller, "colSetRed",   null, null ));
         menuColor.add ( new myAction( "zielony"  , controller, "colSetGreen", null, null ));
         menuColor.add ( new myAction( "niebieski", controller, "colSetBlue",  null, null ));
+        menuWidth.add ( new myAction( "F1-toggle point",controller, "togglePoint", KeyStroke.getKeyStroke( KeyEvent.VK_F1 ,0 ), null ));
+        menuWidth.add ( new myAction( "F2-toggle edge", controller, "toggleEdge", KeyStroke.getKeyStroke( KeyEvent.VK_F2 ,0 ), null ));
+        menuWidth.add ( new myAction( "F3-toggle wall", controller, "toggleWall", KeyStroke.getKeyStroke( KeyEvent.VK_F3 ,0 ), null ));
+
 
         menuConfig.add(menuStrategy);
         menuConfig.add(menuWidth);
