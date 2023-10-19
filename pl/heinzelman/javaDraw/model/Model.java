@@ -6,7 +6,15 @@ import pl.heinzelman.javaDraw.strategy.Translate;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *  Obiekt MODEL w rozumieniu wzorca MVC
+ *  przechowuje dane stanu aplikacji
+ *  udostępnia controlerowi i widokowi
+ *  niezbędnemy im do pracy
+ *
+ *  @author Piotr Heinzelman
+ *
+ */
 public class Model {
     private List<Point> points = new ArrayList<>();
 
@@ -31,6 +39,12 @@ public class Model {
         clearPoints();
     };
 
+    /**
+     * Odrysowanie pikseli,
+     *
+     * czyszczenie rzuconych punktów, generowanie nowych
+     * zgodnie ze strategią
+     */
     public void refreshPixels(){
         pixels = strategy.getPixels_of_ProjectedPoints( points );
          edges = strategy.getEdgesOfPixels( pixels );
@@ -107,6 +121,10 @@ public class Model {
         Pmax = new Point ( maxX, maxY );
     }
 
+
+    /**
+     * dane osi do narysowania
+     */
     public void createAxisEdge() {
         axisPoints = new ArrayList<>();
 

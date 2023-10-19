@@ -9,6 +9,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+/**
+ *  Implementacja klasy JMenuBar
+ *  przygotowuje menu do działania
+ *
+ *  @author Piotr Heinzelman
+ */
 public class myBar extends JMenuBar {
 
     JMenu menuFile    = new JMenu("File");

@@ -7,12 +7,26 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ *  Implementacja klasy AbstractAction
+ *  przygotowuje akcje do działania w modelu MVC.
+ *
+ *  @author Piotr Heinzelman
+ */
 public class myAction extends AbstractAction  {
 
     private Object obj;
     private String methodName;
     private Translate translate;
 
+    /**
+     * Konstruktor
+     * @param name - nazwa w menu
+     * @param obj  - obiekt którego metodę wykona akcja
+     * @param methodName - metoda obiektu wołana przez akcję
+     * @param keyStroke  - ewentualny skrót klawiszowy uruchamiający akcje.
+     * @param translate  - ewentualny kierunek tranclacji.
+     */
     public myAction(String name, Object obj, String methodName, KeyStroke keyStroke , Translate translate ) {
         super(name);
         this.obj = obj;
@@ -21,6 +35,13 @@ public class myAction extends AbstractAction  {
         this.translate=translate;
     }
 
+    /**
+     * Uruchomienie działania akcji
+     *
+     * @param e the event to be processed
+     *          zdarzenie wywułane po uruchomieniu akcji.
+     *          obj.call.Method()...
+     */
     @Override
     public void actionPerformed( ActionEvent e ) {
         try {

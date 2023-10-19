@@ -1,8 +1,12 @@
 package pl.heinzelman.javaDraw.model;
 
-
 import pl.heinzelman.javaDraw.strategy.Matrix;
 
+/**
+ * Implementacja punktu 3D
+ *
+ *  @author Piotr Heinzelman
+ */
 public class Point3D extends Point {
     protected Double z;
     protected Double w;
@@ -31,7 +35,12 @@ public class Point3D extends Point {
     public Double getW() { return w; }
     public void setW(Double w) { this.w = w; }
 
-
+    /**
+     * mnożenie punktu przez macierz
+     *
+     * @param matrix - macierz translacji
+     * @return - zwraca przesunięty punkt.
+     */
     public Point3D mul( Matrix matrix ){
         Double[][] m = matrix.getM();
 

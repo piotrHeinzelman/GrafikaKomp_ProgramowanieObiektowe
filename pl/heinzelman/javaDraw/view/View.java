@@ -9,7 +9,15 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.util.List;
 
+/**
+ *  Implementacja obiektu Canvas realizująca rysowanie
+ *  spełnia funkcję obiektu View w modelu MVC.
+ *
+ *  @author Piotr Heinzelman
+ */
+
 public class View extends Canvas {
+
 
     private final Model model;
     private final Window parent;
@@ -27,7 +35,9 @@ public class View extends Canvas {
     private Boolean isEdge=true;
     private Boolean isWall=true;
 
-
+    /**
+     *  Ustawienie startowej wielkości okna
+     */
     private void setMySize(){
         setSize( 1200, 800 );
         parent.pack();
@@ -36,6 +46,15 @@ public class View extends Canvas {
     }
 
 
+    /**
+     * Konstruktor, zapisuje obiekty:
+     *  model (MVC)
+     *  parent (Parent Window)
+     *  w zmiennych prywatnych potrzebnych do dalszej pracy.
+     *
+     * @param model
+     * @param parent
+     */
     public View( Model model , Window parent ) {
         this.model = model;
         this.parent = parent;
@@ -46,6 +65,15 @@ public class View extends Canvas {
     }
 
 
+    /**
+     * Funkcja rysująca i odrysowująca obiekt
+     * używana przez system przy odświeżaniu
+     * okna
+     * za wyświetlanie grup odpowiadają wartości
+     * isPoint, isEdge, isWall.
+     *
+     * @param g   the specified Graphics context
+     */
     public void paint( Graphics g )
     {
         super.paint(g);
@@ -88,17 +116,29 @@ public class View extends Canvas {
         }
     }
 
-
+    /**
+     * rysowanie osi
+     *
+     * @param g2 - obiekt graficzny domyślny
+     */
     private void drawAxis( Graphics2D g2 ){
         g2.setStroke(new BasicStroke( 1 ));
         g2.setColor( axisColor );
         drawListOfEdge( model.getAxisEdge() );
     }
 
-
+    /**
+     * rysowanie piskela
+     * @param p piksel do narysowania
+     */
     public void drawPixel( Pixel p ){
         g2d.drawLine( p.getX(), p.getY(), p.getX(), p.getY());
     }
+
+    /**
+     * rysowanie listy pikseli
+     * @param list - lista pikseli do narysowania
+     */
     public void drawListOfPixel( List<Pixel> list ){
         for ( Pixel pix : list ){
             drawPixel( pix );
@@ -106,16 +146,30 @@ public class View extends Canvas {
     }
 
 
-
+    /**
+     * rysowanie linii
+     * @param p1 - początek linii
+     * @param p2 - koniec linii
+     *           do narysowania
+     */
     public void drawLine( Pixel p1, Pixel p2 ){
         g2d.drawLine( p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
+
+    /**
+     * rysowanie listy krawędzi
+     * @param list - lista krawędzi
+     */
     public void drawListOfEdge( List<Edge> list ){
         for ( Edge e : list ){
             drawLine( e.getStart(), e.getEnd() );
         }
     }
 
+    /**
+     * rysowanie ściany
+     * @param w - ściana do narysowania
+     */
     public void drawWall( Wall w ){
         GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
         polyline.moveTo( w.getOne().getX(), w.getOne().getY() );
@@ -126,6 +180,10 @@ public class View extends Canvas {
         g2d.fill( polyline );
     }
 
+    /**
+     * Rysowanie listy ścian
+     * @param list - lista ścian do narysowania
+     */
     public void drawListOfWall( List<Wall> list ){
         Color tmp = color;
         for ( Wall w : list ){

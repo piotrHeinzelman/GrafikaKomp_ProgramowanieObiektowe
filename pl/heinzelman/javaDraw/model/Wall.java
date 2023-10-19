@@ -1,7 +1,10 @@
 package pl.heinzelman.javaDraw.model;
 
 import java.awt.*;
-
+/**
+ *  Klasa ściany
+ *  @author Piotr Heinzelman
+ */
 public class Wall  { /* WALL in projection ! 2D quadrangle ! */
     private Pixel one;
     private Pixel two;

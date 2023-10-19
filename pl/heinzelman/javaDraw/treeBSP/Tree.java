@@ -6,6 +6,12 @@ import pl.heinzelman.javaDraw.model.Wall3D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Implementacja drzewa BSP
+ *
+ *  @author Piotr Heinzelman
+ */
+
 public class Tree {
     private Tree left=null;
     private Tree right=null;

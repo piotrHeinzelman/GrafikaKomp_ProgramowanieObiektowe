@@ -1,5 +1,12 @@
 package pl.heinzelman.javaDraw.model;
 
+/**
+ * Klasa realizuje punkt dwuwymiarowy
+ * implementuje translacje punktu przez przem
+ * nożenie z macierza translacji
+ *
+ * @Author Piotr Heinzelman
+ */
 
 import pl.heinzelman.javaDraw.strategy.Matrix;
 
@@ -14,7 +21,11 @@ public class Point {
         this.setY(y);
     }
 
-
+    /**
+     * Wczytanie punktu z linii tekstu
+     * @param split - tekst z paramertami punktu
+     * @return - lista punktów 2D lub 3D zależnie od danych
+     */
     public static Point PointFromFile( String[] split ) {
         Double tmp=null;
         Double x=null;
@@ -41,10 +52,24 @@ public class Point {
     public void setY(Double y) { this.y = y; }
     public void setX(Double x) { this.x = x; }
 
+    /**
+     * Przesunięcie punktu o wektor
+     * @param vector - wektor
+     * @return
+     */
     public Point move ( Point vector ){ return new Point( x+vector.getX() , y+vector.getY() ); }
+    /**
+    * Skalowanie punktu
+     */
     public Point scale ( Double mul ){
         return new Point( x*mul , y*mul );
     }
+
+    /**
+     * translacja punktu o macierz
+     * @param matrix - macierz translacji
+     * @return - przesunięty punkt
+     */
     public Point mul( Matrix matrix ){ return null; }
 
     @Override

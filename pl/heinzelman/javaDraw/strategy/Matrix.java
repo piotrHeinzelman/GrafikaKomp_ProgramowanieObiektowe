@@ -5,7 +5,12 @@ import pl.heinzelman.javaDraw.model.Point3D;
 import java.util.Arrays;
 
 
-
+/**
+ * Klasa pomocnicza - implementuje model matematyczny Macierz 4x4
+ * realizuje matematyczną funkcję mnożenia punktu przez macierz,
+ * powodując tranclację punktu.
+ *
+ */
 public class Matrix {
     private Double m[][] = new Double[4][4];  // [x][y]
 
@@ -77,6 +82,11 @@ public class Matrix {
         return matrix;
     }
 
+    /**
+     * mnożenie punktu przez macierz
+     * @param smatrix - punkt w postaci macierzy
+     * @return - macierz wynikowa
+     */
     public Matrix mul( Matrix smatrix ){
         Matrix outMatrix = new Matrix();
         Double[][] out = outMatrix.getM();
@@ -92,7 +102,11 @@ public class Matrix {
         return outMatrix;
     }
 
-
+    /**
+     * mnożenie punktu przez macierz
+     * @param point - punkt
+     * @return - punkt 3D
+     */
     public Point3D mul( Point3D point ){
         Point3D out = new Point3D();
 

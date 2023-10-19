@@ -7,7 +7,12 @@ import pl.heinzelman.javaDraw.treeBSP.Tree;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *   Realizacja interfejsu ProjectionStrategy
+ *   - Kamera 3D
+ *
+ *  @Author Piotr Heinzelman
+ */
 public class CameraStrategy implements ProjectionStrategy {
     private final Model model;
 
@@ -56,8 +61,12 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
 
-
-
+    /**
+     * Tranclacja punktu w przestrzeni w podanym kierunku
+     * @param points - punkt 3D
+     * @param translate - kierunek translacji
+     * @return - zwraca przesunięty punkt
+     */
     public List<Point> translatePoints( List<Point> points , Translate translate ) {
         List<Point> translated = new ArrayList<>();
         Matrix translatedMatrix = new Matrix();
@@ -86,7 +95,11 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
 
-
+    /**
+     * rzutuje punkty 3D na płaszczyznę
+     * @param points - lista punktów
+     * @return - zwraca listę zrzutowanych pixeli.
+     */
     public List<Pixel> getPixels_of_ProjectedPoints( List<Point> points ){
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
@@ -161,14 +174,11 @@ public class CameraStrategy implements ProjectionStrategy {
     }
 
 
-
-
-
-
-
-
-
-
+    /**
+     * przygotowuje i sortuje listę ścian
+     * @param unsorted - lista ścian3D
+     * @return zwkaca listę rzutowanych ścian
+     */
     public List<Wall> SortAndFlatWall3D(List<Wall3D> unsorted ){
 
         // **********************

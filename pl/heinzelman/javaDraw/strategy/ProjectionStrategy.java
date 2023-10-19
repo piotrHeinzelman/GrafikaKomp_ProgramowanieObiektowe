@@ -4,6 +4,11 @@ import pl.heinzelman.javaDraw.model.*;
 
 import java.util.List;
 
+/**
+ *   Interfejs ProjectionStrategy
+ *   realizujący przetwarzanie punktów 3D
+ *   na pixele ekranu - punkty 2D
+ */
 public interface ProjectionStrategy {
     public List<Pixel> getPixels_of_ProjectedPoints(List<Point> points );
     public List<Edge>  getEdgesOfPixels( List<Pixel> pixels );

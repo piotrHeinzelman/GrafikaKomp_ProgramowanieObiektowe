@@ -13,6 +13,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Klasa testująca operacje matematyczne
+ *  i współdziałanie obiektów
+ *
+ *  @author Piotr Heinzelman
+ */
+
 public class TestClass {
 	// obliczenia, szkice
 

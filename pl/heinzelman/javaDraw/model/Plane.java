@@ -1,5 +1,11 @@
 package pl.heinzelman.javaDraw.model;
 
+/**
+ *  Klasa płaszczyzna 3D w rozumieniu matematycznym
+ *
+ *  @author Piotr Heinzelman
+ */
+
 public class Plane {
     // Ax+By+Cz+D=0  Vnorm(a,b,c)
     //
@@ -57,6 +63,11 @@ public class Plane {
         return p;
     }
 
+    /**
+     * Sprawdzenie czy punkt leży nad płaszczyzną
+     * @param p2 punkt
+     * @return kierunek wektora wiodącego
+     */
     public int checkSideIsAtRightSide( Point3D p2 ){
         /* P2 o
               |  l= x=x0+ta / y=y0+tb / z=zo+tc  po - punkt prostej  wektor wzd. v=(a,b,c)
@@ -79,7 +90,12 @@ public class Plane {
 
     }
 
-
+    /**
+     * pobiera punkt z odcinka leżący na płaszczyźnie
+     * @param p0 - początek odcinka
+     * @param p1 - koniec odcinka
+     * @return - punkt wspólny odcinka i płaszczycny
+     */
     public Point3D getPointOfPlane( Point3D p0, Point3D p1  ) {
         Double dx=p1.getX()-p0.getX();
         Double dy=p1.getY()-p0.getY();

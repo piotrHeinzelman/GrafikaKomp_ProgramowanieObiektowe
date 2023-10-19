@@ -6,8 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ *  Klasa wczytuje pliki tekstowe z lista punktów
+ *  2D i 3D zależnie od wybranej strategii
+ *  (strategia Kamera - CameraStrategy, strategia Wykres - ChartStrategy)
+ *
+ *  @author Piotr Heinzelman
+ */
 public class FileTool {
 
+    /**
+     * Klasa wczytuje plik
+     * model.point.
+     * @param fileName - nazwa pliku do wczytania
+     * @return zwraca listę linii wczytanych z pliku.
+     * metoda rzuca wyjątek FileNotFoundException w sytuacji braku pliku
+     */
     public static List<String> getListOfString( String fileName ){
         if (fileName==null) return null;
         List<String> lines = new ArrayList<>(20);

@@ -4,6 +4,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Klasa ściany 3D
+ *  @author Piotr Heinzelman
+ */
 public class Wall3D {
     Point3D one;
     Point3D two;
@@ -28,6 +32,9 @@ public class Wall3D {
         return asList;
     }
 
+    /**
+     * podział ściany przez płaszczyznę
+     */
     public Wall3D[] splitByPlane(Plane plane ){
         int[] signs=new int[4];
         signs[0]= plane.checkSideIsAtRightSide(one);

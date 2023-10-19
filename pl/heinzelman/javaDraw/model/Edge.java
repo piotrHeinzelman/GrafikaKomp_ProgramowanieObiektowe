@@ -2,7 +2,11 @@ package pl.heinzelman.javaDraw.model;
 
 
 import java.awt.*;
-
+/**
+ *  Klasa Krawędz
+ *
+ *  @author Piotr Heinzelman
+ */
 public class Edge {
     private Pixel start;
     private Pixel end;

@@ -1,5 +1,8 @@
 package pl.heinzelman.javaDraw.model;
-
+/**
+ *  Klasa wektora 3D
+ *  @author Piotr Heinzelman
+ */
 public class Vector3D {
     private Double x;
     private Double y;
@@ -19,7 +22,12 @@ public class Vector3D {
     }
 
 
-
+    /**
+     * Obliczanie normalnej do płaszczyzny
+     * @param a wektor leżący na płaszczyźnie
+     * @param b wektor leżący na płaszczyźnie
+     * @return zwraca obiekt wektor ormalny do płaszczyzny
+     */
     public static Vector3D getNormal( Vector3D a, Vector3D b ){
         return new Vector3D( a.y*b.z - a.z* b.y , a.z* b.x - a.x* b.z , a.x*b.y - a.y*b.x  );
     }

@@ -4,7 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
+/**
+ *  Prosta implementacja obiektu JFrame
+ *
+ *  @author Piotr Heinzelman
+ */
+
 public class Window extends JFrame {
+    /**
+     * bezargumentowy konstruktor
+     *
+     * @throws HeadlessException
+     */
     public Window() throws HeadlessException {
 
         try
