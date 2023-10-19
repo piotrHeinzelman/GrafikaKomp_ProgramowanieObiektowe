@@ -145,12 +145,17 @@ public class CameraStrategy implements ProjectionStrategy {
 
         int i=0; int j=1;
         for (int k=0;k<PS.size()/8;k++){
-/* Back */  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+2]));
-/*Bottom*/  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+1), colorTab[8*k+4]));
-/* Left */  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+0), colorTab[8*k+3])); //0374
-/* Right*/  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+6), colorTab[8*k+1])); //2156
+
+/* Back */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+2]));
+
+/* Left */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+4), colorTab[8*k+3])); //0374
+/* Right*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+6), colorTab[8*k+1])); //2156
 /* TOP */     walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+6), colorTab[8*k+5]));//7326
+/*Bottom->*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+1), colorTab[8*k+4]));
+
+
 /* FronT*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+3), colorTab[8*k]));
+
         }
         return walls3D;
     }
@@ -174,11 +179,13 @@ public class CameraStrategy implements ProjectionStrategy {
              tree.buildTreeFromListWall3D( unsorted );
              Wall3D frontWall = tree.getCenterWall().get(0);
              Plane plane = new Plane( frontWall.getOne(), frontWall.getTwo(), frontWall.getThree());
+             Vector3D normal =  Vector3D.getNormal( new Vector3D(  frontWall.getOne(), frontWall.getTwo()) , new Vector3D(frontWall.getTwo(),frontWall.getThree()));
                 int i = plane.checkSideIsAtRightSide(new Point3D(0.0, 0.0, model.getD()));
 
+        //System.out.println( i );
         List<Wall3D> sorted;
-                if (i<-0.1) { sorted=tree.getInOrder(); }
-                else        { sorted=tree.getPreOrder(); }
+                if (i>=-1) {  sorted=tree.getPostOrder(); }
+                else        { sorted=tree.getInOrder(); }
 
         // *** FLAT WALL3D *** -> Wall ( 4xPIXEL )
         List<Wall> listWall = new ArrayList<>();

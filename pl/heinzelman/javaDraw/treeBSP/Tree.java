@@ -63,8 +63,9 @@ public class Tree {
                             Wall3D[] walls=w.splitByPlane( plane );
                             for (int i=0;i<walls.length;i++){
                                 Wall3D fragment =walls[i];
-                                int tempDet= plane.checkSideIsAtRightSide( fragment.getOne() )+plane.checkSideIsAtRightSide( fragment.getTwo() )+plane.checkSideIsAtRightSide( fragment.getThree() )+plane.checkSideIsAtRightSide( fragment.getFour() );
-                                if ( tempDet==-2) { getLeftList().add( fragment ); } else { getRightList().add( fragment ); }
+                                int tempDet=plane.checkSideIsAtRightSide( fragment.getOne() )*1000+plane.checkSideIsAtRightSide( fragment.getTwo() )*100+plane.checkSideIsAtRightSide( fragment.getThree() )*10+plane.checkSideIsAtRightSide( fragment.getFour() );
+                                //System.out.println( "tempDet"+tempDet );
+                                if ( tempDet>0 ) { getLeftList().add( fragment ); } else { getRightList().add( fragment ); }
                             }
                     };
                          break;
@@ -90,22 +91,24 @@ public class Tree {
     }
 
     public List<Wall3D> getInOrder(){
+        System.out.println( "inOrder" );
         List<Wall3D> list=new ArrayList<>();
-        addListoListReverse( list , getPreOrder() );
+        addListoListReverse( list , getPostOrder() );
         return list;
     }
 
-    public List<Wall3D> getPreOrder(){
+    public List<Wall3D> getPostOrder(){
+        //System.out.println( "postOrder" );
         List<Wall3D> list=new ArrayList<>();
         // RIGHT
         if (right!=null) {
-            addListoList( list , right.getPreOrder() );
+            addListoList( list , right.getPostOrder() );
         }
         //CENTER
         addListoList( list , centerWall );
         //LEFT
         if (left!=null) {
-            addListoList( list , left.getPreOrder() );
+            addListoList( list , left.getPostOrder() );
         }
         return list;
     }

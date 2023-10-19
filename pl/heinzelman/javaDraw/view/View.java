@@ -126,7 +126,7 @@ public class View extends Canvas {
         Color tmp = color;
         for ( Wall w : list ){
             if ( w.getColor()!=null ) { g2d.setColor( w.getColor() ); } else { g2d.setColor( new Color(255,0,255) ); }
-            try { Thread.sleep(75); } catch (InterruptedException e) { throw new RuntimeException(e); }
+            try { Thread.sleep(1); } catch (InterruptedException e) { throw new RuntimeException(e); }
             drawWall( w );
         }
       color=tmp;
