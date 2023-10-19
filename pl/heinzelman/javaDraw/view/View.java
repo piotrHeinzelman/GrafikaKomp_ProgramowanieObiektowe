@@ -80,7 +80,7 @@ public class View extends Canvas {
         if ( true || !model.isChartStrategy() ){
             g2d.setStroke( new BasicStroke( strokeWidth ) );
             g2d.setColor( color );
-            drawListOfWall( model.getTreeAsFlatWall());
+            drawListOfWall( model.getWalls() );
         }
     }
 
@@ -126,7 +126,7 @@ public class View extends Canvas {
         Color tmp = color;
         for ( Wall w : list ){
             if ( w.getColor()!=null ) { g2d.setColor( w.getColor() ); } else { g2d.setColor( new Color(255,0,255) ); }
-            try { Thread.sleep(5); } catch (InterruptedException e) { throw new RuntimeException(e); }
+            try { Thread.sleep(75); } catch (InterruptedException e) { throw new RuntimeException(e); }
             drawWall( w );
         }
       color=tmp;

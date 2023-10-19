@@ -92,8 +92,9 @@ public class CameraStrategy implements ProjectionStrategy {
         int deltaY=360; // screenHeight=800;
         List<Pixel> pixels = new ArrayList<>();
 
-        Matrix screenMatrix = new Matrix(); /* set d */ Double[][] sm=screenMatrix.getM();sm[2][3]=(1/model.getD()); sm[3][3]=0.0;
         Double d = model.getD();
+        Matrix screenMatrix = new Matrix(); /* set d */ Double[][] sm=screenMatrix.getM();sm[2][3]=(1/d); sm[3][3]=0.0;
+
         for ( Point p : points ){
             Point3D p3 = (Point3D) p;
             Double x=p3.getX();
@@ -140,16 +141,16 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
     public List<Wall3D> getWallsOfPoints3D(List<Point> PS ){
-
         List<Wall3D> walls3D = new ArrayList<>();
+
         int i=0; int j=1;
         for (int k=0;k<PS.size()/8;k++){
+/* Back */  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+2]));
+/*Bottom*/  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+1), colorTab[8*k+4]));
+/* Left */  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+0), colorTab[8*k+3])); //0374
+/* Right*/  //  walls3D.add( new Wall3D( (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+6), colorTab[8*k+1])); //2156
+/* TOP */     walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+6), colorTab[8*k+5]));//7326
 /* FronT*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+3), colorTab[8*k]));
-/* TOP */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+6), colorTab[8*k+5]));//7326
-/* Right*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+2), (Point3D) PS.get(k*8+1), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+6), colorTab[8*k+1])); //2156
-/* Left */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+3), (Point3D) PS.get(k*8+0), colorTab[8*k+3])); //0374
-/*Bottom*/    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+0), (Point3D) PS.get(k*8+4), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+1), colorTab[8*k+4]));
-/* Back */    walls3D.add( new Wall3D( (Point3D) PS.get(k*8+7), (Point3D) PS.get(k*8+6), (Point3D) PS.get(k*8+5), (Point3D) PS.get(k*8+4), colorTab[8*k+2]));
         }
         return walls3D;
     }
@@ -157,22 +158,27 @@ public class CameraStrategy implements ProjectionStrategy {
 
 
 
-    public void prepareTree( List<Wall3D> unsorted ) {
-        Tree tree = new Tree();
-        tree.buildTreeFromListWall3D( unsorted );
-        model.setTree( tree );
-    }
 
-    public List<Wall> getTreeAsFlatWall(){
-        Tree tree = model.getTree();
-        if (tree==null) { model.refreshPixels();}
-        Wall3D frontWall = tree.getCenterWall().get(0);
-        Plane plane = new Plane( frontWall.getOne(), frontWall.getTwo(), frontWall.getThree());
-        int i = plane.checkSideIsAtRightSide(new Point3D(0.0, 0.0, model.getD()));
+
+
+
+
+
+    public List<Wall> SortAndFlatWall3D(List<Wall3D> unsorted ){
+
+        // **********************
+        //    TODO SORT
+        // **********************
+
+        Tree tree = new Tree();
+             tree.buildTreeFromListWall3D( unsorted );
+             Wall3D frontWall = tree.getCenterWall().get(0);
+             Plane plane = new Plane( frontWall.getOne(), frontWall.getTwo(), frontWall.getThree());
+                int i = plane.checkSideIsAtRightSide(new Point3D(0.0, 0.0, model.getD()));
 
         List<Wall3D> sorted;
-        if ( i < 0.1 ) { sorted=tree.getInOrder(); System.out.println("InOrder" );}
-        else     { sorted=tree.getPreOrder(); System.out.println("PreOrder" ); }
+                if (i<-0.1) { sorted=tree.getInOrder(); }
+                else        { sorted=tree.getPreOrder(); }
 
         // *** FLAT WALL3D *** -> Wall ( 4xPIXEL )
         List<Wall> listWall = new ArrayList<>();
@@ -181,12 +187,9 @@ public class CameraStrategy implements ProjectionStrategy {
             List<Pixel> corners = getPixels_of_ProjectedPoints(wall3D.getPoints());
             listWall.add( new Wall ( corners.get(0),corners.get(1),corners.get(2),corners.get(3), wall3D.getColor() ));
         }
-        return listWall;
-        //model.setWalls( listWall );
+
+    return listWall;
     }
-
-
-
 
 
 

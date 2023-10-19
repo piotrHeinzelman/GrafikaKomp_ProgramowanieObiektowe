@@ -3,7 +3,6 @@ package pl.heinzelman.javaDraw.model;
 import pl.heinzelman.javaDraw.strategy.ChartStrategy;
 import pl.heinzelman.javaDraw.strategy.ProjectionStrategy;
 import pl.heinzelman.javaDraw.strategy.Translate;
-import pl.heinzelman.javaDraw.treeBSP.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ public class Model {
     private List<Edge>  edges  = new ArrayList<>();
     private List<Wall>  walls  = new ArrayList<>();
     private List<Wall3D>  walls3D  = new ArrayList<>();                                                                               /* G&S */  public List<Wall3D> getWalls3D() { return walls3D; }
-    private Tree tree = new Tree();                                                                                                         /* G&S */ public Tree getTree() { return tree; } public void setTree(Tree tree) { this.tree = tree; }
 
     private ProjectionStrategy strategy = null;                                                                                       /* G&S */   public void setStrategy(ProjectionStrategy strategy ) { this.strategy = strategy; } public Boolean isChartStrategy() { return ( strategy.getClass()==ChartStrategy.class ); }
     private Double d = 220.0;                                                                                                         /* G&S */   public Double getD() { return d; } public void setD(Double d) { this.d = d; }
@@ -37,7 +35,7 @@ public class Model {
         pixels = strategy.getPixels_of_ProjectedPoints( points );
          edges = strategy.getEdgesOfPixels( pixels );
          if ( !isChartStrategy() ) {
-             strategy.prepareTree( strategy.getWallsOfPoints3D( points ) );
+             walls = strategy.SortAndFlatWall3D( strategy.getWallsOfPoints3D( points ));
          }
     }
 
@@ -146,8 +144,5 @@ public class Model {
         return listEdges;
     }
 
-    public List<Wall> getTreeAsFlatWall(){
-        return strategy.getTreeAsFlatWall();
-    }
 
 }
