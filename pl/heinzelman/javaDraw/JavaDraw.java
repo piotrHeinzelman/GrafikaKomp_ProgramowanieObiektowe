@@ -38,7 +38,7 @@ public class JavaDraw{
 
 	public static void main(String[] args) {
 
-		Window win   = new Window();
+		Window win   = new Window(); win.setVisible(true);
 		Model  model = new Model();
 		View   view  = new View( model , win );
 		Controller controller = new Controller( model, view );
@@ -48,10 +48,9 @@ public class JavaDraw{
 		win.add(view);
 
 
-
 		/*  setup first screen  */
-		//if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else  controller.loadPointsFromFile( "G:\\JavaDraw\\dataWykres.txt" );
-		if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } /* ShortCut !*/ else { controller.setCameraStrategy(); controller.loadPointsFromFile( "G:\\JavaDraw\\dataCam.txt" ); }
+		//if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } // /* ShortCut !*/ else  controller.loadPointsFromFile( "G:\\JavaDraw\\dataWykres.txt" );
+		if ( args.length > 0  )  { controller.loadPointsFromFile( args[0] ); } // /* ShortCut !*/ else { controller.setCameraStrategy(); controller.loadPointsFromFile( "G:\\JavaDraw\\dataCam.txt" ); }
 
 		//TestClass test = new TestClass( win, model, controller , view);
 		win.setVisible(true);

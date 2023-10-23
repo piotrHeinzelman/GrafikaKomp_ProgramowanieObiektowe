@@ -68,6 +68,7 @@ public class Controller {
     public void loadPointsFromFile( String fileName ){
         model.clearAll();
         Boolean chart=null;
+        if (fileName.endsWith("3d")) { setCameraStrategy();  } else if (fileName.endsWith("2d")) { setChartStrategy();}
         FileTool ft = new FileTool();
         for ( String s : ft.getListOfString( fileName )){
             model.addPoint( s.split(","));

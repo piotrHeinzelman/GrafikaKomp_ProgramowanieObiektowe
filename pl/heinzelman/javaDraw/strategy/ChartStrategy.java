@@ -3,6 +3,7 @@ package pl.heinzelman.javaDraw.strategy;
 import pl.heinzelman.javaDraw.model.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ChartStrategy implements ProjectionStrategy {
@@ -15,6 +16,8 @@ public class ChartStrategy implements ProjectionStrategy {
     public List<Pixel> getPixels_of_ProjectedPoints(List<Point> points ){
         int deltaX=560; // screenWidth=1200;
         int deltaY=360; // screenHeight=800;
+
+        if (model.getPmax()==null){ return Collections.emptyList(); }
 
         Double minX = model.getPmin().getX();
         Double maxX = model.getPmax().getX();
