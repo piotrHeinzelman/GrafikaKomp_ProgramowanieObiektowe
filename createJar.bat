@@ -8,6 +8,6 @@ C:\opt\jdk-19\bin\jar.exe uvf  G:\JavaDraw\JavaDraw.jar pl\heinzelman\javaDraw\t
 C:\opt\jdk-19\bin\jar.exe uvf  G:\JavaDraw\JavaDraw.jar pl\heinzelman\javaDraw\treeBSP
 C:\opt\jdk-19\bin\jar.exe uvf  G:\JavaDraw\JavaDraw.jar pl\heinzelman\javaDraw\view
 
-C:\opt\jdk-19\bin\java.exe -jar   G:\JavaDraw\JavaDraw.jar 
+C:\opt\jdk-19\bin\javaw.exe -jar   G:\JavaDraw\JavaDraw.jar 
 
 pause
